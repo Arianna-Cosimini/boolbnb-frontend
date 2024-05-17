@@ -1,12 +1,21 @@
 <script>
+
+import { store } from '../store.js';
+
 export default {
     name: 'AppNav',
 
     data() {
         return {
+            store,
         }
     },
-    methods: {
+
+    computed: {
+
+        loginUrl() {
+            return this.store.baseUrl;
+        }
     }
 }
 </script>
@@ -16,7 +25,7 @@ export default {
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="">
                 <div class="logo_laravel">
-                    <img src="/public/boolbnb.svg" alt="boolbnb logo" width="130px">
+                    <img src="/boolbnb.svg" alt="boolbnb logo" width="130px">
                 </div>
             </a>
 
@@ -39,8 +48,10 @@ export default {
                 <ul class="navbar-nav ml-auto">
                     <!-- Authentication Links -->
                     <li class="nav-item">
-                        <a class="nav-link" href="">Login</a>
+                        <a class="nav-link" href="loginUrl">Login</a>
+
                     </li>
+
 
                     <li class="nav-item">
                         <a class="nav-link" href="">Registrati</a>
