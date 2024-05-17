@@ -9,6 +9,7 @@ export default {
   components: {
 
 
+
   },
 
 
@@ -37,8 +38,6 @@ export default {
 </script>
 
 <template>
-
-
 
 </template>
 
