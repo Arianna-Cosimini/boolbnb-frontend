@@ -84,6 +84,8 @@ export default {
 </script>
 
 
+<template>
+
 
         <div class="container text-center">
         <div class="row">
@@ -92,12 +94,13 @@ export default {
             </div>
         </div>
         </div>
+        
 
 
       <div class="row">
           <div v-for="apartment in apartments"  class="col-4 mt-3">      
             <div class="p-2">
-                <!-- <router-link :to="{name: 'single-apartment', params: {slug: apartment.slug}}" class="text-decoration-none"> -->
+                <router-link :to="{name: 'single-apartment', params: {slug: apartment.slug}}" class="text-decoration-none">
                   <div class="card">
                     <!-- controlla immagine -->
                     <div class="p-4">
@@ -110,7 +113,7 @@ export default {
                         <p class="card-text">Contenuto della card 1.</p>
                     </div>
                   </div>
-                <!-- </router-link> -->
+                </router-link>
             </div>
           </div>
       </div>
