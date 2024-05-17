@@ -9,13 +9,6 @@ export default {
 
     name: 'HomePage',
 
-    components: {
-
-
-
-    },
-
-
     data() {
         return {
 
@@ -85,12 +78,18 @@ export default {
 }
 </script>
 
-<template>
+
 
     <template>
+        <div class="div">
 
+            <router-link :to="{name: 'single-apartment'}" class="btn btn-outline-danger">
+                Mostra
+            </router-link>
+
+        </div>
     </template>
 
-</template>
+
 
 <style lang="scss" scoped></style>
