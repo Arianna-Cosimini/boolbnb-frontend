@@ -1,8 +1,8 @@
 <script>
-import axios from 'axios';
 
 import { store } from '../store.js';
 
+import axios from 'axios';
 
 
 export default {
@@ -22,8 +22,8 @@ export default {
             store,
             apartaments: [],
             apiLinks: [],
-            isLoading: false,
             apiPageNumber: 1,
+
 
         }
     },
@@ -42,11 +42,13 @@ export default {
 
         apiCall() {
 
-            axios.get(this.store.baseApiUrl + '/apartments', {
+            axios.get(this.store.baseApiHome + 'apartments', {
                 params: {
                     page: this.apiPageNumber
                 }
             }).then(res => {
+
+                console.log(res)
 
                 this.apartments = res.data.results.data;
 
@@ -54,7 +56,32 @@ export default {
             })
         },
 
-    }
+        changeApiPage(pageNumber) {
+
+
+            if (pageNumber == "&laquo; Previous" && this.apiPageNumber > 1) {
+
+
+                this.apiPageNumber--;
+
+            } else if (pageNumber == "Next &raquo;" && this.apiPageNumber < (this.apiLinks.length - 2)) {
+                //this.apiLinks.length - 2 corrisponde alla lunghezza dell'array a cui sottraggo il previous and next(da qui il -2)
+
+                this.apiPageNumber++;
+
+            }
+
+            if (!isNaN(pageNumber)) {
+
+                this.apiPageNumber = pageNumber;
+            }
+
+
+            this.apiCall();
+
+        },
+    },
+
 }
 </script>
 

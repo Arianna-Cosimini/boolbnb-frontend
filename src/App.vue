@@ -43,8 +43,7 @@ export default {
 <template>
 
 <AppHeader></AppHeader>
-<router-link ></router-link>
-
+<router-view></router-view>
 </template>
 
 <style lang="scss" scoped>
