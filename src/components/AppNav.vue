@@ -48,13 +48,13 @@ export default {
                 <ul class="navbar-nav ml-auto">
                     <!-- Authentication Links -->
                     <li class="nav-item">
-                        <a class="nav-link" href="loginUrl">Login</a>
+                        <a class="nav-link" href="http://127.0.0.1:8000/login">Login</a>
 
                     </li>
 
 
                     <li class="nav-item">
-                        <a class="nav-link" href="">Registrati</a>
+                        <a class="nav-link" href="http://127.0.0.1:8000/register">Registrati</a>
                     </li>
 
                 </ul>
