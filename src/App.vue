@@ -1,3 +1,5 @@
+app.vue
+
 <script>
 import axios from 'axios';
 
@@ -48,7 +50,7 @@ export default {
 
 <template>
   <AppNav></AppNav>
-  <AppHeader></AppHeader>
+  <!-- <AppHeader></AppHeader> -->
 
   <Categories></Categories>
   <router-view></router-view>
