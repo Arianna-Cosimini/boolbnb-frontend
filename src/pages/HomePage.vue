@@ -197,7 +197,7 @@ export default {
 
 
 <template>
-  <div>
+
     <AppHeader></AppHeader>
     <div class="container text-center">
       <div class="row">
@@ -209,49 +209,49 @@ export default {
 
 
 
-  <div class="container-fluid text-center mt-5">
+    <div class="container-fluid text-center mt-5">
 
-    <div class="row px-5">
-      <div v-for="apartment in apartments" class="col-2 mt-3 px-1">
-        <div class="p-2">
-          <router-link :to="{ name: 'single-apartment', params: { slug: apartment.slug } }"
-            class="text-decoration-none">
-            <div class="card border-0">
-              <!-- controlla immagine -->
-              <div class="">
-                <div class="overflow-hidden rounded-4">
-                  <img v-if="apartment.cover_image" :src="'http://localhost:8000/storage/' + apartment.cover_image"
-                    class="img-fluid rounded-4 my_img_size" alt="...">
-                  <img v-else src="/Placeholder.png" class="img-fluid rounded-4 my_img_size" alt="...">
+      <div class="row px-5">
+        <div v-for="apartment in apartments" class="col-2 mt-3 px-1">
+          <div class="p-2">
+            <router-link :to="{ name: 'single-apartment', params: { slug: apartment.slug } }"
+              class="text-decoration-none">
+              <div class="card border-0">
+                <!-- controlla immagine -->
+                <div class="">
+                  <div class="overflow-hidden rounded-4">
+                    <img v-if="apartment.cover_image" :src="'http://localhost:8000/storage/' + apartment.cover_image"
+                      class="img-fluid rounded-4 my_img_size" alt="...">
+                    <img v-else src="/Placeholder.png" class="img-fluid rounded-4 my_img_size" alt="...">
+                  </div>
+                </div>
+                <div class="card-body p-0 pt-3 text-start">
+                  <h6 class="card-title fw-medium mb-0">{{ apartment.name }}</h6>
+                  <p class="text-black-50 mb-0">Nome host: {{ apartment.user.name }} {{ apartment.user.surname }}</p>
                 </div>
               </div>
-              <div class="card-body p-0 pt-3 text-start">
-                <h6 class="card-title fw-medium mb-0">{{ apartment.name }}</h6>
-                <p class="text-black-50 mb-0">Nome host: {{ apartment.user.name }} {{ apartment.user.surname }}</p>
-              </div>
-            </div>
-          </router-link>
+            </router-link>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="container">
-      <div class="row">
-        <template v-if="filteredApartments.length > 0">
-          <ApartmentItem v-for="apartment in filteredApartments" :key="apartment.id" :apartment="apartment" />
-        </template>
-        <template v-else>
-          <p>{{ message }}</p>
-        </template>
+      <div class="container">
+        <div class="row">
+          <template v-if="filteredApartments.length > 0">
+            <ApartmentItem v-for="apartment in filteredApartments" :key="apartment.id" :apartment="apartment" />
+          </template>
+          <template v-else>
+            <p>{{ message }}</p>
+          </template>
+        </div>
       </div>
-    </div>
 
-    <nav class="button-nav d-flex justify-content-center">
-      <vue-awesome-paginate :total-items="totalApartment" :items-per-page="itemPage" :max-pages-shown="lastPage"
-        v-model="apiPageNumber" :on-click="changeApiPage" active-page-class="active-page"
-        paginate-buttons-class="paginate-buttons" />
-    </nav>
-  </div>
+      <nav class="button-nav d-flex justify-content-center">
+        <vue-awesome-paginate :total-items="totalApartment" :items-per-page="itemPage" :max-pages-shown="lastPage"
+          v-model="apiPageNumber" :on-click="changeApiPage" active-page-class="active-page"
+          paginate-buttons-class="paginate-buttons" />
+      </nav>
+    </div>
 
 
 
