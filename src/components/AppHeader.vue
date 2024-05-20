@@ -1,3 +1,5 @@
+appheader
+
 <script>
 import ApartmentItem from '../components/ApartmentItem.vue';
 
@@ -78,7 +80,7 @@ export default {
         <div class="container">
             <div class="row">
 
-                <!-- Jumbotron con sezione di ricerca appartamenti -->
+
                 <div id="first-section"
                     class=" position-relative col-12 col-lg-8 offset-lg-4 col-xl-8 offset-xl-3 mb-3 mt-3">
                     <form submit.prevent>
@@ -96,10 +98,8 @@ export default {
                                     :itemsComplete="autocomplete" />
                             </div>
 
-                            <router-link :to="{ name: 'app-apartments', params: { apartments: apartments } }"
-                                class="btn">
-                                Cerca
-                            </router-link>
+                            <router-link :to="{ name: 'home' }" class="btn"> Cerca </router-link>
+
 
 
                             <div v-if="store.addressListVisible">
