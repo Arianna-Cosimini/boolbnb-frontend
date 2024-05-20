@@ -7,8 +7,22 @@ export default {
 
     data() {
         return {
+            user: null,
             store,
+            isLoggedIn: false
         }
+    },
+    computed: {
+    isLoggedIn() {
+      // Access login state from store
+      return store.getters['auth/isLoggedIn'];
+        },
+    },
+    methods: {
+        logout() {
+        // Call logout method from store or API (implementation details depend on your backend setup)
+        store.dispatch('auth/logout'); // Assuming a logout dispatch action in your store
+        },
     },
 
 }
@@ -38,8 +52,26 @@ export default {
                     </li>
                 </ul>
 
-                <!-- Right Side Of Navbar -->
                 <ul class="navbar-nav ml-auto">
+                    <template v-if="isLoggedIn">
+                        <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false">
+                            {{ user.name }}
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li><a class="dropdown-item" href="#">Settings</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                            <a class="dropdown-item" href="#" @click="logout">Logout</a>
+                            </li>
+                        </ul>
+                        </li>
+                    </template>
+
+
+                <!-- Right Side Of Navbar -->
+                <template v-else>
                     <!-- Authentication Links -->
                     <li class="nav-item">
                         <a class="nav-link" href="http://127.0.0.1:8000/login">Login</a>
@@ -51,6 +83,7 @@ export default {
                         <a class="nav-link" href="http://127.0.0.1:8000/register">Registrati</a>
                     </li>
 
+                </template>
                 </ul>
             </div>
         </div>
