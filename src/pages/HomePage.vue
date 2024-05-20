@@ -16,8 +16,7 @@ export default {
     Searchbar,
   },
 
-  data() {
-    return {
+  
   data() {
     return {
 
@@ -41,10 +40,7 @@ export default {
   },
 
   mounted() {
-  mounted() {
-
-    this.apiCall();
-  },
+ 
     this.apiCall();
   },
 
@@ -103,7 +99,7 @@ export default {
 
 
 
-    apiCall() {
+   
     apiCall() {
 
       const url = this.store.baseApiHome + 'apartments';
@@ -116,59 +112,51 @@ export default {
       }).then(res => {
 
         console.log(res)
-        console.log(res)
 
-        this.apartments = res.data.results.data;
+      
         this.apartments = res.data.results.data;
 
         // salvo il totale dei progetti
         this.totalApartment = res.data.results.total;
         this.itemPage = res.data.results.per_page;
         this.lastPage = res.data.results.last_page;
-        // salvo il totale dei progetti
-        this.totalApartment = res.data.results.total;
-        this.itemPage = res.data.results.per_page;
-        this.lastPage = res.data.results.last_page;
+        
 
         this.apiLinks = res.data.results.links;
       })
     },
-        this.apiLinks = res.data.results.links;
-      })
+       
     },
 
+  
     changeApiPage(pageNumber) {
-    changeApiPage(pageNumber) {
 
 
+      
       if (pageNumber == "&laquo; Previous" && this.apiPageNumber > 1) {
-      if (pageNumber == "&laquo; Previous" && this.apiPageNumber > 1) {
 
 
+        
         this.apiPageNumber--;
-        this.apiPageNumber--;
 
-      } else if (pageNumber == "Next &raquo;" && this.apiPageNumber < (this.apiLinks.length - 2)) {
+     
         //this.apiLinks.length - 2 corrisponde alla lunghezza dell'array a cui sottraggo il previous and next(da qui il -2)
       } else if (pageNumber == "Next &raquo;" && this.apiPageNumber < (this.apiLinks.length - 2)) {
         //this.apiLinks.length - 2 corrisponde alla lunghezza dell'array a cui sottraggo il previous and next(da qui il -2)
 
-        this.apiPageNumber++;
+       
         this.apiPageNumber++;
 
       }
-      }
-
-      if (!isNaN(pageNumber)) {
+      
       if (!isNaN(pageNumber)) {
 
         this.apiPageNumber = pageNumber;
       }
-        this.apiPageNumber = pageNumber;
-      }
+       
 
 
-      this.apiCall();
+     
       this.apiCall();
 
     },
@@ -177,11 +165,9 @@ export default {
       this.activeAuto = false;
       return this.store.address = address;
     },
-  },
 
-  computed: {
-  },
 
+ 
   created() {
     this.getApiApartments();
 
@@ -213,7 +199,7 @@ export default {
 
 
 
-  <!-- {{ $apartment->cover_image ? asset('storage/' . $apartment->cover_image) : asset('placeholder/Placeholder.png') }} -->
+  {/* <!-- {{ $apartment->cover_image ? asset('storage/' . $apartment->cover_image) : asset('placeholder/Placeholder.png') }} --> */}
 
   <nav class="button-nav d-flex justify-content-center">
 
@@ -222,11 +208,7 @@ export default {
       paginate-buttons-class="paginate-buttons" />
 
   </nav>
-    <vue-awesome-paginate :total-items="totalApartment" :items-per-page="itemPage" :max-pages-shown="lastPage"
-      v-model="apiPageNumber" :on-click="changeApiPage" active-page-class="active-page"
-      paginate-buttons-class="paginate-buttons" />
-
-  </nav>
+    
 
 </template>
 
@@ -277,10 +259,10 @@ export default {
 }
 }
 
-.card {
+
 .card {
 
-  cursor: pointer;
+  
   cursor: pointer;
 
   .my_img_size {
