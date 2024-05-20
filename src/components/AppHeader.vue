@@ -1,4 +1,4 @@
-appheader
+
 
 <script>
 import ApartmentItem from '../components/ApartmentItem.vue';

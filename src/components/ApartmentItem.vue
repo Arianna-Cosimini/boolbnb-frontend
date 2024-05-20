@@ -1,3 +1,4 @@
+
 <script>
 
 import { store } from '../store.js';
@@ -58,7 +59,7 @@ export default {
                 </div>
                 <div class="card-body text-center ">
                     <h5 class="card-title">{{ apartment.name }}</h5>
-                    <p class="card-text">Contenuto della card 1.</p>
+                    <p class="card-text">{{ apartment.address }}</p>
                 </div>
             </div>
         </router-link>
