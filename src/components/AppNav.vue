@@ -15,8 +15,8 @@ export default {
 </script>
 
 <template>
-    <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-        <div class="container">
+    <nav class="navbar navbar-expand-md px-5 navbar-light bg-white shadow-sm">
+        <div class="container-fluid">
             <a class="navbar-brand d-flex align-items-center" href="">
                 <div class="logo_laravel">
                     <img src="/boolbnb.svg" alt="boolbnb logo" width="130px">

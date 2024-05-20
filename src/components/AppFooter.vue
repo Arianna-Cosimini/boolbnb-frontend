@@ -7,7 +7,7 @@ export default {
 
 <template>
     <footer class="bg-white w-100 position-fixed border-top" style="bottom: 0; z-index: 100;">
-        <div class="container py-3 fw-light" style="font-size: 14px;">
+        <div class="container-fluid py-3 px-5 fw-light" style="font-size: 14px;">
             <ul class="list-unstyled d-flex gap-2 mb-0">
                 <li>
                     <span>© 2024 Boolbnb, 118</span>
