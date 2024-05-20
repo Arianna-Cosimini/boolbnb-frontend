@@ -5,6 +5,7 @@ import { store } from './store.js';
 import AppHeader from "./components/AppHeader.vue";
 import AppNav from './components/AppNav.vue';
 import AppFooter from './components/AppFooter.vue';
+import Searchbar from './components/Searchbar.vue';
 
 
 export default {
@@ -14,6 +15,7 @@ export default {
     AppHeader,
     AppNav,
     AppFooter,
+    Searchbar,
 
 
   },
@@ -46,6 +48,7 @@ export default {
 <template>
   <AppNav></AppNav>
   <AppHeader></AppHeader>
+  <Searchbar></Searchbar>
   <router-view></router-view>
   <AppFooter></AppFooter>
 </template>
