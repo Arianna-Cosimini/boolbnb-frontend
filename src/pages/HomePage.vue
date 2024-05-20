@@ -105,7 +105,8 @@ export default {
                     <!-- controlla immagine -->
                     <div class="p-4">
                       <div class="overflow-hidden rounded-4">
-                        <img :src="'http://localhost:8000/storage/' + apartment.cover_image" class="img-fluid rounded-4 my_img_size" alt="...">
+                        <img v-if="apartment.cover_image" :src="'http://localhost:8000/storage/' + apartment.cover_image" class="img-fluid rounded-4 my_img_size" alt="...">
+                        <img v-else src="/Placeholder.png" class="img-fluid rounded-4 my_img_size" alt="...">
                       </div>
                     </div>
                     <div class="card-body text-center ">
@@ -117,6 +118,8 @@ export default {
             </div>
           </div>
       </div>
+
+      <!-- {{ $apartment->cover_image ? asset('storage/' . $apartment->cover_image) : asset('placeholder/Placeholder.png') }} -->
 
       <nav class="button-nav d-flex justify-content-center">
 

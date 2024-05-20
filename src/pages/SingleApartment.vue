@@ -66,9 +66,10 @@ export default {
             <div class="mb-4">
                 <label class="mb-3 fw-medium fs-4">Cosa troverai</label>
                 <div class="row row-cols-1 d-flex gap-3">
-                    <div v-for="(service, key) in apartment.services" :key="key">
-                        <i class="{{service.icon}} fs-5"></i>
-                        <span>{{ service.title }}</span>  
+                    <div v-for="(service, key) in apartment.services" :key="key" class="d-flex gap-3">
+                        <i :class="service.icon" class="fs-5"></i>
+                        <span>{{ service.title }}</span> 
+                        
                     </div>
                     <div v-if:class=" {'w-100' : (key +1) % 2 == 0 }">
                         
