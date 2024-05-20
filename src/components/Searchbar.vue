@@ -1,22 +1,19 @@
 <script>
-import axios from 'axios';
 import { store } from '../store.js';
 
 export default {
     name: 'Searchbar',
     data() {
         return {
-            store,
             search: null,
             menuAutoComplete: null,
             menuAutoCompleteClass: null,
             ulList: null,
             latitude: null,
             longitude: null,
-            keyApi: 'RrNofIXHXhCLSto2sM1SEfvmA1AamCSs', 
-            lat: '44.4949', 
-            lon: '11.3426', 
-            radius: 20000,
+            lat: '44.4949',  
+            lon: '11.3426',  
+            radius: 20000  
         };
     },
     mounted() {
@@ -43,13 +40,15 @@ export default {
                 this.menuAutoCompleteClass.remove('d-none');
         },
         getApiProjects(address) {
-            if (!this.keyApi || this.keyApi === 'RrNofIXHXhCLSto2sM1SEfvmA1AamCSs') {
+            const keyApi = store.apiKey;  // Recupera la chiave API dallo store 
+
+            if (!keyApi) {
                 console.error('Chiave API mancante o non valida');
                 return;
             }
 
             fetch(
-                `https://api.tomtom.com/search/2/search/${address}.json?key=${this.keyApi}&countrySet=IT&limit=5&lat=${this.lat}&lon=${this.lon}&radius=${this.radius}`
+                `https://api.tomtom.com/search/2/search/${address}.json?key=${keyApi}&countrySet=IT&limit=5&lat=${this.lat}&lon=${this.lon}&radius=${this.radius}`
             )
                 .then(response => {
                     if (!response.ok) {
@@ -66,8 +65,7 @@ export default {
                             li.addEventListener('click', () => {
                                 this.search.value = currentValue.address.freeformAddress;
                                 this.menuAutoCompleteClass.add('d-none');
-                                const risultatoCorrispondente = data.results.find(result => result.address.freeformAddress ===
-                                    currentValue.address.freeformAddress);
+                                const risultatoCorrispondente = data.results.find(result => result.address.freeformAddress === currentValue.address.freeformAddress);
                                 if (risultatoCorrispondente) {
                                     this.latitude.value = risultatoCorrispondente.position.lat;
                                     this.longitude.value = risultatoCorrispondente.position.lon;
@@ -112,8 +110,7 @@ export default {
 <template>
     <form @submit.prevent="validateForm">
         <div class="form-floating mb-3 position-relative">
-            <input type="text" class="form-control" id="address" name="address" placeholder="Indirizzo"
-                autocomplete="off">
+            <input type="text" class="form-control" id="address" name="address" placeholder="Indirizzo" autocomplete="off">
             <span id="address-error" class="text-danger"></span>
             <div id="menuAutoComplete" class="card position-absolute w-100 radius d-none" style="z-index: 1000;">
                 <ul class="list"></ul>
