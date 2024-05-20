@@ -33,9 +33,9 @@ export default {
 
                 <!-- Left Side Of Navbar -->
                 <ul class="navbar-nav me-auto">
-                    <router-link :to="{ name: 'home' }" class="navbar-brand">
+                    <!-- <router-link :to="{ name: 'home' }" class="navbar-brand">
                         <span>Home</span>
-                    </router-link>
+                    </router-link> -->
                 </ul>
 
                 <!-- Right Side Of Navbar -->
