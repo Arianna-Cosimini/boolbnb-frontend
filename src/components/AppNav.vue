@@ -17,11 +17,11 @@ export default {
 <template>
     <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
         <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="">
-                <div class="logo_laravel">
-                    <img src="/boolbnb.svg" alt="boolbnb logo" width="130px">
-                </div>
-            </a>
+
+            <router-link :to="{ name: 'home' }" class="navbar-brand">
+                <img src="/boolbnb.svg" alt="boolbnb logo" width="130px">
+            </router-link>
+
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -33,9 +33,9 @@ export default {
 
                 <!-- Left Side Of Navbar -->
                 <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="">Home</a>
-                    </li>
+                    <router-link :to="{ name: 'home' }" class="navbar-brand">
+                        <span>Home</span>
+                    </router-link>
                 </ul>
 
                 <!-- Right Side Of Navbar -->
