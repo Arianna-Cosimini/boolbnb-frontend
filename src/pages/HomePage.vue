@@ -87,10 +87,10 @@ export default {
 <template>
 
 
-  <div class="container-fluid text-center mt-5">
+  <div class="container-fluid text-center mt-2">
 
     <div class="row px-5">
-      <div v-for="apartment in apartments" class="col-2 mt-3 px-1">
+      <div v-for="apartment in apartments" class="col-2 mt-0 px-1">
         <div class="p-2">
           <router-link :to="{ name: 'single-apartment', params: { slug: apartment.slug } }"
             class="text-decoration-none">

@@ -6,6 +6,7 @@ import AppHeader from "./components/AppHeader.vue";
 import AppNav from './components/AppNav.vue';
 import AppFooter from './components/AppFooter.vue';
 import Searchbar from './components/Searchbar.vue';
+import Categories from './components/Categories.vue';
 
 
 export default {
@@ -16,7 +17,7 @@ export default {
     AppNav,
     AppFooter,
     Searchbar,
-
+    Categories,
 
   },
 
@@ -49,6 +50,7 @@ export default {
   <AppNav></AppNav>
   <AppHeader></AppHeader>
   <Searchbar></Searchbar>
+  <Categories></Categories>
   <router-view></router-view>
   <AppFooter></AppFooter>
 </template>
