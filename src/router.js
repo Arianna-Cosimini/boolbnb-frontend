@@ -5,6 +5,8 @@ import SingleApartment from './pages/SingleApartment.vue';
 import AppApartments from './pages/AppApartments.vue';
 
 
+import MessageMe from './pages/MessageMe.vue';
+/* import MessageMe from './pages/MessageMe.Vue'; */
 const router = createRouter({
     history:createWebHistory(),
 
@@ -27,7 +29,12 @@ const router = createRouter({
             component: AppApartments,
             
         },
+        {
         
+            path:'/message-me',
+            name:'message-me',
+            component: MessageMe,
+        },
     ]
 })
 

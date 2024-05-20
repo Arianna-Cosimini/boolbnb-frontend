@@ -1,11 +1,13 @@
 <script>
 import axios from 'axios';
+import { store } from '../store.js';
 
 export default {
     name:'SingleApartment',
 
     data() {
         return {
+            store,
             apartment : [],
             apartmentSlug : [],
             baseApiHome : 'http://127.0.0.1:8000/api',
@@ -84,7 +86,11 @@ export default {
         </div>
 
     </div> 
-  
+    <div class="container">
+        <router-link :to="{name: 'message-me'}">Contattami</router-link>
+
+    </div>
+
 </template> 
 
 <style lang="sass" scoped>

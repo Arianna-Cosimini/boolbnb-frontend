@@ -15,8 +15,8 @@ export default {
 </script>
 
 <template>
-    <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-        <div class="container">
+    <nav class="navbar px-5 navbar-expand-md navbar-light bg-white shadow-sm">
+        <div class="container-fluid">
 
             <router-link :to="{ name: 'home' }" class="navbar-brand">
                 <img src="/boolbnb.svg" alt="boolbnb logo" width="130px">

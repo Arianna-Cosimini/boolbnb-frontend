@@ -1,0 +1,78 @@
+<script>
+import axios from 'axios';
+import { store } from '../store.js';
+
+export default {
+    name:'MessageForm',
+    data() {
+        return {
+            store,
+            baseApiMessage: 'http://127.0.0.1:8000/api/',
+            formData: {
+                name:'',
+                surname:'',
+                address:'',
+                message:'',
+                send_date:'',
+            },
+        }
+    },
+
+    mounted(){
+
+    },
+
+    methods: {
+        //funzione per mandare il messaggio
+
+        sendMessage() {
+            console.log('invio messaggio');
+            console.log(this.formData);
+            axios.post('http://127.0.0.1:8000/api/new-message' ,this.formData).then(res => {
+                console.log(res);
+            })
+        }
+    }
+}
+</script>
+
+<template>
+    
+    <form @submit.prevent="sendMessage()">
+
+        <div class="mb-3">
+            <label for="name" class="form-label">Nome</label>
+            <input type="text" class="form-control" id="name" name="name" v-model="formData.name">
+        </div>
+        
+        <div class="mb-3">
+            <label for="surname" class="form-label">Cognome</label>
+            <input type="text" class="form-control" id="surname" name="surname" v-model="formData.surname">
+        </div>
+        
+        <div class="mb-3">
+            <label for="address" class="form-label">Indirizzo Email</label>
+            <input type="email" class="form-control" id="address" name="address" aria-describedby="emailHelp" v-model="formData.address">
+            <div id="emailHelp" class="form-text">La tua mail non sarà condivisa</div>
+        </div>
+        <div class="mb-3">
+            <label for="message">Messaggio</label>
+        </div>
+        <div class="form-floating mb-3">
+            <textarea class="form-control" placeholder="Inserisci il tuo mesaggio" id="message" name="message" style="height: 300px" v-model="formData.message"></textarea>
+        </div>
+
+        <div class="mb-3 form-check">
+            <label class="form-label" for="send_date">Data di invio</label>
+            <input type="date" class="form-input" id="send_date" v-model="formData.send_date">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+
+</form>
+
+</template>
+
+<style>
+
+</style>
