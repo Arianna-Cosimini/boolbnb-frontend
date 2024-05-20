@@ -11,12 +11,6 @@ export default {
         }
     },
 
-    computed: {
-
-        loginUrl() {
-            return this.store.baseUrl;
-        }
-    }
 }
 </script>
 
