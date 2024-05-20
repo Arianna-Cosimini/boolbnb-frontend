@@ -105,7 +105,7 @@ export default {
               </div>
               <div class="card-body p-0 pt-3 text-start">
                 <h6 class="card-title fw-medium mb-0">{{ apartment.name }}</h6>
-                <p class="text-black-50 mb-0">Nome host:</p>
+                <p class="text-black-50 mb-0">Nome host: {{ apartment.user.name }} {{ apartment.user.surname }}</p>
               </div>
             </div>
           </router-link>
@@ -119,7 +119,7 @@ export default {
 
 
 
-
+  <!-- pagination -->
   <nav class="button-nav d-flex justify-content-center">
 
     <vue-awesome-paginate :total-items="totalApartment" :items-per-page="itemPage" :max-pages-shown="lastPage"
