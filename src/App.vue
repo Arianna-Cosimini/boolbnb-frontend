@@ -48,7 +48,7 @@ export default {
 <template>
   <AppNav></AppNav>
   <AppHeader></AppHeader>
-  <Searchbar></Searchbar>
+
   <router-view></router-view>
   <AppFooter></AppFooter>
 </template>
