@@ -11,16 +11,13 @@ export default {
         itemsComplete: Array
     },
     methods: {
-        // giveAddress(search) {
-        //     let address = search;
-        //     return this.$emit('takeAddress', address);
-        // }
+       
         giveAddress(address, lat, lon) {
             this.store.address = address;
             this.store.lat = lat;
             this.store.lon = lon;
             this.store.addressListVisible = false;
-            // return this.$emit('takeAddress', address);
+            
         }
     }
 }

@@ -4,6 +4,7 @@ import { store } from '../store.js';
 
 import axios from 'axios';
 import ApartmentItem from '../components/ApartmentItem.vue';
+import Searchbar from '../components/Searchbar.vue';
 
 
 export default {
@@ -12,22 +13,29 @@ export default {
 
   components: {
     ApartmentItem,
+    Searchbar,
   },
 
   data() {
     return {
 
       store,
+      apartment: {},
       apartments: [],
       apiLinks: [],
       apiPageNumber: 1,
+      message: 'Non ci sono appartamenti da visualizzare',
+      query: '',
+      autocomplete: [],
+      address: '',
+      lat: '',
+      lon: '',
+      activeAuto: false,
+      lastPage: '',
+      totalItems: 0,
 
 
     }
-  },
-
-  created() {
-
   },
 
   mounted() {
@@ -38,9 +46,64 @@ export default {
 
   methods: {
 
+    getApiAddresses() {
+      axios
+        .get(`https://api.tomtom.com/search/2/search/${this.store.address}.json`, {
+          params: {
+            'key': 'RrNofIXHXhCLSto2sM1SEfvmA1AamCSs',
+            'countrySet': 'IT',
+            'lat': '44.4949',
+            'lon': '11.3426',
+            'radius': '20000',
+            'limit': '5',
+          }
+        })
+        .then(response => {
+          this.autocomplete = response.data.results;
+        });
+    },
+
+    getApiApartments() {
+      if (this.autocomplete == '') {
+      }
+      else {
+        this.store.lat = this.autocomplete[0].position.lat;
+        this.store.lon = this.autocomplete[0].position.lon;
+      }
+      axios
+        .get(store.baseApiApartments, {
+          params: {
+            'range': this.store.range,
+            'lat': this.store.lat,
+            'lon': this.store.lon,
+          }
+        })
+        .then((response) => {
+
+          if (response.data.success == true) {
+            this.apartments = response.data.apartments;
+            this.messageChecked = false;
+            // //  pagination
+            // this.numPages = response.data.apartments.last_page;
+            // this.store.filteredMap = false;
+            // this.cancelAddress();
+          }
+          else {
+            this.message;
+            this.messageChecked = true;
+          }
+
+        });
+    },
+
+
+
     apiCall() {
 
-      axios.get(this.store.baseApiHome + 'apartments', {
+      const url = this.store.baseApiHome + 'apartments';
+      console.log('URL chiamata API:', url);
+
+      axios.get(url, {
         params: {
           page: this.apiPageNumber
         }
@@ -83,7 +146,20 @@ export default {
       this.apiCall();
 
     },
+
+    takeAddress(address) {
+      this.activeAuto = false;
+      return this.store.address = address;
+    },
   },
+
+  computed: {
+  },
+
+  created() {
+    this.getApiApartments();
+
+  }
 
 }
 </script>
@@ -102,12 +178,10 @@ export default {
 
 
 
-  
-
-    <div class="row">
-      <ApartmentItem v-for="currentApartment in apartments" :apartment="currentApartment" :key="currentApartment.id">
-      </ApartmentItem>
-    </div>
+  <div class="row">
+    <ApartmentItem v-for="currentApartment in apartments" :apartment="currentApartment" :key="currentApartment.id">
+    </ApartmentItem>
+  </div>
 
 
 
