@@ -3,6 +3,7 @@ import { store } from '../store.js';
 import axios from 'axios';
 import ApartmentItem from '../components/ApartmentItem.vue';
 import AppHeader from '../components/AppHeader.vue';
+import Categories from '../components/Categories.vue';
 
 
 export default {
@@ -10,6 +11,7 @@ export default {
     components: {
         ApartmentItem,
         AppHeader,
+        Categories,
 
     },
     data() {
@@ -118,6 +120,7 @@ export default {
 
 <template>
     <AppHeader></AppHeader>
+    <Categories></Categories>
     <div class="container-fluid text-center mt-5">
         <div class="row px-5">
             <template v-if="filteredApartments.length > 0">

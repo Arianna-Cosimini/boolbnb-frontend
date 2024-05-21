@@ -65,30 +65,33 @@ export default {
 </script>
 
 <template>
-    <section class="my-5 d-flex align-items-center" style="z-index: 1000;">
+    <section class="d-flex align-items-center" style="z-index: 1000;">
         <div class="container">
             <div class="row">
                 <div id="first-section" class="position-relative mb-3 mt-3">
                     <form @submit.prevent="sendAddress">
-                        <div class="my-research px-3 pb-3 shadow-sm">
-                            <div class="mb-3 position-relative" @click.stop>
-                                <label for="exampleFormControlInput1" class="form-label">Dove</label>
-                                <input type="search" class="form-control radius" v-model="store.address" name="address"
-                                    @click="store.addressListVisible = true" @input="controlModal()"
-                                    id="exampleFormControlInput1" placeholder="Inserisci una destinazione"
-                                    autocomplete="off">
-                                <Searchbar v-if="store.addressListVisible" class="position-absolute card radius"
+                        <div
+                            class="my-research bg-white rounded-5 mt-3 ps-5 pe-2 py-2 shadow-lg d-flex justify-content-between align-items-center gap-5">
+                            <div class="position-relative flex-grow-1" @click.stop>
+                                <!-- <label for="exampleFormControlInput1" class="form-label">Dove</label> -->
+                                <input type="search" class="form-control custom-focus border-0 radius"
+                                    v-model="store.address" name="address" @click="store.addressListVisible = true"
+                                    @input="controlModal()" id="exampleFormControlInput1"
+                                    placeholder="Inserisci una destinazione" autocomplete="off">
+                                <Searchbar v-if="store.addressListVisible"
+                                    class="position-absolute card border-0 rounded-5 radius shadow-lg"
                                     style="width: 100%;" :class="activeAuto ? 'd-block' : 'd-none'"
                                     :itemsComplete="autocomplete" />
                             </div>
-                            <router-link :to="{ name: 'app-apartments' }" class="btn">
-                                Cerca
+                            <router-link :to="{ name: 'app-apartments' }"
+                                class="my-search-btn btn btn-danger rounded-circle">
+                                <i class="fas fa-search"></i>
                             </router-link>
-                            <div v-if="store.addressListVisible">
-                                <!-- <div v-if="autocomplete && autocomplete.length === 0">
-                                    Nessun risultato
+                            <!-- <div v-if="store.addressListVisible">
+                                    <div v-if="autocomplete && autocomplete.length === 0">
+                                        Nessun risultato
+                                    </div>
                                 </div> -->
-                            </div>
                         </div>
                     </form>
                 </div>
@@ -100,6 +103,15 @@ export default {
 <style lang="scss" scoped>
 .text-gray {
     color: lightgray;
+}
+
+.custom-focus:focus {
+    border-color: transparent;
+    /* Cambia il colore del bordo */
+    box-shadow: none;
+    /* Aggiungi un'ombra */
+    outline: none;
+    /* Rimuovi il bordo predefinito */
 }
 
 .image-container {
@@ -119,6 +131,7 @@ export default {
         top: 50%;
         left: 0%;
         transform: translate(-50%, -50%);
+        background-color: white;
     }
 
     .image-container {
@@ -135,9 +148,24 @@ export default {
     font-weight: 500;
 }
 
+.my-search-btn {
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
 .btn-danger {
     background-color: #ff385c !important;
+
+    &:hover {
+        background-color: #DE1361 !important;
+    }
 }
+
 
 .searchbar-dropdown {
     z-index: 1050;
