@@ -1,13 +1,6 @@
-
-
 <script>
-import ApartmentItem from '../components/ApartmentItem.vue';
-
 import { store } from '../store.js';
-
 import Searchbar from '../components/Searchbar.vue';
-
-// Axios
 import axios from 'axios';
 
 export default {
@@ -18,13 +11,11 @@ export default {
             autocomplete: [],
             activeAuto: false,
             store,
-            apartments: null,
             lat: '',
             lon: ''
         };
     },
     components: {
-        ApartmentItem,
         Searchbar,
     },
     methods: {
@@ -41,19 +32,11 @@ export default {
             })
                 .then(response => {
                     this.autocomplete = response.data.results;
-                    // Controlla se non ci sono risultati
                     if (this.autocomplete.length === 0) {
                         console.log('Nessun risultato');
                     }
                     this.autocomplete = response.data.results;
                 });
-        },
-        getApiHome() {
-            axios.get(`${this.store.baseApiHome}apartments`)
-                .then(response => {
-                    this.apartments = response.data.apartments;
-                }
-                );
         },
         controlModal() {
             if (this.store.address.length == 0)
@@ -65,12 +48,17 @@ export default {
             }
         },
         sendAddress() {
-            this.store.lat = this.autocomplete[0].position.lat;
-            this.store.lon = this.autocomplete[0].position.lon;
+            if (this.autocomplete.length > 0) {
+                const selectedPlace = this.autocomplete[0];
+                this.store.lat = selectedPlace.position.lat;
+                this.store.lon = selectedPlace.position.lon;
+                this.$emit('address-selected', {
+                    address: this.store.address,
+                    lat: this.store.lat,
+                    lon: this.store.lon
+                });
+            }
         }
-    },
-    created() {
-        this.getApiHome()
     }
 }
 </script>
@@ -79,14 +67,10 @@ export default {
     <section class="my-5 min-vh-md-100 d-flex align-items-center">
         <div class="container">
             <div class="row">
-
-
                 <div id="first-section"
-                    class=" position-relative col-12 col-lg-8 offset-lg-4 col-xl-8 offset-xl-3 mb-3 mt-3">
-                    <form submit.prevent>
-
-                        <div class=" my-research p-4 p-md-5 shadow-lg">
-
+                    class="position-relative col-12 col-lg-8 offset-lg-4 col-xl-8 offset-xl-3 mb-3 mt-3">
+                    <form @submit.prevent="sendAddress">
+                        <div class="my-research p-4 p-md-5 shadow-lg">
                             <div class="mb-3 position-relative" @click.stop>
                                 <label for="exampleFormControlInput1" class="form-label">Dove</label>
                                 <input type="search" class="form-control radius" v-model="store.address" name="address"
@@ -97,39 +81,24 @@ export default {
                                     style="width: 100%;" :class="activeAuto ? 'd-block' : 'd-none'"
                                     :itemsComplete="autocomplete" />
                             </div>
-
-                            <router-link :to="{ name: 'home' }" class="btn"> Cerca </router-link>
-
-
-
+                            <button type="submit" class="btn">Cerca</button>
                             <div v-if="store.addressListVisible">
-                                <div v-if="apartments && apartments.length === 0">
+                                <div v-if="autocomplete && autocomplete.length === 0">
                                     Nessun risultato
                                 </div>
                             </div>
                         </div>
                     </form>
-
-
-
                 </div>
-
-
             </div>
         </div>
     </section>
-
-
 </template>
-
 
 <style lang="scss" scoped>
 .text-gray {
     color: lightgray;
 }
-
-
-
 
 .image-container {
     width: 100%;
@@ -138,10 +107,7 @@ export default {
         width: 100%;
         object-fit: cover;
     }
-
 }
-
-
 
 .jumbo {
     margin-top: 4rem;
