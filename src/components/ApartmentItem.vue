@@ -59,7 +59,7 @@ export default {
                         </div>
                     </div>
                     <div class="card-body p-0 pt-3 text-start">
-                        <h5 class="card-title fw-medium mb-0">{{ apartment.name }}</h5>
+                        <h6 class="card-title fw-medium mb-0">{{ apartment.name }}</h6>
                         <p class="text-black-50 mb-0">{{ apartment.address }}</p>
                     </div>
                 </div>
