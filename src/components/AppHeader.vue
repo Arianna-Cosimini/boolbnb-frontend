@@ -64,13 +64,12 @@ export default {
 </script>
 
 <template>
-    <section class="my-5 min-vh-md-100 d-flex align-items-center">
+    <section class="my-5 d-flex align-items-center" style="z-index: 1000;">
         <div class="container">
             <div class="row">
-                <div id="first-section"
-                    class="position-relative col-12 col-lg-8 offset-lg-4 col-xl-8 offset-xl-3 mb-3 mt-3">
+                <div id="first-section" class="position-relative mb-3 mt-3">
                     <form @submit.prevent="sendAddress">
-                        <div class="my-research p-4 p-md-5 shadow-lg">
+                        <div class="my-research px-3 pb-3 shadow-sm">
                             <div class="mb-3 position-relative" @click.stop>
                                 <label for="exampleFormControlInput1" class="form-label">Dove</label>
                                 <input type="search" class="form-control radius" v-model="store.address" name="address"
@@ -81,11 +80,11 @@ export default {
                                     style="width: 100%;" :class="activeAuto ? 'd-block' : 'd-none'"
                                     :itemsComplete="autocomplete" />
                             </div>
-                            <button type="submit" class="btn">Cerca</button>
+                            <button type="submit" class="btn btn-danger">Cerca</button>
                             <div v-if="store.addressListVisible">
-                                <div v-if="autocomplete && autocomplete.length === 0">
+                                <!-- <div v-if="autocomplete && autocomplete.length === 0">
                                     Nessun risultato
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </form>
@@ -126,5 +125,19 @@ export default {
             min-height: 550px;
         }
     }
+}
+
+.form-label {
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.btn-danger {
+    background-color: #ff385c !important;
+}
+
+.searchbar-dropdown {
+    z-index: 1050;
+    background-color: white;
 }
 </style>

@@ -45,7 +45,7 @@ export default {
 </script>
 
 <template>
-    <div class="container text-center">
+    <div class="container-fluid text-center mt-5">
         <div class="row">
             <div class="col-md-12 my_mini_jumbo d-flex flex-column align-content-center justify-content-center">
                 <h1 class="center-content fs-1">I Nostri Appartamenti</h1>

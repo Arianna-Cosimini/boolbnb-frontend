@@ -1,5 +1,3 @@
-
-
 <script>
 import axios from 'axios';
 
@@ -8,7 +6,6 @@ import AppHeader from "./components/AppHeader.vue";
 import AppNav from './components/AppNav.vue';
 import AppFooter from './components/AppFooter.vue';
 import Searchbar from './components/Searchbar.vue';
-import Categories from './components/Categories.vue';
 
 
 export default {
@@ -19,7 +16,6 @@ export default {
     AppNav,
     AppFooter,
     Searchbar,
-    Categories,
 
   },
 
@@ -51,8 +47,6 @@ export default {
 <template>
   <AppNav></AppNav>
   <!-- <AppHeader></AppHeader> -->
-
-  <Categories></Categories>
   <router-view></router-view>
   <AppFooter></AppFooter>
 </template>
