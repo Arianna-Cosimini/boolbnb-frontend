@@ -115,11 +115,22 @@ export default {
     computed: {
         filteredApartments() {
             if (!this.apartments || this.apartments.length === 0) {
-                return [];
+            return [];
             }
-            return this.apartments.filter(apartment => {
-                return apartment.address.includes(this.store.address);
-            });
+
+            // Check if any services are selected
+            if (this.selectedServices.length === 0) {
+            // No services selected, filter by address only
+            return this.apartments.filter(apartment => apartment.address.includes(this.store.address));
+            }
+
+            // All selected services must be present in the apartment's services
+            return this.apartments.filter(apartment =>
+            apartment.address.includes(this.store.address) && // Filter by address first
+            apartment.services.some(apartmentService =>
+                this.selectedServices.includes(apartmentService.id) // Adjust property name based on your data
+            )
+            );
         }
     }
 }
@@ -132,8 +143,8 @@ export default {
         <h2>Servizi</h2>
         <div class="d-flex">
             <div v-for="service in services" :key="service.id">
-            <input type="checkbox" v-model="selectedServices" :value="service.id">
-            {{ service.title }}
+                <input type="checkbox" v-model="selectedServices" :value="service.id">
+                {{ service.title }}
             </div>
         </div>
     </div>
