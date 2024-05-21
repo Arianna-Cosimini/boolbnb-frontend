@@ -151,14 +151,30 @@ export default {
 <template>
     <AppHeader></AppHeader>
     <Categories></Categories>
+    <div class="container">
     <div class="mb-3">
         <label for="rooms" class="form-label">Camere</label>
-        <input type="number" class="form-control" v-model="roomsValue" id="rooms" min="1">
+        <select class="form-select cursor_pointer" aria-label="Default select example" v-model="roomsValue">                                               
+            <option selected value="0">Scegli...</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
     </div>
     <div class="mb-3">
         <label for="bathrooms" class="form-label">Bagni</label>
-        <input type="number" class="form-control" v-model="bathsValue" id="bathrooms" min="1">
+        <select class="form-select cursor_pointer" aria-label="Default select example" v-model="bathsValue">                                               
+            <option selected value="0">Scegli...</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
     </div>
+</div>
     <div class="container-fluid text-center mt-5">
         <div class="row px-5">
             <template v-if="filteredApartments.length > 0">
