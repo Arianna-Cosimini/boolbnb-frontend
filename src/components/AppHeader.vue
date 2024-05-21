@@ -12,7 +12,8 @@ export default {
             activeAuto: false,
             store,
             lat: '',
-            lon: ''
+            lon: '',
+            apartments: null,
         };
     },
     components: {
@@ -80,7 +81,9 @@ export default {
                                     style="width: 100%;" :class="activeAuto ? 'd-block' : 'd-none'"
                                     :itemsComplete="autocomplete" />
                             </div>
-                            <button type="submit" class="btn btn-danger">Cerca</button>
+                            <router-link :to="{ name: 'app-apartments' }" class="btn">
+                                Cerca
+                            </router-link>
                             <div v-if="store.addressListVisible">
                                 <!-- <div v-if="autocomplete && autocomplete.length === 0">
                                     Nessun risultato
