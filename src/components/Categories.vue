@@ -32,7 +32,7 @@ export default {
 </script>
 
 <template>
-    <div class="container-fluid px-5 py-2">
+    <div class="container-fluid mt-3 px-5 py-2">
         <div class="categories d-flex gap-5 align-items-end px-3 overflow-x-auto">
             <div v-for="category in categories" :key="category.id"
                 class="category text-black-50 d-flex flex-column align-items-center gap-2">

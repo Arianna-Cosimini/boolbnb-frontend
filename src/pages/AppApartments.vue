@@ -3,6 +3,7 @@ import { store } from '../store.js';
 import axios from 'axios';
 import ApartmentItem from '../components/ApartmentItem.vue';
 import AppHeader from '../components/AppHeader.vue';
+import Categories from '../components/Categories.vue';
 
 
 export default {
@@ -10,6 +11,7 @@ export default {
     components: {
         ApartmentItem,
         AppHeader,
+        Categories,
 
     },
     data() {
@@ -118,17 +120,17 @@ export default {
                 let matchesRooms = true;
                 let matchesBaths = true;
 
-               
+
                 if (this.store && this.store.address) {
                     matchesAddress = apartment.address.includes(this.store.address);
                 }
 
-                
+
                 if (this.roomsValue > 0) {
                     matchesRooms = apartment.room_number >= this.roomsValue;
                 }
 
-                
+
                 if (this.bathsValue > 0) {
                     matchesBaths = apartment.bathroom_number >= this.bathsValue;
                 }
@@ -148,6 +150,7 @@ export default {
 
 <template>
     <AppHeader></AppHeader>
+    <Categories></Categories>
     <div class="mb-3">
         <label for="rooms" class="form-label">Camere</label>
         <input type="number" class="form-control" v-model="roomsValue" id="rooms" min="1">
