@@ -56,9 +56,24 @@ export default {
                 this.$emit('address-selected', {
                     address: this.store.address,
                     lat: this.store.lat,
-                    lon: this.store.lon
+                    lon: this.store.lon,
+                    rooms: this.store.rooms,
+                    bathrooms: this.store.bathrooms
                 });
+                this.fetchApartments(); // Call the fetch method
             }
+        },
+        fetchApartments() {
+            const { address, lat, lon, rooms, bathrooms } = this.store;
+            const url = `${this.store.baseApiApartments}?address=${address}&lat=${lat}&lon=${lon}&rooms=${rooms}&bathrooms=${bathrooms}`;
+
+            axios.get(url)
+                .then(response => {
+                    this.apartments = response.data.results;
+                })
+                .catch(error => {
+                    console.error('Error fetching apartments:', error);
+                });
         }
     }
 }
@@ -81,6 +96,8 @@ export default {
                                     style="width: 100%;" :class="activeAuto ? 'd-block' : 'd-none'"
                                     :itemsComplete="autocomplete" />
                             </div>
+
+                            
                             <router-link :to="{ name: 'app-apartments' }" class="btn">
                                 Cerca
                             </router-link>

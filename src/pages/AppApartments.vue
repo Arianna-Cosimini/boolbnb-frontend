@@ -30,10 +30,13 @@ export default {
             totalItems: 0,
             addressFromSearch: '',
             userAddress: '',
+            roomsValue: 0,
+            bathsValue: 0,
         }
     },
     mounted() {
         this.apiCall();
+        console.log('Initial apartments data:', this.apartments);
     },
     methods: {
 
@@ -104,20 +107,55 @@ export default {
 
     },
     computed: {
+
         filteredApartments() {
             if (!this.apartments || this.apartments.length === 0) {
                 return [];
             }
-            return this.apartments.filter(apartment => {
-                return apartment.address.includes(this.store.address);
+
+            let filteredApartments = this.apartments.filter(apartment => {
+                let matchesAddress = true;
+                let matchesRooms = true;
+                let matchesBaths = true;
+
+               
+                if (this.store && this.store.address) {
+                    matchesAddress = apartment.address.includes(this.store.address);
+                }
+
+                
+                if (this.roomsValue > 0) {
+                    matchesRooms = apartment.room_number >= this.roomsValue;
+                }
+
+                
+                if (this.bathsValue > 0) {
+                    matchesBaths = apartment.bathroom_number >= this.bathsValue;
+                }
+
+                console.log(`Apartment: ${apartment.id}, Address: ${matchesAddress}, Rooms: ${matchesRooms}, Baths: ${matchesBaths}`);
+                return matchesAddress && matchesRooms && matchesBaths;
             });
+
+            console.log('Filtered apartments:', filteredApartments);
+            return filteredApartments;
         }
+
     }
 }
+
 </script>
 
 <template>
     <AppHeader></AppHeader>
+    <div class="mb-3">
+        <label for="rooms" class="form-label">Camere</label>
+        <input type="number" class="form-control" v-model="roomsValue" id="rooms" min="1">
+    </div>
+    <div class="mb-3">
+        <label for="bathrooms" class="form-label">Bagni</label>
+        <input type="number" class="form-control" v-model="bathsValue" id="bathrooms" min="1">
+    </div>
     <div class="container-fluid text-center mt-5">
         <div class="row px-5">
             <template v-if="filteredApartments.length > 0">

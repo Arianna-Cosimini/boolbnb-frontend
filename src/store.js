@@ -17,5 +17,7 @@ export const store = reactive({
     user_name: 'Accedi',
     user_surname: '',
     user_email: '',
+    rooms:'',
+    bathrooms:''
 
 });
