@@ -57,24 +57,10 @@ export default {
                     address: this.store.address,
                     lat: this.store.lat,
                     lon: this.store.lon,
-                    rooms: this.store.rooms,
-                    bathrooms: this.store.bathrooms
                 });
-                this.fetchApartments(); // Call the fetch method
+                
             }
         },
-        fetchApartments() {
-            const { address, lat, lon, rooms, bathrooms } = this.store;
-            const url = `${this.store.baseApiApartments}?address=${address}&lat=${lat}&lon=${lon}&rooms=${rooms}&bathrooms=${bathrooms}`;
-
-            axios.get(url)
-                .then(response => {
-                    this.apartments = response.data.results;
-                })
-                .catch(error => {
-                    console.error('Error fetching apartments:', error);
-                });
-        }
     }
 }
 </script>
@@ -97,7 +83,7 @@ export default {
                                     :itemsComplete="autocomplete" />
                             </div>
 
-                            
+
                             <router-link :to="{ name: 'app-apartments' }" class="btn">
                                 Cerca
                             </router-link>

@@ -17,17 +17,8 @@ export default {
             store,
             apartment: {},
             apartments: [],
-            apiLinks: [],
             apiPageNumber: 1,
             message: 'Non ci sono appartamenti da visualizzare',
-            query: '',
-            autocomplete: [],
-            address: '',
-            lat: '',
-            lon: '',
-            activeAuto: false,
-            lastPage: '',
-            totalItems: 0,
             addressFromSearch: '',
             userAddress: '',
             roomsValue: 0,
@@ -118,17 +109,17 @@ export default {
                 let matchesRooms = true;
                 let matchesBaths = true;
 
-               
+
                 if (this.store && this.store.address) {
                     matchesAddress = apartment.address.includes(this.store.address);
                 }
 
-                
+
                 if (this.roomsValue > 0) {
                     matchesRooms = apartment.room_number >= this.roomsValue;
                 }
 
-                
+
                 if (this.bathsValue > 0) {
                     matchesBaths = apartment.bathroom_number >= this.bathsValue;
                 }
