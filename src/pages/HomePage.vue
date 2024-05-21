@@ -166,7 +166,7 @@ export default {
     </div>
   </div>
 
-  <nav class="button-nav d-flex justify-content-center">
+  <nav class="button-nav d-flex justify-content-center mb-5">
     <vue-awesome-paginate :total-items="totalApartment" :items-per-page="itemPage" :max-pages-shown="lastPage"
       v-model="apiPageNumber" :on-click="changeApiPage" active-page-class="active-page"
       paginate-buttons-class="paginate-buttons" />
