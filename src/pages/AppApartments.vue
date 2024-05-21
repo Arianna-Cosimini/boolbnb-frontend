@@ -30,6 +30,8 @@ export default {
             totalItems: 0,
             addressFromSearch: '',
             userAddress: '',
+            services: [],
+            selectedServices: [],
         }
     },
     mounted() {
@@ -79,14 +81,21 @@ export default {
                 }
             }).then(res => {
                 apartments = apartments.concat(res.data.results.data);
+                const services = res.data.services;
+
                 if (pageNumber < res.data.results.last_page) {
                     this.apiCall(pageNumber + 1, apartments);
                 } else {
                     this.apartments = apartments;
+                    this.services = services;
                     this.totalApartment = apartments.length;
+                    this.totalProject = res.data.results.total;
+                    this.itemPage = res.data.results.per_page;
                     this.lastPage = res.data.results.last_page;
                 }
             });
+
+
         },
         changeApiPage(pageNumber) {
             if (pageNumber == "&laquo; Previous" && this.apiPageNumber > 1) {
@@ -118,6 +127,17 @@ export default {
 
 <template>
     <AppHeader></AppHeader>
+
+    <div>
+        <h2>Servizi</h2>
+        <div class="d-flex">
+            <div v-for="service in services" :key="service.id">
+            <input type="checkbox" v-model="selectedServices" :value="service.id">
+            {{ service.title }}
+            </div>
+        </div>
+    </div>
+
     <div class="container-fluid text-center mt-5">
         <div class="row px-5">
             <template v-if="filteredApartments.length > 0">
