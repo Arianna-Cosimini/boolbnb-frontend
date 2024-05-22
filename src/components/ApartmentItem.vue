@@ -26,12 +26,15 @@ export default {
     },
 
     mounted() {
-    // console.log('Apartment data:', this.apartment);
+        // console.log('Apartment data:', this.apartment);
     },
 
 
     methods: {
-
+        openInNewTab(slug) {
+            const url = this.$router.resolve({ name: 'single-apartment', params: { slug } }).href;
+            window.open(url, '_blank');
+        }
 
     },
 
@@ -46,8 +49,7 @@ export default {
     <div class="col-2 mt-3 px-1">
 
         <div class="p-2">
-            <router-link :to="{ name: 'single-apartment', params: { slug: apartment.slug } }"
-                class="text-decoration-none">
+            <a href="#" @click.prevent="openInNewTab(apartment.slug)" class="text-decoration-none">
                 <div class="card border-0">
                     <!-- controlla immagine -->
                     <div>
@@ -63,7 +65,7 @@ export default {
                         <p class="text-black-50 mb-0">{{ apartment.address }}</p>
                     </div>
                 </div>
-            </router-link>
+            </a>
         </div>
 
     </div>
