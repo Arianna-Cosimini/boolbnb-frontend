@@ -124,8 +124,8 @@ export default {
             this.apiCall();
         },
 
-    },
-    computed: {
+},
+computed: {
 
         filteredApartments() {
             if (!this.apartments || this.apartments.length === 0) {
@@ -138,45 +138,40 @@ export default {
             return this.apartments.filter(apartment => apartment.address.includes(this.store.address));
             }
 
-            // All selected services must be present in the apartment's services
-            return this.apartments.filter(apartment =>
-            apartment.address.includes(this.store.address) && // Filter by address first
-            apartment.services.some(apartmentService =>
-                this.selectedServices.includes(apartmentService.id) // Adjust property name based on your data
-            )
-            );
-        }
-    }
-}
-
             let filteredApartments = this.apartments.filter(apartment => {
                 let matchesAddress = true;
                 let matchesRooms = true;
                 let matchesBaths = true;
-
-
+            
+            
                 if (this.store && this.store.address) {
                     matchesAddress = apartment.address.includes(this.store.address);
                 }
-
-
+            
+            
                 if (this.roomsValue > 0) {
                     matchesRooms = apartment.room_number >= this.roomsValue;
                 }
-
-
+            
+            
                 if (this.bathsValue > 0) {
                     matchesBaths = apartment.bathroom_number >= this.bathsValue;
                 }
-
+            
                 console.log(`Apartment: ${apartment.id}, Address: ${matchesAddress}, Rooms: ${matchesRooms}, Baths: ${matchesBaths}`);
                 return matchesAddress && matchesRooms && matchesBaths;
             });
-
+            
             console.log('Filtered apartments:', filteredApartments);
             return filteredApartments;
-        }
 
+                        // All selected services must be present in the apartment's services
+                        return this.apartments.filter(apartment =>
+            apartment.address.includes(this.store.address) && // Filter by address first
+            apartment.services.some(apartmentService =>
+                this.selectedServices.includes(apartmentService.id) // Adjust property name based on your data
+            ))
+        }
     }
 }
 
