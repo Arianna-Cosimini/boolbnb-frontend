@@ -76,6 +76,7 @@ export default {
     cursor: pointer;
 
     .my_img_size {
+        width: 100%;
         aspect-ratio: 1;
         object-fit: cover;
 
