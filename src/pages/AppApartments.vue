@@ -34,7 +34,7 @@ export default {
     },
     mounted() {
         this.apiCall();
-        console.log('Initial apartments data:', this.apartments);
+        console.log('tutti gli appartamenti: ', this.apartments);
     },
     methods: {
         getApiApartments() {
