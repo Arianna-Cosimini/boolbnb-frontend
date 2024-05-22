@@ -60,21 +60,10 @@ export default {
                     rooms: this.store.rooms,
                     bathrooms: this.store.bathrooms
                 });
-                this.fetchApartments(); // Call the fetch method
+                
             }
         },
-        fetchApartments() {
-            const { address, lat, lon, rooms, bathrooms } = this.store;
-            const url = `${this.store.baseApiApartments}?address=${address}&lat=${lat}&lon=${lon}&rooms=${rooms}&bathrooms=${bathrooms}`;
-
-            axios.get(url)
-                .then(response => {
-                    this.apartments = response.data.results;
-                })
-                .catch(error => {
-                    console.error('Error fetching apartments:', error);
-                });
-        }
+        
     }
 }
 </script>

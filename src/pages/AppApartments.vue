@@ -5,14 +5,12 @@ import ApartmentItem from '../components/ApartmentItem.vue';
 import AppHeader from '../components/AppHeader.vue';
 import Categories from '../components/Categories.vue';
 
-
 export default {
     name: 'HomePage',
     components: {
         ApartmentItem,
         AppHeader,
         Categories,
-
     },
     data() {
         return {
@@ -25,8 +23,6 @@ export default {
             query: '',
             autocomplete: [],
             address: '',
-            lat: '',
-            lon: '',
             activeAuto: false,
             lastPage: '',
             totalItems: 0,
@@ -34,69 +30,56 @@ export default {
             userAddress: '',
             roomsValue: 0,
             bathsValue: 0,
-        }
+        };
     },
     mounted() {
         this.apiCall();
         console.log('Initial apartments data:', this.apartments);
     },
     methods: {
+        getApiApartments() {
+            const url = `${this.store.baseApiApartments}?range=${this.store.range}&lat=${this.store.lat}&lon=${this.store.lon}`;
 
-
-        getApiApartments(pageNumber = 1, apartments = []) {
-            const { address, lat, lon } = this.store;
-            const url = `${this.store.baseApiApartments}?address=${address}&lat=${lat}&lon=${lon}`;
-
-            axios.get(url, {
-                params: {
-                    'page': pageNumber,
-                    'fullAddress': address // Include full address for street-level filtering
-                }
-            })
+            axios
+                .get(url, {
+                })
                 .then((response) => {
                     if (response.data.success) {
-                        apartments = apartments.concat(response.data.apartments);
-                        if (pageNumber < response.data.last_page) {
-                            this.getApiApartments(pageNumber + 1, apartments);
-                        } else {
-                            // Filtra gli appartamenti per distanza e indirizzo completo
-                            this.apartments = apartments.filter(apartment => {
-                                return apartment.distance <= 20000 && // 20 km in meters
-                                    apartment.address.includes(this.store.address); // Match full address
-                            });
-                            this.messageChecked = false;
-                        }
+                        this.apartments = response.data.apartments.data;
+                        console.log('Ricevuto dati con successo:', this.apartments);
                     } else {
-                        this.messageChecked = true;
+                        console.error('Error in API response:', response.data);
+                        this.message; 
                     }
                 })
-                .catch(error => {
-                    console.error('Errore nel recupero degli appartamenti:', error);
-                    // Gestisci l'errore come preferisci
+                .catch((error) => {
+                    console.error('Error during API call:', error);
+                    
                 });
         },
-
         apiCall(pageNumber = 1, apartments = []) {
             const url = `${this.store.baseApiHome}apartments`;
-            axios.get(url, {
-                params: {
-                    page: pageNumber
-                }
-            }).then(res => {
-                apartments = apartments.concat(res.data.results.data);
-                if (pageNumber < res.data.results.last_page) {
-                    this.apiCall(pageNumber + 1, apartments);
-                } else {
-                    this.apartments = apartments;
-                    this.totalApartment = apartments.length;
-                    this.lastPage = res.data.results.last_page;
-                }
-            });
+            axios
+                .get(url, {
+                    params: {
+                        page: pageNumber,
+                    },
+                })
+                .then((res) => {
+                    apartments = apartments.concat(res.data.results.data);
+                    if (pageNumber < res.data.results.last_page) {
+                        this.apiCall(pageNumber + 1, apartments);
+                    } else {
+                        this.apartments = apartments;
+                        this.totalApartment = apartments.length;
+                        this.lastPage = res.data.results.last_page;
+                    }
+                });
         },
         changeApiPage(pageNumber) {
-            if (pageNumber == "&laquo; Previous" && this.apiPageNumber > 1) {
+            if (pageNumber == '&laquo; Previous' && this.apiPageNumber > 1) {
                 this.apiPageNumber--;
-            } else if (pageNumber == "Next &raquo;" && this.apiPageNumber < this.lastPage) {
+            } else if (pageNumber == 'Next &raquo;' && this.apiPageNumber < this.lastPage) {
                 this.apiPageNumber++;
             }
 
@@ -106,45 +89,21 @@ export default {
 
             this.apiCall();
         },
-
     },
     computed: {
-
         filteredApartments() {
             if (!this.apartments || this.apartments.length === 0) {
+                console.log('No apartment data available.');
                 return [];
             }
 
-            let filteredApartments = this.apartments.filter(apartment => {
-                let matchesAddress = true;
-                let matchesRooms = true;
-                let matchesBaths = true;
 
-
-                if (this.store && this.store.address) {
-                    matchesAddress = apartment.address.includes(this.store.address);
-                }
-
-
-                if (this.roomsValue > 0) {
-                    matchesRooms = apartment.room_number >= this.roomsValue;
-                }
-
-
-                if (this.bathsValue > 0) {
-                    matchesBaths = apartment.bathroom_number >= this.bathsValue;
-                }
-
-                console.log(`Apartment: ${apartment.id}, Address: ${matchesAddress}, Rooms: ${matchesRooms}, Baths: ${matchesBaths}`);
-                return matchesAddress && matchesRooms && matchesBaths;
-            });
-
-            console.log('Filtered apartments:', filteredApartments);
+            let filteredApartments = this.apartments;
             return filteredApartments;
-        }
+        },
+    },
+};
 
-    }
-}
 
 </script>
 
@@ -152,29 +111,29 @@ export default {
     <AppHeader></AppHeader>
     <Categories></Categories>
     <div class="container">
-    <div class="mb-3">
-        <label for="rooms" class="form-label">Camere</label>
-        <select class="form-select cursor_pointer" aria-label="Default select example" v-model="roomsValue">                                               
-            <option selected value="0">Scegli...</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-        </select>
+        <div class="mb-3">
+            <label for="rooms" class="form-label">Camere</label>
+            <select class="form-select cursor_pointer" aria-label="Default select example" v-model="roomsValue">
+                <option selected value="0">Scegli...</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="bathrooms" class="form-label">Bagni</label>
+            <select class="form-select cursor_pointer" aria-label="Default select example" v-model="bathsValue">
+                <option selected value="0">Scegli...</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </div>
     </div>
-    <div class="mb-3">
-        <label for="bathrooms" class="form-label">Bagni</label>
-        <select class="form-select cursor_pointer" aria-label="Default select example" v-model="bathsValue">                                               
-            <option selected value="0">Scegli...</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-        </select>
-    </div>
-</div>
     <div class="container-fluid text-center mt-5">
         <div class="row px-5">
             <template v-if="filteredApartments.length > 0">
