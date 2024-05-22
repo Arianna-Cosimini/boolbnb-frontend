@@ -31,13 +31,13 @@ export default {
             currentPage: 1,
             per_page: 1,
             last_page: 1,
-            total_items:1,
+            total_items: 1,
             addressFromSearch: '',
             userAddress: '',
             services: [],
             selectedServices: [],
-            roomsNumber: 0,
-            bedsNumber: 0,
+            roomsNumber: 1,
+            bedsNumber: 1,
         }
     },
     mounted() {
@@ -63,12 +63,12 @@ export default {
                         // if (pageNumber < response.data.last_page) {
                         //     this.getApiApartments(pageNumber + 1, apartments);
                         // } else {
-                            // Filtra gli appartamenti per distanza e indirizzo completo
-                            this.apartments = apartments.filter(apartment => {
-                                return apartment.distance <= 20000 && // 20 km in meters
-                                    apartment.address.includes(this.store.address); // Match full address
-                            });
-                            this.messageChecked = false;
+                        // Filtra gli appartamenti per distanza e indirizzo completo
+                        this.apartments = apartments.filter(apartment => {
+                            return apartment.distance <= 20000 && // 20 km in meters
+                                apartment.address.includes(this.store.address); // Match full address
+                        });
+                        this.messageChecked = false;
                         // }
                     } else {
                         this.messageChecked = true;
@@ -99,12 +99,12 @@ export default {
                 //     this.itemPage = res.data.results.per_page;
                 //     this.lastPage = res.data.results.last_page;
                 // }
-                    this.apartments = res.data.results.data;
-                    this.services = res.data.services;
-                    this.apiLinks = res.data.results.links;
-                    this.total_items = res.data.results.total;
-                    this.per_page = res.data.results.per_page;
-                    this.last_page = res.data.results.last_page;
+                this.apartments = res.data.results.data;
+                this.services = res.data.services;
+                this.apiLinks = res.data.results.links;
+                this.total_items = res.data.results.total;
+                this.per_page = res.data.results.per_page;
+                this.last_page = res.data.results.last_page;
             });
 
 
@@ -124,57 +124,54 @@ export default {
             this.apiCall();
         },
 
-},
-computed: {
-
+    },
+    computed: {
         filteredApartments() {
             if (!this.apartments || this.apartments.length === 0) {
-            return [];
+                return [];
             }
-
-           
 
             let filteredApartments = this.apartments.filter(apartment => {
                 let matchesAddress = true;
                 let matchesRooms = true;
                 let matchesBeds = true;
-            
-            
+
                 if (this.store && this.store.address) {
                     matchesAddress = apartment.address.includes(this.store.address);
                 }
-            
-            
+
                 if (this.roomsNumber > 0) {
                     matchesRooms = apartment.room_number >= this.roomsNumber;
                 }
-            
-            
+
                 if (this.bedsNumber > 0) {
                     matchesBeds = apartment.bed_number >= this.bedsNumber;
                 }
-            
+
                 console.log(`Apartment: ${apartment.id}, Address: ${matchesAddress}, Rooms: ${matchesRooms}, Baths: ${matchesBeds}`);
                 return matchesAddress && matchesRooms && matchesBeds;
             });
-            
+
             console.log('Filtered apartments:', filteredApartments);
             return filteredApartments;
 
-             // Check if any services are selected
-             if (this.selectedServices.length === 0) {
-            // No services selected, filter by address only
-            return this.apartments.filter(apartment => apartment.address.includes(this.store.address));
+            // Check if any services are selected
+            if (this.selectedServices.length === 0) {
+                // No services selected, filter by address only
+                return this.apartments.filter(apartment => apartment.address.includes(this.store.address));
             }
 
-                        // All selected services must be present in the apartment's services
-                        return this.apartments.filter(apartment =>
-            apartment.address.includes(this.store.address) && // Filter by address first
-            apartment.services.some(apartmentService =>
-                this.selectedServices.includes(apartmentService.id) // Adjust property name based on your data
-            ))
+            // All selected services must be present in the apartment's services
+            return this.apartments.filter(apartment =>
+                apartment.address.includes(this.store.address) && // Filter by address first
+                apartment.services.some(apartmentService =>
+                    this.selectedServices.includes(apartmentService.id) // Adjust property name based on your data
+                ))
+
+
         }
     }
+
 }
 
 </script>
@@ -182,37 +179,25 @@ computed: {
 <template>
     <AppHeader></AppHeader>
     <Categories></Categories>
-    <div class="container">
-    <div class="mb-3">
-        <label for="rooms" class="form-label">Nº Stanze</label>
-        <select class="form-select cursor_pointer" aria-label="Default select example" v-model="roomsNumber">                                               
-            <option selected value="0">Scegli un numero minimo di stanze</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5+</option>
-        </select>
-    </div>
-    <div class="mb-3">
-        <label for="bedrooms" class="form-label">Nº Posti letto</label>
-        <select class="form-select cursor_pointer" aria-label="Default select example" v-model="bedsNumber">                                               
-            <option selected value="0">Scegli un numero minimo di posti letto</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5+</option>
-        </select>
-    </div>
-</div>
+    <div class="container mt-5">
+        <div class="number-filters d-flex gap-3 mb-3">
+            <div class="mb-3 w-50">
+                <label for="rooms" class="form-label">Camere</label>
+                <input type="number" id="rooms" class="form-control" v-model="roomsNumber" min="1" max="5" />
+            </div>
+            <div class="mb-3 w-50">
+                <label for="bedrooms" class="form-label">Posti letto</label>
+                <input type="number" id="bedrooms" class="form-control" v-model="bedsNumber" min="1" max="5" />
+            </div>
+        </div>
 
-    <div>
-        <h2>Servizi</h2>
-        <div class="d-flex">
+
+        <label class="form-label">Servizi</label>
+        <div class="d-flex gap-5">
             <div v-for="service in services" :key="service.id">
-                <input type="checkbox" v-model="selectedServices" :value="service.id">
-                {{ service.title }}
+                <input type="checkbox" :id="service.id" class="my-checkbox checkbox" v-model="selectedServices"
+                    :value="service.id">
+                <label :for="service.id" class="form-label user-select-none ms-2">{{ service.title }}</label>
             </div>
         </div>
     </div>
@@ -235,13 +220,13 @@ computed: {
     </nav>
 </template>
 
+
 <style lang="scss">
 .my_mini_jumbo {
     height: 60vh;
 }
 
 .button-nav {
-
     margin-top: 20px;
     padding-top: 20px;
 
@@ -274,11 +259,9 @@ computed: {
     .active-page:hover {
         background-color: black;
     }
-
 }
 
 .card {
-
     cursor: pointer;
 
     .my_img_size {
@@ -296,15 +279,46 @@ computed: {
         }
     }
 
-    ;
-
     .card-title,
     .card-body p {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
     }
+}
 
 
+
+.my-checkbox {
+    appearance: none;
+    -webkit-appearance: none;
+    background-color: #fff;
+    border: 1px solid black;
+    border-radius: 4px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    outline: none;
+
+    &:checked {
+        background-color: #ff385c;
+        border-color: #ff385c;
+    }
+
+    &:checked::after {
+        content: '';
+        position: absolute;
+        top: 4px;
+        left: 7px;
+        width: 4px;
+        height: 8px;
+        scale: 1.5;
+        border: solid white;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+    }
 }
 </style>
