@@ -34,6 +34,7 @@ export default {
             selectedServices: [],
             roomsNumber: 1,
             bedsNumber: 1,
+            showModal: false,
         }
     },
     mounted() {
@@ -41,6 +42,11 @@ export default {
         console.log('tutti gli appartamenti: ', this.apartments);
     },
     methods: {
+
+        toggleModal() {
+            this.showModal = !this.showModal;
+        },
+
         getApiApartments() {
             const url = `${this.store.baseApiApartments}?range=${this.store.range}&lat=${this.store.lat}&lon=${this.store.lon}`;
 
@@ -56,12 +62,12 @@ export default {
                         console.log('Ricevuto dati con successo:', this.apartments);
                     } else {
                         console.error('Error in API response:', response.data);
-                        this.message; 
+                        this.message;
                     }
                 })
                 .catch((error) => {
                     console.error('Error during API call:', error);
-                    
+
                 });
         },
 
@@ -162,13 +168,13 @@ export default {
             //         this.selectedServices.includes(apartmentService.id) // Adjust property name based on your data
             //     ))
             let filteredApartments = this.apartments;
-            
+
             return filteredApartments.filter(apartment => apartment.address.includes(this.store.address) && // Filter by address first
                 apartment.services.some(apartmentService =>
                     this.selectedServices.includes(apartmentService.id) // Adjust property name based on your data
                 ));
 
-           
+
 
 
         }
@@ -176,66 +182,116 @@ export default {
 
 }
 
-           
-
-
-
 </script>
 
 <template>
-    <AppHeader></AppHeader>
-    <Categories></Categories>
-    <form @submit.prevent="searchApartments()">
-
-        <div class="container mt-5">
-            <div class="number-filters d-flex gap-3 mb-3">
-                <div class="mb-3 w-50">
-                    <label for="rooms" class="form-label">Camere</label>
-                    <input type="number" id="rooms" class="form-control" v-model="roomsNumber" min="1" max="5" />
-                </div>
-                <div class="mb-3 w-50">
-                    <label for="bedrooms" class="form-label">Posti letto</label>
-                    <input type="number" id="bedrooms" class="form-control" v-model="bedsNumber" min="1" max="5" />
-                </div>
-            </div>
-            <div class="d-flex justify-content-center ">
-
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </div>
-
-            <label class="form-label">Servizi</label>
-            <div class="d-flex gap-2 row">
-                <div v-for="service in services" :key="service.id" class="col-4">
-                    <input type="checkbox" :id="service.id" class="my-checkbox checkbox" v-model="selectedServices"
-                        :value="service.id">
-                    <label :for="service.id" class="form-label user-select-none ms-2">{{ service.title }}</label>
-                </div>
+    <div>
+        <div class="container d-flex align-items-center mt-3 gap-3">
+            <AppHeader class="flex-grow-1"></AppHeader>
+            <div class="btn-container" v-if="$route.name !== 'home'">
+                <button type="button" class="my-black-btn btn btn-primary border-0" @click="toggleModal">
+                    <i class="fa-solid fa-sliders me-2"></i>Ricerca avanzata
+                </button>
             </div>
         </div>
 
-    </form>
-    <div class="container-fluid text-center mt-5">
-        <div class="row px-5">
-            <template v-if="this.filteredApartments.length > 0">
-                <ApartmentItem v-for="apartment in filteredApartments" :key="apartment.id" :apartment="apartment" />
-            </template>
-            <template v-else>
-                <p>{{ message }}</p>
-            </template>
+        <Categories></Categories>
+        <form @submit.prevent="searchApartments()">
+            <!-- Modal -->
+            <div class="modal" :class="{ 'is-active': showModal }">
+                <div class="modal-background" @click="toggleModal"></div>
+                <div class="modal-content container rounded-4">
+                    <div class="container mt-2">
+                        <div class="fs-5 mb-3 fw-medium">Ricerca avanzata</div>
+                        <div class="number-filters d-flex gap-3 mb-3">
+                            <div class="mb-3 w-50">
+                                <label for="rooms" class="form-label">Camere</label>
+                                <input type="number" id="rooms" class="form-control" v-model="roomsNumber" min="1"
+                                    max="5" />
+                            </div>
+                            <div class="mb-3 w-50">
+                                <label for="bedrooms" class="form-label">Posti letto</label>
+                                <input type="number" id="bedrooms" class="form-control" v-model="bedsNumber" min="1"
+                                    max="5" />
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-center "></div>
+                        <label class="form-label">Servizi</label>
+                        <div class="d-flex gap-2 row mb-5">
+                            <div v-for="service in services" :key="service.id" class="col-4">
+                                <input type="checkbox" :id="service.id" class="my-checkbox checkbox"
+                                    v-model="selectedServices" :value="service.id">
+                                <label :for="service.id" class="form-label user-select-none ms-2">{{ service.title
+                                    }}</label>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary border-0 my-red-btn mb-3"
+                            @click="toggleModal">Applica
+                            filtri</button>
+                    </div>
+                </div>
+                <button class="modal-close is-large" @click="toggleModal" aria-label="close"></button>
+            </div>
+        </form>
+
+        <div class="container-fluid text-center mt-5">
+            <div class="row px-5">
+                <template v-if="this.filteredApartments.length > 0">
+                    <ApartmentItem v-for="apartment in filteredApartments" :key="apartment.id" :apartment="apartment" />
+                </template>
+                <template v-else>
+                    <p>{{ message }}</p>
+                </template>
+            </div>
         </div>
+
+        <nav class="button-nav d-flex justify-content-center mb-5">
+            <vue-awesome-paginate :total-items="total_items" :items-per-page="per_page" :max-pages-shown="last_page"
+                v-model="currentPage" :on-click="changeApiPage" active-page-class="active-page"
+                paginate-buttons-class="paginate-buttons" />
+        </nav>
     </div>
-
-    <nav class="button-nav d-flex justify-content-center mb-5">
-        <vue-awesome-paginate :total-items="total_items" :items-per-page="per_page" :max-pages-shown="last_page"
-            v-model="currentPage" :on-click="changeApiPage" active-page-class="active-page"
-            paginate-buttons-class="paginate-buttons" />
-    </nav>
 </template>
 
 
 <style lang="scss">
 .my_mini_jumbo {
     height: 60vh;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1050;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal.is-active {
+    display: block;
+}
+
+.modal-content {
+    position: relative;
+    margin: auto;
+    padding: 20px;
+    background: white;
+    border-radius: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.modal-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
 }
 
 .button-nav {
@@ -270,6 +326,22 @@ export default {
 
     .active-page:hover {
         background-color: black;
+    }
+}
+
+.my-red-btn {
+    background-color: #ff385c;
+
+    &:hover {
+        background-color: #de1361 !important;
+    }
+}
+
+.my-black-btn {
+    background-color: #222 !important;
+
+    &:hover {
+        background-color: black !important;
     }
 }
 

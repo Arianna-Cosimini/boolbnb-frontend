@@ -60,10 +60,21 @@ export default {
                     rooms: this.store.rooms,
                     bathrooms: this.store.bathrooms
                 });
-                
+                this.fetchApartments(); // Call the fetch method
             }
         },
-        
+        fetchApartments() {
+            const { address, lat, lon, rooms, bathrooms } = this.store;
+            const url = `${this.store.baseApiApartments}?address=${address}&lat=${lat}&lon=${lon}&rooms=${rooms}&bathrooms=${bathrooms}`;
+
+            axios.get(url)
+                .then(response => {
+                    this.apartments = response.data.results;
+                })
+                .catch(error => {
+                    console.error('Error fetching apartments:', error);
+                });
+        }
     }
 }
 </script>
@@ -73,7 +84,7 @@ export default {
         <div class="container">
             <div class="row">
                 <div id="first-section" class="position-relative mb-3 mt-3">
-                    <form @submit.prevent="sendAddress" class="d-flex align-items-center gap-3 mt-3">
+                    <form @submit.prevent="sendAddress" class="d-flex align-items-center gap-3 mt-0">
                         <div
                             class="my-research bg-white rounded-5 ps-5 pe-2 py-2 shadow-lg d-flex flex-grow-1 justify-content-between align-items-center gap-5">
                             <div class="position-relative flex-grow-1" @click.stop>
@@ -90,11 +101,6 @@ export default {
                                 class="my-search-btn btn btn-danger rounded-circle">
                                 <i class="fas fa-search"></i>
                             </router-link>
-                        </div>
-                        <div class="btn-container" v-if="$route.name !== 'home'">
-                            <button type="button" class="my-black-btn btn" data-bs-toggle="modal"
-                                data-bs-target="advanced-filters"><i class="fa-solid fa-sliders me-2"></i>Ricerca
-                                avanzata</button>
                         </div>
                     </form>
                 </div>
