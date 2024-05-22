@@ -193,8 +193,8 @@ export default {
 
 
         <label class="form-label">Servizi</label>
-        <div class="d-flex gap-5">
-            <div v-for="service in services" :key="service.id">
+        <div class="d-flex gap-2 row">
+            <div v-for="service in services" :key="service.id" class="col-4">
                 <input type="checkbox" :id="service.id" class="my-checkbox checkbox" v-model="selectedServices"
                     :value="service.id">
                 <label :for="service.id" class="form-label user-select-none ms-2">{{ service.title }}</label>
