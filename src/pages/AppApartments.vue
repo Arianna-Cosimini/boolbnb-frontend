@@ -195,7 +195,7 @@ computed: {
         </select>
     </div>
     <div class="mb-3">
-        <label for="bedrooms" class="form-label">Nº Bagni</label>
+        <label for="bedrooms" class="form-label">Nº Posti letto</label>
         <select class="form-select cursor_pointer" aria-label="Default select example" v-model="bedsNumber">                                               
             <option selected value="0">Scegli un numero minimo di posti letto</option>
             <option value="1">1</option>
