@@ -26,8 +26,10 @@ export default {
             lat: '',
             lon: '',
             activeAuto: false,
-            lastPage: '',
-            totalItems: 0,
+            currentPage: 1,
+            per_page: 1,
+            last_page: 1,
+            total_items:1,
             addressFromSearch: '',
             userAddress: '',
             services: [],
@@ -73,40 +75,46 @@ export default {
                 });
         },
 
-        apiCall(pageNumber = 1, apartments = []) {
+        apiCall() {
             const url = `${this.store.baseApiHome}apartments`;
             axios.get(url, {
                 params: {
-                    page: pageNumber
+                    page: this.apiPageNumber
                 }
             }).then(res => {
-                apartments = apartments.concat(res.data.results.data);
-                const services = res.data.services;
+                // apartments = apartments.concat(res.data.results.data);
+                // const services = res.data.services;
 
-                if (pageNumber < res.data.results.last_page) {
-                    this.apiCall(pageNumber + 1, apartments);
-                } else {
-                    this.apartments = apartments;
-                    this.services = services;
-                    this.totalApartment = apartments.length;
-                    this.totalProject = res.data.results.total;
-                    this.itemPage = res.data.results.per_page;
-                    this.lastPage = res.data.results.last_page;
-                }
+                // if (pageNumber < res.data.results.last_page) {
+                //     this.apiCall(pageNumber + 1, apartments);
+                // } else {
+                //     this.apartments = apartments;
+                //     this.services = services;
+                //     this.totalApartment = res.data.results.total;
+                //     this.itemPage = res.data.results.per_page;
+                //     this.lastPage = res.data.results.last_page;
+                // }
+                    this.apartments = res.data.results.data;
+                    this.services = res.data.services;
+                    this.apiLinks = res.data.results.links;
+                    this.total_items = res.data.results.total;
+                    this.per_page = res.data.results.per_page;
+                    this.last_page = res.data.results.last_page;
             });
 
 
         },
         changeApiPage(pageNumber) {
-            if (pageNumber == "&laquo; Previous" && this.apiPageNumber > 1) {
-                this.apiPageNumber--;
-            } else if (pageNumber == "Next &raquo;" && this.apiPageNumber < this.lastPage) {
-                this.apiPageNumber++;
+            if (pageNumber == "&laquo; Previous" && this.currentPage > 1) {
+                this.currentPage--;
+            } else if (pageNumber == "Next &raquo;" && this.currentPage < this.last_page) {
+                this.currentPage++;
             }
 
-            if (!isNaN(pageNumber)) {
-                this.apiPageNumber = pageNumber;
-            }
+            // if (!isNaN(pageNumber)) {
+            //     this.apiPageNumber = pageNumber;
+            // }
+            this.apiPageNumber = this.currentPage;
 
             this.apiCall();
         },
@@ -161,8 +169,8 @@ export default {
     </div>
 
     <nav class="button-nav d-flex justify-content-center mb-5">
-        <vue-awesome-paginate :total-items="totalApartment" :items-per-page="itemPage" :max-pages-shown="lastPage"
-            v-model="apiPageNumber" :on-click="changeApiPage" active-page-class="active-page"
+        <vue-awesome-paginate :total-items="total_items" :items-per-page="per_page" :max-pages-shown="last_page"
+            v-model="currentPage" :on-click="changeApiPage" active-page-class="active-page"
             paginate-buttons-class="paginate-buttons" />
     </nav>
 </template>
