@@ -36,8 +36,10 @@ export default {
             userAddress: '',
             services: [],
             selectedServices: [],
-            roomsNumber: 1,
-            bedsNumber: 1,
+            formFilter:{
+                roomsNumber: 1,
+                bedsNumber: 1,
+            }
         }
     },
     mounted() {
@@ -124,9 +126,16 @@ export default {
             this.apiCall();
         },
 
+        searchApartments() {
+            console.log(this.formFilter)
+            axios.get('http://127.0.0.1:8000/api/filter' ,this.formFilter).then(res => {
+                console.log(res);
+            })
+        }
+
     },
     computed: {
-        filteredApartments() {
+       /*  filteredApartments() {
             if (!this.apartments || this.apartments.length === 0) {
                 return [];
             }
@@ -140,12 +149,12 @@ export default {
                     matchesAddress = apartment.address.includes(this.store.address);
                 }
 
-                if (this.roomsNumber > 0) {
-                    matchesRooms = apartment.room_number >= this.roomsNumber;
+                if (this.formFilter.roomsNumber > 0) {
+                    matchesRooms = apartment.room_number >= this.formFilter.roomsNumber;
                 }
 
-                if (this.bedsNumber > 0) {
-                    matchesBeds = apartment.bed_number >= this.bedsNumber;
+                if (this.formFilter.bedsNumber > 0) {
+                    matchesBeds = apartment.bed_number >= this.formFilter.bedsNumber;
                 }
 
                 console.log(`Apartment: ${apartment.id}, Address: ${matchesAddress}, Rooms: ${matchesRooms}, Baths: ${matchesBeds}`);
@@ -169,7 +178,7 @@ export default {
                 ))
 
 
-        }
+        } */
     }
 
 }
@@ -179,37 +188,39 @@ export default {
 <template>
     <AppHeader></AppHeader>
     <Categories></Categories>
-    <div class="container mt-5">
-        <div class="number-filters d-flex gap-3 mb-3">
-            <div class="mb-3 w-50">
-                <label for="rooms" class="form-label">Camere</label>
-                <input type="number" id="rooms" class="form-control" v-model="roomsNumber" min="1" max="5" />
+    <form @submit.prevent="searchApartments()">
+
+        <div class="container mt-5">
+            <div class="number-filters d-flex gap-3 mb-3">
+                <div class="mb-3 w-50">
+                    <label for="rooms" class="form-label">Camere</label>
+                    <input type="number" id="rooms" class="form-control" v-model="formFilter.roomsNumber"  min="1" max="5" />
+                </div>
+                <div class="mb-3 w-50">
+                    <label for="bedrooms" class="form-label">Posti letto</label>
+                    <input type="number" id="bedrooms" class="form-control" v-model="formFilter.bedsNumber"  min="1" max="5" />
+                </div>
             </div>
-            <div class="mb-3 w-50">
-                <label for="bedrooms" class="form-label">Posti letto</label>
-                <input type="number" id="bedrooms" class="form-control" v-model="bedsNumber" min="1" max="5" />
-            </div>
+
+            <!-- <label class="form-label">Servizi</label>
+            <div class="d-flex gap-5">
+                <div v-for="service in services" :key="service.id">
+                    <input type="checkbox" :id="service.id" class="my-checkbox checkbox" v-model="selectedServices"
+                        :value="service.id">
+                    <label :for="service.id" class="form-label user-select-none ms-2">{{ service.title }}</label>
+                </div>
+            </div> -->
+            <button type="submit" class="btn btn-primary">Submit</button>
         </div>
-
-
-        <label class="form-label">Servizi</label>
-        <div class="d-flex gap-5">
-            <div v-for="service in services" :key="service.id">
-                <input type="checkbox" :id="service.id" class="my-checkbox checkbox" v-model="selectedServices"
-                    :value="service.id">
-                <label :for="service.id" class="form-label user-select-none ms-2">{{ service.title }}</label>
-            </div>
-        </div>
-    </div>
-
+    </form>
     <div class="container-fluid text-center mt-5">
         <div class="row px-5">
-            <template v-if="filteredApartments.length > 0">
+            <template >
                 <ApartmentItem v-for="apartment in filteredApartments" :key="apartment.id" :apartment="apartment" />
             </template>
-            <template v-else>
+            <!-- <template v-else>
                 <p>{{ message }}</p>
-            </template>
+            </template> -->
         </div>
     </div>
 
