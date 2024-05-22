@@ -134,7 +134,7 @@ export default {
 
     },
     computed: {
- filteredApartments() {
+        filteredApartments() {
             if (!this.apartments || this.apartments.length === 0) {
                 return [];
             }
@@ -178,7 +178,7 @@ export default {
 
             return this.apartments.filter(apartment => apartment.address.includes(this.store.address));
 
-        } 
+        }
     }
 
 }
@@ -194,24 +194,23 @@ export default {
             <div class="number-filters d-flex gap-3 mb-3">
                 <div class="mb-3 w-50">
                     <label for="rooms" class="form-label">Camere</label>
-                    <input type="number" id="rooms" class="form-control" v-model="roomsNumber"  min="1" max="5" />
+                    <input type="number" id="rooms" class="form-control" v-model="roomsNumber" min="1" max="5" />
                 </div>
                 <div class="mb-3 w-50">
                     <label for="bedrooms" class="form-label">Posti letto</label>
-                    <input type="number" id="bedrooms" class="form-control" v-model="bedsNumber"  min="1" max="5" />
+                    <input type="number" id="bedrooms" class="form-control" v-model="bedsNumber" min="1" max="5" />
                 </div>
             </div>
 
-            <!-- <label class="form-label">Servizi</label>
-            <div class="d-flex gap-5">
-                <div v-for="service in services" :key="service.id">
+
+            <label class="form-label">Servizi</label>
+            <div class="d-flex gap-2 row">
+                <div v-for="service in services" :key="service.id" class="col-4">
                     <input type="checkbox" :id="service.id" class="my-checkbox checkbox" v-model="selectedServices"
                         :value="service.id">
                     <label :for="service.id" class="form-label user-select-none ms-2">{{ service.title }}</label>
                 </div>
-            </div> -->
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </div>
+            </div>
     </form>
     <div class="container-fluid text-center mt-5">
         <div class="row px-5">
