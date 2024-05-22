@@ -88,7 +88,6 @@ export default {
                         <div
                             class="my-research bg-white rounded-5 ps-5 pe-2 py-2 shadow-lg d-flex flex-grow-1 justify-content-between align-items-center gap-5">
                             <div class="position-relative flex-grow-1" @click.stop>
-                                <!-- <label for="exampleFormControlInput1" class="form-label">Dove</label> -->
                                 <input type="search" class="form-control custom-focus border-0 radius"
                                     v-model="store.address" name="address" @click="store.addressListVisible = true"
                                     @input="controlModal()" id="exampleFormControlInput1"
@@ -102,13 +101,8 @@ export default {
                                 class="my-search-btn btn btn-danger rounded-circle">
                                 <i class="fas fa-search"></i>
                             </router-link>
-                            <!-- <div v-if="store.addressListVisible">
-                                <div v-if="autocomplete && autocomplete.length === 0">
-                                    Nessun risultato
-                                </div>
-                            </div> -->
                         </div>
-                        <div class="btn-container">
+                        <div class="btn-container" v-if="$route.name !== 'home'">
                             <button type="button" class="my-black-btn btn" data-bs-toggle="modal"
                                 data-bs-target="advanced-filters"><i class="fa-solid fa-sliders me-2"></i>Ricerca
                                 avanzata</button>
