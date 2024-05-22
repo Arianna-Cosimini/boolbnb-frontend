@@ -211,6 +211,7 @@ export default {
                     <label :for="service.id" class="form-label user-select-none ms-2">{{ service.title }}</label>
                 </div>
             </div>
+        </div>
     </form>
     <div class="container-fluid text-center mt-5">
         <div class="row px-5">
