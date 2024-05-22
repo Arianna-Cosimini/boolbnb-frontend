@@ -17,6 +17,7 @@ export default {
             store,
             apartment: {},
             apartments: [],
+            filteredApartments: [],
             apiLinks: [],
             apiPageNumber: 1,
             message: 'Non ci sono appartamenti da visualizzare',
@@ -38,151 +39,95 @@ export default {
         }
     },
     mounted() {
-        this.apiCall();
-        console.log('tutti gli appartamenti: ', this.apartments);
+        this.getApartments();
+        console.log('Tutti gli appartamenti: ', this.apartments);
     },
     methods: {
-
         toggleModal() {
             this.showModal = !this.showModal;
         },
 
-        getApiApartments() {
-            const url = `${this.store.baseApiApartments}?range=${this.store.range}&lat=${this.store.lat}&lon=${this.store.lon}`;
+        getApartments() {
+            // Assicurarsi che lat e lon abbiano valori
+            const lat = this.store.lat || 44.4949; // Usare latitudine di default
+            const lon = this.store.lon || 11.3426; // Usare longitudine di default
 
+            const url = `${this.store.baseApiApartments}`;
             axios.get(url, {
                 params: {
-                    'page': pageNumber,
-                    'fullAddress': address // Include full address for street-level filtering
-                }
-            })
-                .then((response) => {
-                    if (response.data.success) {
-                        this.apartments = response.data.apartments.data;
-                        console.log('Ricevuto dati con successo:', this.apartments);
-                    } else {
-                        console.error('Error in API response:', response.data);
-                        this.message;
-                    }
-                })
-                .catch((error) => {
-                    console.error('Error during API call:', error);
-
-                });
-        },
-
-        apiCall() {
-            const url = `${this.store.baseApiHome}apartments`;
-            axios.get(url, {
-                params: {
-                    page: this.apiPageNumber
+                    range: 20,
+                    lat: lat,
+                    lon: lon,
                 }
             }).then(res => {
-                // apartments = apartments.concat(res.data.results.data);
-                // const services = res.data.services;
-
-                // if (pageNumber < res.data.results.last_page) {
-                //     this.apiCall(pageNumber + 1, apartments);
-                // } else {
-                //     this.apartments = apartments;
-                //     this.services = services;
-                //     this.totalApartment = res.data.results.total;
-                //     this.itemPage = res.data.results.per_page;
-                //     this.lastPage = res.data.results.last_page;
-                // }
                 this.apartments = res.data.results.data;
-                this.services = res.data.services;
-                this.apiLinks = res.data.results.links;
                 this.total_items = res.data.results.total;
                 this.per_page = res.data.results.per_page;
                 this.last_page = res.data.results.last_page;
+
+                // Dopo aver ottenuto gli appartamenti entro il raggio, applica ulteriori filtri locali
+                this.filterApartmentsByRoomsAndBeds();
+            }).catch((error) => {
+                console.error('Errore durante la ricerca degli appartamenti:', error);
+                this.message = 'Errore durante la ricerca degli appartamenti.';
             });
-
-
         },
+
+        filterApartmentsByRoomsAndBeds() {
+            const url = `http://127.0.0.1:8000/api/filter`;
+            axios.get(url, {
+                params: {
+                    bed_number: this.bedsNumber,
+                    room_number: this.roomsNumber
+                }
+            }).then(res => {
+                const filteredByRoomsAndBeds = res.data.results;
+
+                // Filtra ulteriormente gli appartamenti ottenuti dall'API precedente per numero di stanze e letti
+                this.filteredApartments = this.apartments.filter(apartment =>
+                    filteredByRoomsAndBeds.some(filteredApartment => filteredApartment.id === apartment.id)
+                );
+            }).catch((error) => {
+                console.error('Errore durante il filtraggio degli appartamenti:', error);
+                this.message = 'Errore durante il filtraggio degli appartamenti.';
+            });
+        },
+
         changeApiPage(pageNumber) {
-            if (pageNumber == "&laquo; Previous" && this.currentPage > 1) {
+            if (pageNumber === "&laquo; Previous" && this.currentPage > 1) {
                 this.currentPage--;
-            } else if (pageNumber == "Next &raquo;" && this.currentPage < this.last_page) {
+            } else if (pageNumber === "Next &raquo;" && this.currentPage < this.last_page) {
                 this.currentPage++;
             }
 
-            // if (!isNaN(pageNumber)) {
-            //     this.apiPageNumber = pageNumber;
-            // }
             this.apiPageNumber = this.currentPage;
-
-            this.apiCall();
+            this.getApartments();
         },
-
-        searchApartments() {
-            console.log(this.formFilter)
-            axios.get(`http://127.0.0.1:8000/api/filter?bed_number=${this.bedsNumber}&room_number=${this.roomsNumber}`).then(res => {
-                console.log(res.data.results);
-                return this.apartments = res.data.results;
-            })
-        }
-
     },
+
     computed: {
-        filteredApartments() {
-            if (!this.apartments || this.apartments.length === 0) {
-                console.log('No apartment data available.');
+        finalFilteredApartments() {
+            if (!this.filteredApartments || this.filteredApartments.length === 0) {
+                console.log('Nessun dato sugli appartamenti disponibile.');
                 return [];
             }
 
-            // let filteredApartments = this.apartments.filter(apartment => {
-            //     let matchesAddress = true;
-            //     let matchesRooms = true;
-            //     let matchesBeds = true;
+            let finalFilteredApartments = this.filteredApartments;
 
-            //     if (this.store && this.store.address) {
-            //         matchesAddress = apartment.address.includes(this.store.address);
-            //     }
-
-            //     if (this.formFilter.roomsNumber > 0) {
-            //         matchesRooms = apartment.room_number >= this.formFilter.roomsNumber;
-            //     }
-
-            //     if (this.formFilter.bedsNumber > 0) {
-            //         matchesBeds = apartment.bed_number >= this.formFilter.bedsNumber;
-            //     }
-
-            //     console.log(`Apartment: ${apartment.id}, Address: ${matchesAddress}, Rooms: ${matchesRooms}, Baths: ${matchesBeds}`);
-            //     return matchesAddress && matchesRooms && matchesBeds;
-            // });
-
-            // console.log('Filtered apartments:', filteredApartments);
-            // return filteredApartments;
-
-            // Check if any services are selected
-            if (this.selectedServices.length === 0) {
-                // No services selected, filter by address only
-                return this.apartments.filter(apartment => apartment.address.includes(this.store.address));
+            if (this.selectedServices.length > 0) {
+                finalFilteredApartments = finalFilteredApartments.filter(apartment =>
+                    apartment.services.some(apartmentService =>
+                        this.selectedServices.includes(apartmentService.id)
+                    )
+                );
             }
 
-            // // All selected services must be present in the apartment's services
-            // return this.apartments.filter(apartment =>
-            //     apartment.address.includes(this.store.address) && // Filter by address first
-            //     apartment.services.some(apartmentService =>
-            //         this.selectedServices.includes(apartmentService.id) // Adjust property name based on your data
-            //     ))
-            let filteredApartments = this.apartments;
-
-            return filteredApartments.filter(apartment => apartment.address.includes(this.store.address) && // Filter by address first
-                apartment.services.some(apartmentService =>
-                    this.selectedServices.includes(apartmentService.id) // Adjust property name based on your data
-                ));
-
-
-
-
+            return finalFilteredApartments;
         }
-    }
-
+    },
 }
-
 </script>
+
 
 <template>
     <div>
@@ -196,7 +141,7 @@ export default {
         </div>
 
         <Categories></Categories>
-        <form @submit.prevent="searchApartments()">
+        <form @submit.prevent="filterApartmentsByRoomsAndBeds()">
             <!-- Modal -->
             <div class="modal" :class="{ 'is-active': showModal }">
                 <div class="modal-background" @click="toggleModal"></div>
