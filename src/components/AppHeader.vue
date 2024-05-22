@@ -84,9 +84,9 @@ export default {
         <div class="container">
             <div class="row">
                 <div id="first-section" class="position-relative mb-3 mt-3">
-                    <form @submit.prevent="sendAddress">
+                    <form @submit.prevent="sendAddress" class="d-flex align-items-center gap-3 mt-3">
                         <div
-                            class="my-research bg-white rounded-5 mt-3 ps-5 pe-2 py-2 shadow-lg d-flex justify-content-between align-items-center gap-5">
+                            class="my-research bg-white rounded-5 ps-5 pe-2 py-2 shadow-lg d-flex flex-grow-1 justify-content-between align-items-center gap-5">
                             <div class="position-relative flex-grow-1" @click.stop>
                                 <!-- <label for="exampleFormControlInput1" class="form-label">Dove</label> -->
                                 <input type="search" class="form-control custom-focus border-0 radius"
@@ -103,10 +103,15 @@ export default {
                                 <i class="fas fa-search"></i>
                             </router-link>
                             <!-- <div v-if="store.addressListVisible">
-                                    <div v-if="autocomplete && autocomplete.length === 0">
-                                        Nessun risultato
-                                    </div>
-                                </div> -->
+                                <div v-if="autocomplete && autocomplete.length === 0">
+                                    Nessun risultato
+                                </div>
+                            </div> -->
+                        </div>
+                        <div class="btn-container">
+                            <button type="button" class="my-black-btn btn" data-bs-toggle="modal"
+                                data-bs-target="advanced-filters"><i class="fa-solid fa-sliders me-2"></i>Ricerca
+                                avanzata</button>
                         </div>
                     </form>
                 </div>
@@ -179,6 +184,11 @@ export default {
     &:hover {
         background-color: #DE1361 !important;
     }
+}
+
+.my-black-btn {
+    background-color: black;
+    color: white;
 }
 
 
