@@ -26,7 +26,7 @@ export default {
     },
 
     mounted() {
-        console.log('Apartment data:', this.apartment);
+    // console.log('Apartment data:', this.apartment);
     },
 
 
@@ -76,6 +76,7 @@ export default {
     cursor: pointer;
 
     .my_img_size {
+        width: 100%;
         aspect-ratio: 1;
         object-fit: cover;
 
