@@ -161,19 +161,20 @@ export default {
             //     apartment.services.some(apartmentService =>
             //         this.selectedServices.includes(apartmentService.id) // Adjust property name based on your data
             //     ))
+            let filteredApartments = this.apartments;
+            
+            return filteredApartments.filter(apartment => apartment.address.includes(this.store.address));
 
-            return this.apartments.filter(apartment => apartment.address.includes(this.store.address));
+           
+
 
         }
     }
 
 }
 
-            let filteredApartments = this.apartments;
-            return filteredApartments;
-        },
-    },
-};
+           
+
 
 
 </script>
@@ -194,7 +195,10 @@ export default {
                     <input type="number" id="bedrooms" class="form-control" v-model="bedsNumber" min="1" max="5" />
                 </div>
             </div>
+            <div class="d-flex justify-content-center ">
 
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
 
             <label class="form-label">Servizi</label>
             <div class="d-flex gap-2 row">
@@ -205,6 +209,7 @@ export default {
                 </div>
             </div>
         </div>
+
     </form>
     <div class="container-fluid text-center mt-5">
         <div class="row px-5">
