@@ -150,10 +150,10 @@ export default {
             // return filteredApartments;
 
             // Check if any services are selected
-            // if (this.selectedServices.length === 0) {
-            //     // No services selected, filter by address only
-            //     return this.apartments.filter(apartment => apartment.address.includes(this.store.address));
-            // }
+            if (this.selectedServices.length === 0) {
+                // No services selected, filter by address only
+                return this.apartments.filter(apartment => apartment.address.includes(this.store.address));
+            }
 
             // // All selected services must be present in the apartment's services
             // return this.apartments.filter(apartment =>
@@ -163,7 +163,10 @@ export default {
             //     ))
             let filteredApartments = this.apartments;
             
-            return filteredApartments.filter(apartment => apartment.address.includes(this.store.address));
+            return filteredApartments.filter(apartment => apartment.address.includes(this.store.address) && // Filter by address first
+                apartment.services.some(apartmentService =>
+                    this.selectedServices.includes(apartmentService.id) // Adjust property name based on your data
+                ));
 
            
 
