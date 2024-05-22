@@ -36,10 +36,8 @@ export default {
             userAddress: '',
             services: [],
             selectedServices: [],
-            formFilter:{
-                roomsNumber: 1,
-                bedsNumber: 1,
-            }
+            roomsNumber: 1,
+            bedsNumber: 1,
         }
     },
     mounted() {
@@ -128,57 +126,59 @@ export default {
 
         searchApartments() {
             console.log(this.formFilter)
-            axios.get('http://127.0.0.1:8000/api/filter' ,this.formFilter).then(res => {
-                console.log(res);
+            axios.get(`http://127.0.0.1:8000/api/filter?bed_number=${this.bedsNumber}&room_number=${this.roomsNumber}`).then(res => {
+                console.log(res.data.results);
+                return this.apartments = res.data.results;
             })
         }
 
     },
     computed: {
-       /*  filteredApartments() {
+ filteredApartments() {
             if (!this.apartments || this.apartments.length === 0) {
                 return [];
             }
 
-            let filteredApartments = this.apartments.filter(apartment => {
-                let matchesAddress = true;
-                let matchesRooms = true;
-                let matchesBeds = true;
+            // let filteredApartments = this.apartments.filter(apartment => {
+            //     let matchesAddress = true;
+            //     let matchesRooms = true;
+            //     let matchesBeds = true;
 
-                if (this.store && this.store.address) {
-                    matchesAddress = apartment.address.includes(this.store.address);
-                }
+            //     if (this.store && this.store.address) {
+            //         matchesAddress = apartment.address.includes(this.store.address);
+            //     }
 
-                if (this.formFilter.roomsNumber > 0) {
-                    matchesRooms = apartment.room_number >= this.formFilter.roomsNumber;
-                }
+            //     if (this.formFilter.roomsNumber > 0) {
+            //         matchesRooms = apartment.room_number >= this.formFilter.roomsNumber;
+            //     }
 
-                if (this.formFilter.bedsNumber > 0) {
-                    matchesBeds = apartment.bed_number >= this.formFilter.bedsNumber;
-                }
+            //     if (this.formFilter.bedsNumber > 0) {
+            //         matchesBeds = apartment.bed_number >= this.formFilter.bedsNumber;
+            //     }
 
-                console.log(`Apartment: ${apartment.id}, Address: ${matchesAddress}, Rooms: ${matchesRooms}, Baths: ${matchesBeds}`);
-                return matchesAddress && matchesRooms && matchesBeds;
-            });
+            //     console.log(`Apartment: ${apartment.id}, Address: ${matchesAddress}, Rooms: ${matchesRooms}, Baths: ${matchesBeds}`);
+            //     return matchesAddress && matchesRooms && matchesBeds;
+            // });
 
-            console.log('Filtered apartments:', filteredApartments);
-            return filteredApartments;
+            // console.log('Filtered apartments:', filteredApartments);
+            // return filteredApartments;
 
             // Check if any services are selected
-            if (this.selectedServices.length === 0) {
-                // No services selected, filter by address only
-                return this.apartments.filter(apartment => apartment.address.includes(this.store.address));
-            }
+            // if (this.selectedServices.length === 0) {
+            //     // No services selected, filter by address only
+            //     return this.apartments.filter(apartment => apartment.address.includes(this.store.address));
+            // }
 
-            // All selected services must be present in the apartment's services
-            return this.apartments.filter(apartment =>
-                apartment.address.includes(this.store.address) && // Filter by address first
-                apartment.services.some(apartmentService =>
-                    this.selectedServices.includes(apartmentService.id) // Adjust property name based on your data
-                ))
+            // // All selected services must be present in the apartment's services
+            // return this.apartments.filter(apartment =>
+            //     apartment.address.includes(this.store.address) && // Filter by address first
+            //     apartment.services.some(apartmentService =>
+            //         this.selectedServices.includes(apartmentService.id) // Adjust property name based on your data
+            //     ))
 
+            return this.apartments.filter(apartment => apartment.address.includes(this.store.address));
 
-        } */
+        } 
     }
 
 }
@@ -194,11 +194,11 @@ export default {
             <div class="number-filters d-flex gap-3 mb-3">
                 <div class="mb-3 w-50">
                     <label for="rooms" class="form-label">Camere</label>
-                    <input type="number" id="rooms" class="form-control" v-model="formFilter.roomsNumber"  min="1" max="5" />
+                    <input type="number" id="rooms" class="form-control" v-model="roomsNumber"  min="1" max="5" />
                 </div>
                 <div class="mb-3 w-50">
                     <label for="bedrooms" class="form-label">Posti letto</label>
-                    <input type="number" id="bedrooms" class="form-control" v-model="formFilter.bedsNumber"  min="1" max="5" />
+                    <input type="number" id="bedrooms" class="form-control" v-model="bedsNumber"  min="1" max="5" />
                 </div>
             </div>
 
@@ -215,12 +215,12 @@ export default {
     </form>
     <div class="container-fluid text-center mt-5">
         <div class="row px-5">
-            <template >
+            <template v-if="this.filteredApartments.length > 0">
                 <ApartmentItem v-for="apartment in filteredApartments" :key="apartment.id" :apartment="apartment" />
             </template>
-            <!-- <template v-else>
+            <template v-else>
                 <p>{{ message }}</p>
-            </template> -->
+            </template>
         </div>
     </div>
 
