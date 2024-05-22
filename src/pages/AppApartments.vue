@@ -132,11 +132,7 @@ computed: {
             return [];
             }
 
-            // Check if any services are selected
-            if (this.selectedServices.length === 0) {
-            // No services selected, filter by address only
-            return this.apartments.filter(apartment => apartment.address.includes(this.store.address));
-            }
+           
 
             let filteredApartments = this.apartments.filter(apartment => {
                 let matchesAddress = true;
@@ -164,6 +160,12 @@ computed: {
             
             console.log('Filtered apartments:', filteredApartments);
             return filteredApartments;
+
+             // Check if any services are selected
+             if (this.selectedServices.length === 0) {
+            // No services selected, filter by address only
+            return this.apartments.filter(apartment => apartment.address.includes(this.store.address));
+            }
 
                         // All selected services must be present in the apartment's services
                         return this.apartments.filter(apartment =>

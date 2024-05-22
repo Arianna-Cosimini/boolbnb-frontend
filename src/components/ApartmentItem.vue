@@ -26,7 +26,7 @@ export default {
     },
 
     mounted() {
-        console.log('Apartment data:', this.apartment);
+    // console.log('Apartment data:', this.apartment);
     },
 
 
