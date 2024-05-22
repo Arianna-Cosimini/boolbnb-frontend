@@ -36,8 +36,8 @@ export default {
             userAddress: '',
             services: [],
             selectedServices: [],
-            roomsValue: 0,
-            bathsValue: 0,
+            roomsNumber: 0,
+            bedsNumber: 0,
         }
     },
     mounted() {
@@ -137,7 +137,7 @@ computed: {
             let filteredApartments = this.apartments.filter(apartment => {
                 let matchesAddress = true;
                 let matchesRooms = true;
-                let matchesBaths = true;
+                let matchesBeds = true;
             
             
                 if (this.store && this.store.address) {
@@ -145,17 +145,17 @@ computed: {
                 }
             
             
-                if (this.roomsValue > 0) {
-                    matchesRooms = apartment.room_number >= this.roomsValue;
+                if (this.roomsNumber > 0) {
+                    matchesRooms = apartment.room_number >= this.roomsNumber;
                 }
             
             
-                if (this.bathsValue > 0) {
-                    matchesBaths = apartment.bathroom_number >= this.bathsValue;
+                if (this.bedsNumber > 0) {
+                    matchesBeds = apartment.bed_number >= this.bedsNumber;
                 }
             
-                console.log(`Apartment: ${apartment.id}, Address: ${matchesAddress}, Rooms: ${matchesRooms}, Baths: ${matchesBaths}`);
-                return matchesAddress && matchesRooms && matchesBaths;
+                console.log(`Apartment: ${apartment.id}, Address: ${matchesAddress}, Rooms: ${matchesRooms}, Baths: ${matchesBeds}`);
+                return matchesAddress && matchesRooms && matchesBeds;
             });
             
             console.log('Filtered apartments:', filteredApartments);
@@ -184,25 +184,25 @@ computed: {
     <Categories></Categories>
     <div class="container">
     <div class="mb-3">
-        <label for="rooms" class="form-label">Camere</label>
-        <select class="form-select cursor_pointer" aria-label="Default select example" v-model="roomsValue">                                               
-            <option selected value="0">Scegli...</option>
+        <label for="rooms" class="form-label">Nº Stanze</label>
+        <select class="form-select cursor_pointer" aria-label="Default select example" v-model="roomsNumber">                                               
+            <option selected value="0">Scegli un numero minimo di stanze</option>
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
             <option value="4">4</option>
-            <option value="5">5</option>
+            <option value="5">5+</option>
         </select>
     </div>
     <div class="mb-3">
-        <label for="bathrooms" class="form-label">Bagni</label>
-        <select class="form-select cursor_pointer" aria-label="Default select example" v-model="bathsValue">                                               
-            <option selected value="0">Scegli...</option>
+        <label for="bedrooms" class="form-label">Nº Bagni</label>
+        <select class="form-select cursor_pointer" aria-label="Default select example" v-model="bedsNumber">                                               
+            <option selected value="0">Scegli un numero minimo di posti letto</option>
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
             <option value="4">4</option>
-            <option value="5">5</option>
+            <option value="5">5+</option>
         </select>
     </div>
 </div>
