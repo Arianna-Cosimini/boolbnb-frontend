@@ -61,9 +61,12 @@ export default {
                 }
             }).then(res => {
                 this.apartments = res.data.results.data;
+                this.services = res.data.services;
+                this.apiLinks = res.data.results.links;
                 this.total_items = res.data.results.total;
                 this.per_page = res.data.results.per_page;
                 this.last_page = res.data.results.last_page;
+
 
                 // Dopo aver ottenuto gli appartamenti entro il raggio, applica ulteriori filtri locali
                 this.filterApartmentsByRoomsAndBeds();
@@ -91,6 +94,31 @@ export default {
                 console.error('Errore durante il filtraggio degli appartamenti:', error);
                 this.message = 'Errore durante il filtraggio degli appartamenti.';
             });
+        },
+
+        filterApartmentsByServices() {
+            // Il codice per filtrare gli appartamenti in base ai servizi selezionati
+            // è lo stesso come mostrato in precedenza
+            if (this.selectedServices.length === 0) {
+                this.filteredApartments = this.apartments;
+                return;
+            }
+
+            this.filteredApartments = this.apartments.filter(apartment =>
+                apartment.services.some(apartmentService =>
+                    this.selectedServices.includes(apartmentService.id)
+                )
+            );
+        },
+
+        // Aggiungi questa funzione per gestire l'applicazione dei filtri quando viene cliccato il pulsante "Applica filtri"
+        applyFilters() {
+            // Chiama la funzione per filtrare gli appartamenti in base ai servizi selezionati
+            this.filterApartmentsByServices();
+            this.filterApartmentsByRoomsAndBeds();
+
+            // Chiudi il modal dopo aver applicato i filtri
+            this.showModal = false;
         },
 
         changeApiPage(pageNumber) {
@@ -141,7 +169,7 @@ export default {
         </div>
 
         <Categories></Categories>
-        <form @submit.prevent="filterApartmentsByRoomsAndBeds()">
+        <form @submit.prevent="applyFilters()">
             <!-- Modal -->
             <div class="modal" :class="{ 'is-active': showModal }">
                 <div class="modal-background" @click="toggleModal"></div>
