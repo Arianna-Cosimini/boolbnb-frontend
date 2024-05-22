@@ -42,29 +42,29 @@ export default {
     methods: {
 
 
-        getApiApartments(pageNumber = 1, apartments = []) {
+        getApiApartments(apartments = []) {
             const { address, lat, lon } = this.store;
             const url = `${this.store.baseApiApartments}?address=${address}&lat=${lat}&lon=${lon}`;
 
             axios.get(url, {
                 params: {
-                    'page': pageNumber,
+                    'page': this.apiPageNumber,
                     'fullAddress': address // Include full address for street-level filtering
                 }
             })
                 .then((response) => {
                     if (response.data.success) {
                         apartments = apartments.concat(response.data.apartments);
-                        if (pageNumber < response.data.last_page) {
-                            this.getApiApartments(pageNumber + 1, apartments);
-                        } else {
+                        // if (pageNumber < response.data.last_page) {
+                        //     this.getApiApartments(pageNumber + 1, apartments);
+                        // } else {
                             // Filtra gli appartamenti per distanza e indirizzo completo
                             this.apartments = apartments.filter(apartment => {
                                 return apartment.distance <= 20000 && // 20 km in meters
                                     apartment.address.includes(this.store.address); // Match full address
                             });
                             this.messageChecked = false;
-                        }
+                        // }
                     } else {
                         this.messageChecked = true;
                     }
