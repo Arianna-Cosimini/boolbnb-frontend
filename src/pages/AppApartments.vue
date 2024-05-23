@@ -178,35 +178,56 @@ export default {
         <div class="container d-flex align-items-center mt-3 gap-3">
             <AppHeader class="flex-grow-1"></AppHeader>
             <div class="btn-container" v-if="$route.name !== 'home'">
-                <button type="button" class="my-black-btn btn btn-primary border-0" @click="toggleModal">
-                    <i class="fa-solid fa-sliders me-2"></i>Ricerca avanzata
+                <button type="button" class="my-black-btn btn btn-primary border-0 py-2" @click="toggleModal">
+                    <i class="fa-solid fa-sliders me-2"></i>Filtri
                 </button>
             </div>
         </div>
+
+        <hr style="color: #c1c1c1;">
 
         <Categories></Categories>
         <form @submit.prevent="applyFilters()">
             <!-- Modal -->
             <div class="modal" :class="{ 'is-active': showModal }">
                 <div class="modal-background" @click="toggleModal"></div>
-                <div class="modal-content container rounded-4">
-                    <div class="container mt-2">
-                        <div class="fs-5 mb-3 fw-medium">Ricerca avanzata</div>
+                <div class="modal-content container rounded-4 p-0" style="max-width: 780px;">
+                    <div
+                        class="modal-header text-center d-flex justify-content-center align-items-center position-relative">
+                        <h6 class="fw-semibold mb-0">Filtri</h6>
+                        <button type="button" class="btn border-0 position-absolute" style="right: 12px;"
+                            @click="toggleModal"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+
+                    <div class="modal-body container mt-2 px-4 overflow-y-auto" style="max-height: 70vh;">
+
+                        <div class="mb-3 w-50">
+                            <label for="radius" class="form-label">Raggio di ricerca (km)</label>
+                            <input type="number" id="radius" class="form-control mb-4" v-model="range" min="1"
+                                max="50" />
+                        </div>
+
+                        <hr style="color: grey;" class="mb-3">
+
+                        <div class="fs-5 mb-3 fw-medium">Stanze e letti</div>
                         <div class="number-filters d-flex gap-3 mb-3">
                             <div class="mb-3 w-50">
-                                <label for="rooms" class="form-label">Camere</label>
+                                <label for="rooms" class="form-label">Camere da letto</label>
                                 <input type="number" id="rooms" class="form-control" v-model="roomsNumber" min="1"
                                     max="5" />
                             </div>
                             <div class="mb-3 w-50">
-                                <label for="bedrooms" class="form-label">Posti letto</label>
+                                <label for="bedrooms" class="form-label">Letti</label>
                                 <input type="number" id="bedrooms" class="form-control" v-model="bedsNumber" min="1"
                                     max="5" />
                             </div>
                         </div>
+
+                        <hr style="color: grey;" class="mb-3">
+
                         <div class="d-flex justify-content-center "></div>
-                        <label class="form-label">Servizi</label>
-                        <div class="d-flex gap-2 row mb-5">
+                        <label class="fs-5 mb-3 fw-medium">Servizi</label>
+                        <div class="d-flex gap-2 row mb-4">
                             <div v-for="service in services" :key="service.id" class="col-4">
                                 <input type="checkbox" :id="service.id" class="my-checkbox checkbox"
                                     v-model="selectedServices" :value="service.id">
@@ -216,16 +237,14 @@ export default {
                         </div>
 
 
-                        <!-- <div class="mb-3 w-50">
-                            <label for="radius" class="form-label">Raggio di ricerca (km)</label>
-                            <input type="number" id="radius" class="form-control" v-model="range" min="1" max="50" />
-                        </div> -->
 
+                    </div>
+                    <div class="modal-footer d-flex justify-content-between align-items-center">
+                        <button type="button" class="btn border-0 mb-2" @click="toggleModal">Cancella tutto</button>
 
-                        <button type="submit" class="btn btn-primary border-0 my-red-btn mb-3"
+                        <button type="submit" class="btn btn-primary border-0 my-red-btn mb-2"
                             @click="toggleModal">Applica
                             filtri</button>
-
                     </div>
                 </div>
                 <button class="modal-close is-large" @click="toggleModal" aria-label="close"></button>
@@ -241,7 +260,7 @@ export default {
 
         </div> -->
 
-        <div class="container-fluid text-center mt-5">
+        <div class="container-fluid text-center">
             <div class="row px-5">
                 <template v-if="this.filteredApartments.length > 0">
                     <ApartmentItem v-for="apartment in filteredApartments" :key="apartment.id" :apartment="apartment" />
@@ -337,15 +356,20 @@ export default {
 }
 
 .my-red-btn {
-    background-color: #ff385c;
+    background-color: #222;
 
     &:hover {
-        background-color: #de1361 !important;
+        background-color: black !important;
     }
 }
 
 .my-black-btn {
     background-color: #222 !important;
+    font-size: 12px;
+
+    .fa-sliders {
+        font-size: 14px;
+    }
 
     &:hover {
         background-color: black !important;
@@ -395,8 +419,8 @@ export default {
     outline: none;
 
     &:checked {
-        background-color: #ff385c;
-        border-color: #ff385c;
+        background-color: black;
+        border-color: black;
     }
 
     &:checked::after {
