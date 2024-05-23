@@ -165,6 +165,8 @@ export default {
             return finalFilteredApartments;
         }
     },
+
+    // Aggiunto un watcher su store.address per monitorare i cambiamenti all'indirizzo e aggiornare i risultati degli appartamenti 
     watch: {
         'store.address': function (newAddress, oldAddress) {
             if (newAddress !== oldAddress) {
