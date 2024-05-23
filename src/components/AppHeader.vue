@@ -53,12 +53,14 @@ export default {
                 const selectedPlace = this.autocomplete[0];
                 this.store.lat = selectedPlace.position.lat;
                 this.store.lon = selectedPlace.position.lon;
+                // console.log(this.sendAddress)
                 this.$emit('address-selected', {
                     address: this.store.address,
                     lat: this.store.lat,
                     lon: this.store.lon,
                     rooms: this.store.rooms,
                     bathrooms: this.store.bathrooms
+
                 });
                 
             }

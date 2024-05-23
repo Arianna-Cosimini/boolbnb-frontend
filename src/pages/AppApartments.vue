@@ -4,6 +4,7 @@ import axios from 'axios';
 import ApartmentItem from '../components/ApartmentItem.vue';
 import AppHeader from '../components/AppHeader.vue';
 import Categories from '../components/Categories.vue';
+import Map from '../components/Map.vue';
 
 export default {
     name: 'HomePage',
@@ -11,6 +12,7 @@ export default {
         ApartmentItem,
         AppHeader,
         Categories,
+        Map
     },
     data() {
         return {
@@ -38,42 +40,53 @@ export default {
             showModal: false,
         }
     },
-    mounted() {
-        this.getApartments();
-        console.log('Tutti gli appartamenti: ', this.apartments);
-    },
     methods: {
         toggleModal() {
             this.showModal = !this.showModal;
         },
 
+        updateThumbPosition() {
+            const range = document.getElementById('km');
+            if (range) {
+                const thumbWidth = getComputedStyle(range).getPropertyValue('--thumb-width');
+                const thumbPosition = `${((range.value - range.min) / (range.max - range.min)) * 100}%`;
+                this.thumbPosition = `calc(${thumbPosition} - ${thumbWidth} / 2)`;
+            }
+        },
+
         getApartments() {
-            // Assicurarsi che lat e lon abbiano valori
             const lat = this.store.lat || 44.4949; // Usare latitudine di default
             const lon = this.store.lon || 11.3426; // Usare longitudine di default
 
+            // Assicurati di avere definito il valore di `range`
+            const range = this.range || 20; // Usa il raggio di ricerca attuale o un valore di default
+
+            // Definisci la variabile params
+            const params = {
+                range: range,
+                lat: lat,
+                lon: lon,
+                page: this.apiPageNumber
+            };
+
+            console.log('Parametri della richiesta:', params); // Stampa i parametri della richiesta
+
             const url = `${this.store.baseApiApartments}`;
-            axios.get(url, {
-                params: {
-                    range: 20,
-                    lat: lat,
-                    lon: lon,
-                }
-            }).then(res => {
-                this.apartments = res.data.results.data;
-                this.services = res.data.services;
-                this.apiLinks = res.data.results.links;
-                this.total_items = res.data.results.total;
-                this.per_page = res.data.results.per_page;
-                this.last_page = res.data.results.last_page;
-
-
-                // Dopo aver ottenuto gli appartamenti entro il raggio, applica ulteriori filtri locali
-                this.filterApartmentsByRoomsAndBeds();
-            }).catch((error) => {
-                console.error('Errore durante la ricerca degli appartamenti:', error);
-                this.message = 'Errore durante la ricerca degli appartamenti.';
-            });
+            axios.get(url, { params })
+                .then(res => {
+                    this.apartments = res.data.results.data;
+                    this.services = res.data.services;
+                    this.apiLinks = res.data.results.links;
+                    this.total_items = res.data.results.total;
+                    this.per_page = res.data.results.per_page;
+                    this.last_page = res.data.results.last_page;
+                    console.log('Appartamenti ottenuti:', this.apartments);
+                    this.filterApartmentsByRoomsAndBeds();
+                })
+                .catch((error) => {
+                    console.error('Errore durante la ricerca degli appartamenti:', error);
+                    this.message = 'Errore durante la ricerca degli appartamenti.';
+                });
         },
 
         filterApartmentsByRoomsAndBeds() {
@@ -86,6 +99,7 @@ export default {
             }).then(res => {
                 const filteredByRoomsAndBeds = res.data.results;
 
+                console.log('Appartamenti filtrati per stanze e letti:', this.filteredApartments);
                 // Filtra ulteriormente gli appartamenti ottenuti dall'API precedente per numero di stanze e letti
                 this.filteredApartments = this.apartments.filter(apartment =>
                     filteredByRoomsAndBeds.some(filteredApartment => filteredApartment.id === apartment.id)
@@ -97,26 +111,29 @@ export default {
         },
 
         filterApartmentsByServices() {
-            // Il codice per filtrare gli appartamenti in base ai servizi selezionati
-            // è lo stesso come mostrato in precedenza
+            // Se non ci sono servizi selezionati, restituisci tutti gli appartamenti
             if (this.selectedServices.length === 0) {
                 this.filteredApartments = this.apartments;
                 return;
             }
 
-            this.filteredApartments = this.apartments.filter(apartment =>
-                apartment.services.some(apartmentService =>
-                    this.selectedServices.includes(apartmentService.id)
-                )
-            );
+            // Filtra gli appartamenti in base ai servizi selezionati
+            this.filteredApartments = this.apartments.filter(apartment => {
+                // Estrai gli ID dei servizi associati all'appartamento corrente
+                let aptServicesId = apartment.services.map(service => service.id);
+                // Controlla se tutti i servizi selezionati sono presenti negli servizi dell'appartamento
+                return this.selectedServices.every(selectedService => aptServicesId.includes(selectedService));
+            });
         },
+
+
+
+
 
         // Aggiungi questa funzione per gestire l'applicazione dei filtri quando viene cliccato il pulsante "Applica filtri"
         applyFilters() {
-            // Chiama la funzione per filtrare gli appartamenti in base ai servizi selezionati
-            this.filterApartmentsByServices();
-            this.filterApartmentsByRoomsAndBeds();
-
+            this.getApartments();
+            console.log('Applicazione dei filtri completata.');
             // Chiudi il modal dopo aver applicato i filtri
             this.showModal = false;
         },
@@ -142,16 +159,15 @@ export default {
 
             let finalFilteredApartments = this.filteredApartments;
 
-            if (this.selectedServices.length > 0) {
-                finalFilteredApartments = finalFilteredApartments.filter(apartment =>
-                    apartment.services.some(apartmentService =>
-                        this.selectedServices.includes(apartmentService.id)
-                    )
-                );
-            }
-
+            console.log(finalFilteredApartments)
             return finalFilteredApartments;
         }
+    },
+    mounted() {
+        this.getApartments();
+        console.log('Tutti gli appartamenti: ', this.apartments);
+        console.log('Tutti gli appartamenti: ', this.apartments);
+        console.log('Servizi disponibili: ', this.services);
     },
 }
 </script>
@@ -198,14 +214,32 @@ export default {
                                     }}</label>
                             </div>
                         </div>
+
+
+                        <!-- <div class="mb-3 w-50">
+                            <label for="radius" class="form-label">Raggio di ricerca (km)</label>
+                            <input type="number" id="radius" class="form-control" v-model="range" min="1" max="50" />
+                        </div> -->
+
+
                         <button type="submit" class="btn btn-primary border-0 my-red-btn mb-3"
                             @click="toggleModal">Applica
                             filtri</button>
+
                     </div>
                 </div>
                 <button class="modal-close is-large" @click="toggleModal" aria-label="close"></button>
             </div>
         </form>
+
+        <!-- mappa da inserire
+        <div class="mb-3 px-5">
+
+            <Map v-if="filteredApartments.length > 0" :lat="filteredApartments[0].latitude"
+                :long="filteredApartments[0].longitude" :apartments="filteredApartments" :apiKey="store.apiKey"
+                class="rounded" ref="Map"></Map>
+
+        </div> -->
 
         <div class="container-fluid text-center mt-5">
             <div class="row px-5">
