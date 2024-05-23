@@ -20,7 +20,7 @@ export default {
         Searchbar,
     },
     methods: {
-        getApiProjects() {
+        getApiAddress() {
             axios.get(`https://api.tomtom.com/search/2/search/${this.store.address}.json`, {
                 params: {
                     'key': 'RrNofIXHXhCLSto2sM1SEfvmA1AamCSs',
@@ -33,6 +33,7 @@ export default {
             })
                 .then(response => {
                     this.autocomplete = response.data.results;
+                    console.log(this.autocomplete);
                     if (this.autocomplete.length === 0) {
                         console.log('Nessun risultato');
                     }
@@ -44,17 +45,22 @@ export default {
                 this.activeAuto = false
             else {
                 if (this.store.address.length > 2)
-                    this.getApiProjects()
+                    this.getApiAddress()
                 this.activeAuto = true
             }
         },
         sendAddress() {
             if (this.autocomplete.length > 0) {
                 const selectedPlace = this.autocomplete[0];
-                this.store.lat = selectedPlace.position.lat;
-                this.store.lon = selectedPlace.position.lon;
+                this.store.address = selectedPlace.address.streetName;
+                this.store.postalCode = selectedPlace.address.postalCode;
+                this.store.localName = selectedPlace.address.localName;
+                this.store.lat = selectedPlace.address.position.lat;
+                this.store.lon = selectedPlace.address.position.lon;
                 this.$emit('address-selected', {
                     address: this.store.address,
+                    postalCode: this.store.postalCode,
+                    localName: this.store.localName,
                     lat: this.store.lat,
                     lon: this.store.lon,
                     rooms: this.store.rooms,

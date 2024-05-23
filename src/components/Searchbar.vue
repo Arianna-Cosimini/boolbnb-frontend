@@ -17,7 +17,6 @@ export default {
             this.store.lat = lat;
             this.store.lon = lon;
             this.store.addressListVisible = false;
-
         }
     }
 }
@@ -27,7 +26,7 @@ export default {
     <div>
         <ul v-if="itemsComplete.length > 1" class="list list-unstyled rounded-4 p-3">
             <!-- al click figlio  -->
-            <li class="p-3" v-for="search, index in itemsComplete"
+            <li class="p-3" v-for="search in itemsComplete"
                 @click="giveAddress(search.address.freeformAddress, search.position.lat, search.position.lon)">
                 <i class="fa-solid fa-location-dot me-3"></i>{{ search.address.freeformAddress }}
             </li>

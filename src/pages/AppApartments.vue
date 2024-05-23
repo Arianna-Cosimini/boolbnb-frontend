@@ -1,6 +1,7 @@
 <script>
-import { store } from '../store.js';
 import axios from 'axios';
+import { store } from '../store.js';
+// import { getApiApartments } from '../store.js';
 import ApartmentItem from '../components/ApartmentItem.vue';
 import AppHeader from '../components/AppHeader.vue';
 import Categories from '../components/Categories.vue';
@@ -37,63 +38,111 @@ export default {
         }
     },
     mounted() {
-        this.apiCall();
-        console.log('tutti gli appartamenti: ', this.apartments);
+        // this.apiCall();
+        // console.log('tutti gli appartamenti: ', this.apartments);
+        this.fetchApartments();
     },
     methods: {
-        getApiApartments() {
-            const url = `${this.store.baseApiApartments}?range=${this.store.range}&lat=${this.store.lat}&lon=${this.store.lon}`;
+        // getApiApartments() {
+        //     const url = `${this.store.baseApiApartments}?range=${this.store.range}&lat=${this.store.lat}&lon=${this.store.lon}`;
 
-            axios.get(url, {
-                params: {
-                    'page': pageNumber,
-                    'fullAddress': address // Include full address for street-level filtering
-                }
-            })
-                .then((response) => {
-                    if (response.data.success) {
-                        this.apartments = response.data.apartments.data;
-                        console.log('Ricevuto dati con successo:', this.apartments);
-                    } else {
-                        console.error('Error in API response:', response.data);
-                        this.message; 
-                    }
-                })
-                .catch((error) => {
-                    console.error('Error during API call:', error);
+            // axios.get(url, {
+            //     params: {
+            //         'page': pageNumber,
+            //         'fullAddress': address // Include full address for street-level filtering
+            //     }
+            // })
+        //         .then((response) => {
+        //             if (response.data.success) {
+        //                 this.apartments = response.data.apartments.data;
+        //                 console.log('Ricevuto dati con successo:', this.apartments);
+        //             } else {
+        //                 console.error('Error in API response:', response.data);
+        //                 this.message; 
+        //             }
+        //         })
+        //         .catch((error) => {
+        //             console.error('Error during API call:', error);
                     
-                });
-        },
+        //         });
+        // },
 
-        apiCall() {
-            const url = `${this.store.baseApiHome}apartments`;
-            axios.get(url, {
-                params: {
-                    page: this.apiPageNumber
+        // fetchApartments(addressData) {
+        //     const { lat, lon } = addressData;
+            
+        //     getApiApartments(baseApiApartments, range, lat, lon)
+        //     const url = `${baseApiApartments}?range=${range}&lat=${lat}&lon=${lon}`;
+        //     axios.get(url, {
+        //         params: {
+        //             'page': pageNumber,
+        //             'fullAddress': address // Include full address for street-level filtering
+        //         }
+        //     })
+        //         .then(response => {
+        //         // Handle the API response here
+        //             console.log(response.data.results);
+        //         })
+        //         .catch(error => {
+        //             console.error('Error fetching apartments:', error);
+        //         });
+        // },
+
+        fetchApartments() {
+                const baseApiApartments = 'http://localhost:8000/api/filter';
+
+                const address = this.store.address;
+                const postalCode = this.store.postalCode;
+                const localName = this.store.localName;
+                const lat = this.store.lat;
+                const lon = this.store.lon;
+                const rooms = this.roomsNumber;
+                const beds = this.bedsNumber;
+                let url = `${baseApiApartments}?address=${address}-${postalCode}-${localName}&latitude=${lat}&longitude=${lon}`;
+
+                if (rooms) {
+                    url += `&bed_number=${rooms}`;
                 }
-            }).then(res => {
-                // apartments = apartments.concat(res.data.results.data);
-                // const services = res.data.services;
+                if (beds) {
+                    url += `&room_number=${beds}`;
+                }
 
-                // if (pageNumber < res.data.results.last_page) {
-                //     this.apiCall(pageNumber + 1, apartments);
-                // } else {
-                //     this.apartments = apartments;
-                //     this.services = services;
-                //     this.totalApartment = res.data.results.total;
-                //     this.itemPage = res.data.results.per_page;
-                //     this.lastPage = res.data.results.last_page;
-                // }
-                this.apartments = res.data.results.data;
-                this.services = res.data.services;
-                this.apiLinks = res.data.results.links;
-                this.total_items = res.data.results.total;
-                this.per_page = res.data.results.per_page;
-                this.last_page = res.data.results.last_page;
-            });
+                axios.get(url)
+                    .then(response => {
+                        this.apartments = response.data;
+                    })
+                    .catch(error => {
+                        console.error('Error fetching apartments:', error);
+                    });
+            },
+        // apiCall() {
+        //     const url = `${this.store.baseApiHome}apartments`;
+        //     axios.get(url, {
+        //         params: {
+        //             page: this.apiPageNumber
+        //         }
+        //     }).then(res => {
+        //         // apartments = apartments.concat(res.data.results.data);
+        //         // const services = res.data.services;
+
+        //         // if (pageNumber < res.data.results.last_page) {
+        //         //     this.apiCall(pageNumber + 1, apartments);
+        //         // } else {
+        //         //     this.apartments = apartments;
+        //         //     this.services = services;
+        //         //     this.totalApartment = res.data.results.total;
+        //         //     this.itemPage = res.data.results.per_page;
+        //         //     this.lastPage = res.data.results.last_page;
+        //         // }
+        //         this.apartments = res.data.results.data;
+        //         this.services = res.data.services;
+        //         this.apiLinks = res.data.results.links;
+        //         this.total_items = res.data.results.total;
+        //         this.per_page = res.data.results.per_page;
+        //         this.last_page = res.data.results.last_page;
+        //     });
 
 
-        },
+        // },
         changeApiPage(pageNumber) {
             if (pageNumber == "&laquo; Previous" && this.currentPage > 1) {
                 this.currentPage--;
@@ -109,70 +158,74 @@ export default {
             this.apiCall();
         },
 
-        searchApartments() {
-            console.log(this.formFilter)
-            axios.get(`http://127.0.0.1:8000/api/filter?bed_number=${this.bedsNumber}&room_number=${this.roomsNumber}`).then(res => {
-                console.log(res.data.results);
-                return this.apartments = res.data.results;
-            })
-        }
+        // searchApartments() {
+        //     axios.get(`http://127.0.0.1:8000/api/filter?bed_number=${this.bedsNumber}&room_number=${this.roomsNumber}`).then(res => {
+        //         // console.log(res.data.results);
+        //         return this.apartments = res.data.results;
+        //     })
+
+        //     axios.get(`http://127.0.0.1:8000/api/apartments?services=${this.services}`).then(res => {
+        //         // console.log(res.data.results);
+        //         // return this.apartments = res.data.results;
+        //     })
+        // },
 
     },
-    computed: {
-        filteredApartments() {
-            if (!this.apartments || this.apartments.length === 0) {
-                console.log('No apartment data available.');
-                return [];
-            }
+    // computed: {
+    //     filteredApartments() {
+    //         if (!this.apartments || this.apartments.length === 0) {
+    //             // console.log('No apartment data available.');
+    //             return [];
+    //         }
 
-            // let filteredApartments = this.apartments.filter(apartment => {
-            //     let matchesAddress = true;
-            //     let matchesRooms = true;
-            //     let matchesBeds = true;
+    //         // let filteredApartments = this.apartments.filter(apartment => {
+    //         //     let matchesAddress = true;
+    //         //     let matchesRooms = true;
+    //         //     let matchesBeds = true;
 
-            //     if (this.store && this.store.address) {
-            //         matchesAddress = apartment.address.includes(this.store.address);
-            //     }
+    //         //     if (this.store && this.store.address) {
+    //         //         matchesAddress = apartment.address.includes(this.store.address);
+    //         //     }
 
-            //     if (this.formFilter.roomsNumber > 0) {
-            //         matchesRooms = apartment.room_number >= this.formFilter.roomsNumber;
-            //     }
+    //         //     if (this.formFilter.roomsNumber > 0) {
+    //         //         matchesRooms = apartment.room_number >= this.formFilter.roomsNumber;
+    //         //     }
 
-            //     if (this.formFilter.bedsNumber > 0) {
-            //         matchesBeds = apartment.bed_number >= this.formFilter.bedsNumber;
-            //     }
+    //         //     if (this.formFilter.bedsNumber > 0) {
+    //         //         matchesBeds = apartment.bed_number >= this.formFilter.bedsNumber;
+    //         //     }
 
-            //     console.log(`Apartment: ${apartment.id}, Address: ${matchesAddress}, Rooms: ${matchesRooms}, Baths: ${matchesBeds}`);
-            //     return matchesAddress && matchesRooms && matchesBeds;
-            // });
+    //         //     console.log(`Apartment: ${apartment.id}, Address: ${matchesAddress}, Rooms: ${matchesRooms}, Baths: ${matchesBeds}`);
+    //         //     return matchesAddress && matchesRooms && matchesBeds;
+    //         // });
 
-            // console.log('Filtered apartments:', filteredApartments);
-            // return filteredApartments;
+    //         // console.log('Filtered apartments:', filteredApartments);
+    //         // return filteredApartments;
 
-            // Check if any services are selected
-            if (this.selectedServices.length === 0) {
-                // No services selected, filter by address only
-                return this.apartments.filter(apartment => apartment.address.includes(this.store.address));
-            }
+    //         // Check if any services are selected
+    //         if (this.selectedServices.length === 0) {
+    //             // No services selected, filter by address only
+    //             return this.apartments.filter(apartment => apartment.address.includes(this.store.address));
+    //         }
 
-            // // All selected services must be present in the apartment's services
-            // return this.apartments.filter(apartment =>
-            //     apartment.address.includes(this.store.address) && // Filter by address first
-            //     apartment.services.some(apartmentService =>
-            //         this.selectedServices.includes(apartmentService.id) // Adjust property name based on your data
-            //     ))
-            let filteredApartments = this.apartments;
+    //         // // All selected services must be present in the apartment's services
+    //         // return this.apartments.filter(apartment =>
+    //         //     apartment.address.includes(this.store.address) && // Filter by address first
+    //         //     apartment.services.some(apartmentService =>
+    //         //         this.selectedServices.includes(apartmentService.id) // Adjust property name based on your data
+    //         //     ))
+    //         let filteredApartments = this.apartments;
             
-            return filteredApartments.filter(apartment => apartment.address.includes(this.store.address) && // Filter by address first
-                apartment.services.some(apartmentService =>
-                    this.selectedServices.includes(apartmentService.id) // Adjust property name based on your data
-                ));
+    //         return filteredApartments.filter(apartment => apartment.address.includes(this.store.address) && // Filter by address first
+    //             apartment.services.some(apartmentService =>
+    //                 this.selectedServices.includes(apartmentService.id) // Adjust property name based on your data
+    //             ));
 
            
 
 
-        }
-    }
+    //     }
+    // }
 
 }
 
@@ -183,9 +236,10 @@ export default {
 </script>
 
 <template>
-    <AppHeader></AppHeader>
+    <AppHeader @address-selected="fetchApartments"></AppHeader>
     <Categories></Categories>
-    <form @submit.prevent="searchApartments()">
+ 
+    <form @submit.prevent="fetchApartments()">
 
         <div class="container mt-5">
             <div class="number-filters d-flex gap-3 mb-3">
@@ -198,10 +252,7 @@ export default {
                     <input type="number" id="bedrooms" class="form-control" v-model="bedsNumber" min="1" max="5" />
                 </div>
             </div>
-            <div class="d-flex justify-content-center ">
 
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </div>
 
             <label class="form-label">Servizi</label>
             <div class="d-flex gap-2 row">
@@ -213,10 +264,15 @@ export default {
             </div>
         </div>
 
+        <div class="d-flex justify-content-center ">
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+
     </form>
     <div class="container-fluid text-center mt-5">
         <div class="row px-5">
-            <template v-if="this.filteredApartments.length > 0">
+            <template v-if="this.apartments.length > 0">
                 <ApartmentItem v-for="apartment in filteredApartments" :key="apartment.id" :apartment="apartment" />
             </template>
             <template v-else>

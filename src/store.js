@@ -18,6 +18,14 @@ export const store = reactive({
     user_surname: '',
     user_email: '',
     rooms:'',
-    bathrooms:''
+    bathrooms:'',
+    postalCode: '',
+    localName: '',
 
 });
+
+
+// export function getApiApartments(baseApiApartments, range, lat, lon) {
+//     const url = `${baseApiApartments}?range=${range}&lat=${lat}&lon=${lon}`;
+//     return axios.get(url);
+// }
