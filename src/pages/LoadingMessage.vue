@@ -10,8 +10,8 @@ export default {
     },
     mounted() {
         setTimeout(() => {
-                    this.$router.push('/');
-                  }, 5000);
+                    this.$router.push('/apartments');
+                  }, 3500);
     }
   
 }
@@ -38,7 +38,5 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-.alert{
 
-}
 </style>
