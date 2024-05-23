@@ -66,12 +66,21 @@ export default {
                 range: range,
                 lat: lat,
                 lon: lon,
+                bed_number: this.bedsNumber,
+                room_number: this.roomsNumber,
                 page: this.apiPageNumber
+            };
+
+            if (this.selectedServices.length > 0) {
+                params.services = this.selectedServices.join(',');
             };
 
             console.log('Parametri della richiesta:', params); // Stampa i parametri della richiesta
 
-            const url = `${this.store.baseApiApartments}`;
+
+            const url = `http://127.0.0.1:8000/api/filter`;
+
+
             axios.get(url, { params })
                 .then(res => {
                     this.apartments = res.data.results.data;
@@ -81,57 +90,16 @@ export default {
                     this.per_page = res.data.results.per_page;
                     this.last_page = res.data.results.last_page;
                     console.log('Appartamenti ottenuti:', this.apartments);
-                    this.filterApartmentsByRoomsAndBeds();
+
+                    this.filteredApartments = this.apartments.filter(apartment =>
+                        this.apartments.some(filteredApartment => filteredApartment.id === apartment.id)
+                    );
+
                 })
                 .catch((error) => {
                     console.error('Errore durante la ricerca degli appartamenti:', error);
                     this.message = 'Errore durante la ricerca degli appartamenti.';
                 });
-        },
-
-        filterApartmentsByRoomsAndBeds() {
-            const url = `http://127.0.0.1:8000/api/filter`;
-            // const serviceIds = this.selectedServices.join(',');
-            // console.log('servizi:',serviceIds);
-
-            const params = {
-                bed_number: this.bedsNumber,
-                room_number: this.roomsNumber,
-            };
-
-            if (this.selectedServices.length > 0) {
-                params.services = this.selectedServices.join(',');
-            };
-
-            axios.get(url, { params })
-                .then(res => {
-                    const filteredByRoomsAndBeds = res.data.results;
-
-                    console.log('Appartamenti filtrati per stanze e letti:', this.filteredApartments);
-                    // Filtra ulteriormente gli appartamenti ottenuti dall'API precedente per numero di stanze e letti
-                    this.filteredApartments = this.apartments.filter(apartment =>
-                        filteredByRoomsAndBeds.some(filteredApartment => filteredApartment.id === apartment.id)
-                    );
-                }).catch((error) => {
-                    console.error('Errore durante il filtraggio degli appartamenti:', error);
-                    this.message = 'Errore durante il filtraggio degli appartamenti.';
-                });
-        },
-
-        filterApartmentsByServices() {
-            // Se non ci sono servizi selezionati, restituisci tutti gli appartamenti
-            if (this.selectedServices.length === 0) {
-                this.filteredApartments = this.apartments;
-                return;
-            }
-
-            // Filtra gli appartamenti in base ai servizi selezionati
-            this.filteredApartments = this.apartments.filter(apartment => {
-                // Estrai gli ID dei servizi associati all'appartamento corrente
-                let aptServicesId = apartment.services.map(service => service.id);
-                // Controlla se tutti i servizi selezionati sono presenti negli servizi dell'appartamento
-                return this.selectedServices.every(selectedService => aptServicesId.includes(selectedService));
-            });
         },
 
         clearFilters() {
@@ -168,32 +136,6 @@ export default {
             this.apiPageNumber = this.currentPage;
             this.getApartments();
         },
-    },
-
-    computed: {
-        finalFilteredApartments() {
-            if (!this.filteredApartments || this.filteredApartments.length === 0) {
-                console.log('Nessun dato sugli appartamenti disponibile.');
-                return [];
-            }
-
-            let finalFilteredApartments = this.filteredApartments;
-
-            console.log(finalFilteredApartments)
-
-
-            // Check if any services are selected
-            if (this.selectedServices.length === 0) {
-                // No services selected, filter by address only
-                return finalFilteredApartments;
-            }
-
-            return finalFilteredApartments.filter(apartment =>
-                apartment.services.some(apartmentService =>
-                    this.selectedServices.includes(apartmentService.id) // Adjust property name based on your data
-                ));
-
-        }
     },
     mounted() {
         this.getApartments();
