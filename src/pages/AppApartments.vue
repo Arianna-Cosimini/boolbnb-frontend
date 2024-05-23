@@ -213,7 +213,7 @@ export default {
 
                     <div class="modal-body container mt-2 px-4 overflow-y-auto" style="max-height: 70vh;">
 
-                        <div class="mb-3 w-50">
+                        <div class="mb-3 w-100">
                             <div class="fs-5 mb-3 fw-medium">Distanza</div>
 
                             <label for="radius" class="form-label">Raggio (km)</label>
@@ -224,16 +224,75 @@ export default {
                         <hr style="color: grey;" class="mb-3">
 
                         <div class="fs-5 mb-3 fw-medium">Stanze e letti</div>
-                        <div class="number-filters d-flex gap-3 mb-3">
-                            <div class="mb-3 w-50">
-                                <label for="rooms" class="form-label">Camere da letto</label>
-                                <input type="number" id="rooms" class="form-control" v-model="roomsNumber" min="1"
-                                    max="5" />
+                        <div class="number-filtersmb-3">
+                            <label for="rooms" class="form-label">Camere da letto</label>
+                            <div class="mb-3">
+                                <div class="btn-group d-flex gap-3" role="group" aria-label="Numero di camere da letto">
+                                    <input type="radio" id="rooms1" class="btn-check" v-model="roomsNumber" :value="1"
+                                        name="room">
+                                    <label
+                                        class="my-radio-btn btn btn-secondary rounded-5 bg-white border border-1 border-secondary-subtle text-black"
+                                        :class="{ 'checked': roomsNumber === 1 }" for="rooms1">1</label>
+
+
+                                    <input type="radio" id="rooms2" class="btn-check" v-model="roomsNumber" :value="2"
+                                        name="room">
+                                    <label
+                                        class="my-radio-btn btn btn-secondary rounded-5 bg-white border border-1 border-secondary-subtle text-black"
+                                        :class="{ 'checked': roomsNumber === 2 }" for="rooms2">2</label>
+
+                                    <input type="radio" id="rooms3" class="btn-check" v-model="roomsNumber" :value="3"
+                                        name="room">
+                                    <label
+                                        class="my-radio-btn btn btn-secondary rounded-5 bg-white border border-1 border-secondary-subtle text-black"
+                                        :class="{ 'checked': roomsNumber === 3 }" for="rooms3">3</label>
+
+                                    <input type="radio" id="rooms4" class="btn-check" v-model="roomsNumber" :value="4"
+                                        name="room">
+                                    <label
+                                        class="my-radio-btn btn btn-secondary rounded-5 bg-white border border-1 border-secondary-subtle text-black"
+                                        :class="{ 'checked': roomsNumber === 4 }" for="rooms4">4</label>
+
+                                    <input type="radio" id="rooms5" class="btn-check" v-model="roomsNumber" :value="5"
+                                        name="room">
+                                    <label
+                                        class="my-radio-btn btn btn-secondary rounded-5 bg-white border border-1 border-secondary-subtle text-black"
+                                        :class="{ 'checked': roomsNumber === 5 }" for="rooms5">5+</label>
+                                </div>
                             </div>
-                            <div class="mb-3 w-50">
-                                <label for="bedrooms" class="form-label">Letti</label>
-                                <input type="number" id="bedrooms" class="form-control" v-model="bedsNumber" min="1"
-                                    max="5" />
+                            <label for="bedrooms" class="form-label">Letti</label>
+                            <div class="mb-4">
+                                <div class="btn-group d-flex gap-3" role="group" aria-label="Numero di letti">
+                                    <input type="radio" id="beds1" class="btn-check" v-model="bedsNumber" :value="1"
+                                        name="bed">
+                                    <label
+                                        class="my-radio-btn btn btn-secondary rounded-5 bg-white border border-1 border-secondary-subtle text-black"
+                                        :class="{ 'checked': bedsNumber === 1 }" for="beds1">1</label>
+
+                                    <input type="radio" id="beds2" class="btn-check" v-model="bedsNumber" :value="2"
+                                        name="bed">
+                                    <label
+                                        class="my-radio-btn btn btn-secondary rounded-5 bg-white border border-1 border-secondary-subtle text-black"
+                                        :class="{ 'checked': bedsNumber === 2 }" for="beds2">2</label>
+
+                                    <input type="radio" id="beds3" class="btn-check" v-model="bedsNumber" :value="3"
+                                        name="bed">
+                                    <label
+                                        class="my-radio-btn btn btn-secondary rounded-5 bg-white border border-1 border-secondary-subtle text-black"
+                                        :class="{ 'checked': bedsNumber === 3 }" for="beds3">3</label>
+
+                                    <input type="radio" id="beds4" class="btn-check" v-model="bedsNumber" :value="4"
+                                        name="bed">
+                                    <label
+                                        class="my-radio-btn btn btn-secondary rounded-5 bg-white border border-1 border-secondary-subtle text-black"
+                                        :class="{ 'checked': bedsNumber === 4 }" for="beds4">4</label>
+
+                                    <input type="radio" id="beds5" class="btn-check" v-model="bedsNumber" :value="5"
+                                        name="bed">
+                                    <label
+                                        class="my-radio-btn btn btn-secondary rounded-5 bg-white border border-1 border-secondary-subtle text-black"
+                                        :class="{ 'checked': bedsNumber === 5 }" for="beds5">5+</label>
+                                </div>
                             </div>
                         </div>
 
@@ -388,6 +447,17 @@ export default {
     &:hover {
         background-color: black !important;
     }
+}
+
+.my-radio-btn:hover {
+    border: 1px solid black !important;
+}
+
+
+.my-radio-btn.checked {
+    background-color: black !important;
+    border-color: black !important;
+    color: white !important;
 }
 
 .card {
