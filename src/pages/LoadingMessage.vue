@@ -22,7 +22,7 @@ export default {
         
         <div class="alert my-bg " role="alert">
             <h4 class="alert-heading">Il tuo messaggio è stato inviato con successo</h4>
-            <p>La messagio è stato inviato. L'host provvederà a rispondere entro 24 ore</p>
+            <p>Il messagio è stato inviato. L'host provvederà a rispondere entro 24 ore</p>
             <hr>
             <div class="d-flex align-items-center gap-3">
 
