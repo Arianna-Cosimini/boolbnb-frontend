@@ -103,19 +103,19 @@ export default {
                 params.services = this.selectedServices.join(',');
             };
 
-            axios.get(url, {params})
-            .then(res => {
-                const filteredByRoomsAndBeds = res.data.results;
+            axios.get(url, { params })
+                .then(res => {
+                    const filteredByRoomsAndBeds = res.data.results;
 
-                console.log('Appartamenti filtrati per stanze e letti:', this.filteredApartments);
-                // Filtra ulteriormente gli appartamenti ottenuti dall'API precedente per numero di stanze e letti
-                this.filteredApartments = this.apartments.filter(apartment =>
-                    filteredByRoomsAndBeds.some(filteredApartment => filteredApartment.id === apartment.id)
-                );
-            }).catch((error) => {
-                console.error('Errore durante il filtraggio degli appartamenti:', error);
-                this.message = 'Errore durante il filtraggio degli appartamenti.';
-            });
+                    console.log('Appartamenti filtrati per stanze e letti:', this.filteredApartments);
+                    // Filtra ulteriormente gli appartamenti ottenuti dall'API precedente per numero di stanze e letti
+                    this.filteredApartments = this.apartments.filter(apartment =>
+                        filteredByRoomsAndBeds.some(filteredApartment => filteredApartment.id === apartment.id)
+                    );
+                }).catch((error) => {
+                    console.error('Errore durante il filtraggio degli appartamenti:', error);
+                    this.message = 'Errore durante il filtraggio degli appartamenti.';
+                });
         },
 
         filterApartmentsByServices() {
@@ -180,15 +180,15 @@ export default {
             let finalFilteredApartments = this.filteredApartments;
 
             console.log(finalFilteredApartments)
-            
+
 
             // Check if any services are selected
             if (this.selectedServices.length === 0) {
                 // No services selected, filter by address only
                 return finalFilteredApartments;
             }
-            
-            return finalFilteredApartments.filter( apartment => 
+
+            return finalFilteredApartments.filter(apartment =>
                 apartment.services.some(apartmentService =>
                     this.selectedServices.includes(apartmentService.id) // Adjust property name based on your data
                 ));
@@ -373,7 +373,7 @@ export default {
 </template>
 
 
-<style lang="scss">
+<style lang="scss" scoped>
 .my_mini_jumbo {
     height: 60vh;
 }
