@@ -26,10 +26,13 @@ export default {
         //funzione per mandare il messaggio
 
         sendMessage() {
-            console.log('invio messaggio');
-            console.log(this.formData);
+            //console.log('rotta : ', this.$router.push('/apartments' + ':' + this.slug) );
+            //console.log(this.formData);
             axios.post('http://127.0.0.1:8000/api/new-message' ,this.formData).then(res => {
                 console.log(res);
+            })
+            .catch(error => {
+                console.log(error);
             })
         }
     }
@@ -66,9 +69,9 @@ export default {
             <label class="form-label" for="send_date">Data di invio</label>
             <input type="date" class="form-input" id="send_date" v-model="formData.send_date">
         </div>
-
-        <button type="submit" class="btn btn-primary">Submit</button>
-
+<!--         <button type="submit" class="btn btn-primary"> Invia </button>
+ -->
+         <router-link :to="{ name: 'loading-message'}" class="btn btn-$primaryColor px-4 py-2">Invia il messaggio</router-link>
 </form>
 
 </template>
