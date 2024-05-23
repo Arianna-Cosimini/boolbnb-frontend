@@ -126,6 +126,18 @@ export default {
             });
         },
 
+        clearFilters() {
+            // Reimposta le variabili dei filtri ai valori predefiniti
+            this.range = 20;
+            this.roomsNumber = 1;
+            this.bedsNumber = 1;
+            this.selectedServices = [];
+
+            // Richiama il metodo per ottenere gli appartamenti senza applicare i filtri
+            this.getApartments();
+
+            // Chiudi il modal dopo aver cancellato i filtri
+        },
 
 
 
@@ -242,7 +254,7 @@ export default {
 
                     </div>
                     <div class="modal-footer d-flex justify-content-between align-items-center">
-                        <button type="button" class="btn border-0 mb-2" @click="toggleModal">Cancella tutto</button>
+                        <button type="button" class="btn border-0 mb-2" @click="clearFilters">Cancella tutto</button>
 
                         <button type="submit" class="btn btn-primary border-0 my-red-btn mb-2"
                             @click="toggleModal">Applica
