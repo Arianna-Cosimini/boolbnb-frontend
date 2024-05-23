@@ -7,7 +7,7 @@ import Categories from '../components/Categories.vue';
 import Map from '../components/Map.vue';
 
 export default {
-    name: 'HomePage',
+    name: 'AppApartments',
     components: {
         ApartmentItem,
         AppHeader,
@@ -126,11 +126,6 @@ export default {
             });
         },
 
-
-
-
-
-        // Aggiungi questa funzione per gestire l'applicazione dei filtri quando viene cliccato il pulsante "Applica filtri"
         applyFilters() {
             this.getApartments();
             console.log('Applicazione dei filtri completata.');
@@ -148,6 +143,13 @@ export default {
             this.apiPageNumber = this.currentPage;
             this.getApartments();
         },
+
+        handleAddressSelected(data) {
+            this.store.address = data.address;
+            this.store.lat = data.lat;
+            this.store.lon = data.lon;
+            this.getApartments();
+        },
     },
 
     computed: {
@@ -163,20 +165,25 @@ export default {
             return finalFilteredApartments;
         }
     },
+    watch: {
+        'store.address': function (newAddress, oldAddress) {
+            if (newAddress !== oldAddress) {
+                this.getApartments();
+            }
+        }
+    },
     mounted() {
         this.getApartments();
-        console.log('Tutti gli appartamenti: ', this.apartments);
         console.log('Tutti gli appartamenti: ', this.apartments);
         console.log('Servizi disponibili: ', this.services);
     },
 }
 </script>
 
-
 <template>
     <div>
         <div class="container d-flex align-items-center mt-3 gap-3">
-            <AppHeader class="flex-grow-1"></AppHeader>
+            <AppHeader class="flex-grow-1" @address-selected="handleAddressSelected"></AppHeader>
             <div class="btn-container" v-if="$route.name !== 'home'">
                 <button type="button" class="my-black-btn btn btn-primary border-0" @click="toggleModal">
                     <i class="fa-solid fa-sliders me-2"></i>Ricerca avanzata
@@ -186,7 +193,6 @@ export default {
 
         <Categories></Categories>
         <form @submit.prevent="applyFilters()">
-            <!-- Modal -->
             <div class="modal" :class="{ 'is-active': showModal }">
                 <div class="modal-background" @click="toggleModal"></div>
                 <div class="modal-content container rounded-4">
@@ -215,13 +221,6 @@ export default {
                             </div>
                         </div>
 
-
-                        <!-- <div class="mb-3 w-50">
-                            <label for="radius" class="form-label">Raggio di ricerca (km)</label>
-                            <input type="number" id="radius" class="form-control" v-model="range" min="1" max="50" />
-                        </div> -->
-
-
                         <button type="submit" class="btn btn-primary border-0 my-red-btn mb-3"
                             @click="toggleModal">Applica
                             filtri</button>
@@ -231,15 +230,6 @@ export default {
                 <button class="modal-close is-large" @click="toggleModal" aria-label="close"></button>
             </div>
         </form>
-
-        <!-- mappa da inserire
-        <div class="mb-3 px-5">
-
-            <Map v-if="filteredApartments.length > 0" :lat="filteredApartments[0].latitude"
-                :long="filteredApartments[0].longitude" :apartments="filteredApartments" :apiKey="store.apiKey"
-                class="rounded" ref="Map"></Map>
-
-        </div> -->
 
         <div class="container-fluid text-center mt-5">
             <div class="row px-5">
