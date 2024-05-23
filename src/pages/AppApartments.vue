@@ -202,7 +202,9 @@ export default {
                     <div class="modal-body container mt-2 px-4 overflow-y-auto" style="max-height: 70vh;">
 
                         <div class="mb-3 w-50">
-                            <label for="radius" class="form-label">Raggio di ricerca (km)</label>
+                            <div class="fs-5 mb-3 fw-medium">Distanza</div>
+
+                            <label for="radius" class="form-label">Raggio (km)</label>
                             <input type="number" id="radius" class="form-control mb-4" v-model="range" min="1"
                                 max="50" />
                         </div>
