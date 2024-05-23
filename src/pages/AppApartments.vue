@@ -38,6 +38,7 @@ export default {
             roomsNumber: 1,
             bedsNumber: 1,
             showModal: false,
+            range: '',
         }
     },
     methods: {
@@ -63,9 +64,9 @@ export default {
 
             // Definisci la variabile params
             const params = {
-                range: range,
                 lat: lat,
                 lon: lon,
+                range: range,
                 bed_number: this.bedsNumber,
                 room_number: this.roomsNumber,
                 page: this.apiPageNumber
@@ -177,10 +178,8 @@ export default {
 
                         <div class="mb-3 w-100">
                             <div class="fs-5 mb-3 fw-medium">Distanza</div>
-
-                            <label for="radius" class="form-label">Raggio (km)</label>
-                            <input type="number" id="radius" class="form-control mb-4" v-model="range" min="1"
-                                max="50" />
+                            <input type="range" id="customRange3" class="form-range mb-4" v-model="range" min="0.1" max="20" step="0.1" oninput="this.nextElementSibling.value = this.value"/>
+                            <output>10</output> <label for="customRange3" class="form-label">(km)</label>
                         </div>
 
                         <hr style="color: grey;" class="mb-3">
@@ -266,8 +265,7 @@ export default {
                             <div v-for="service in services" :key="service.id" class="col-4">
                                 <input type="checkbox" :id="service.id" class="my-checkbox checkbox"
                                     v-model="selectedServices" :value="service.id">
-                                <label :for="service.id" class="form-label user-select-none ms-2">{{ service.title
-                                    }}</label>
+                                <label :for="service.id" class="form-label user-select-none ms-2">{{ service.title}}</label>
                             </div>
                         </div>
 
@@ -278,8 +276,8 @@ export default {
                         <button type="button" class="btn border-0 mb-2" @click="clearFilters">Cancella tutto</button>
 
                         <button type="submit" class="btn btn-primary border-0 my-red-btn mb-2"
-                            @click="toggleModal">Applica
-                            filtri</button>
+                            @click="toggleModal">Applica filtri
+                        </button>
                     </div>
                 </div>
                 <button class="modal-close is-large" @click="toggleModal" aria-label="close"></button>
