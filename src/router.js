@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import HomePage from './pages/HomePage.vue';
 import SingleApartment from './pages/SingleApartment.vue';
 import AppApartments from './pages/AppApartments.vue';
+import LoadingMessage from './pages/LoadingMessage.vue';
 
 
 import MessageMe from './pages/MessageMe.vue';
@@ -26,16 +27,23 @@ const router = createRouter({
         {
             path:'/apartments',
             name: 'app-apartments',
-            component: AppApartments,
+            component: AppApartments
             
         },
         {
         
             path:'/message-me',
             name:'message-me',
-            component: MessageMe,
+            component: MessageMe
+        },
+        {
+        
+            path:'/loading-message',
+            name:'loading-message',
+            component: LoadingMessage
         },
     ]
+    
 })
 
 export {router};

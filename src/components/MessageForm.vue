@@ -1,6 +1,7 @@
 <script>
 import axios from 'axios';
 import { store } from '../store.js';
+import { getCurrentInstance } from 'vue';
 
 export default {
     name:'MessageForm',
@@ -13,26 +14,29 @@ export default {
                 surname:'',
                 address:'',
                 message:'',
-                send_date:'',
             },
         }
     },
 
-    mounted(){
-
-    },
+   
 
     methods: {
         //funzione per mandare il messaggio
 
         sendMessage() {
-            console.log('invio messaggio');
-            console.log(this.formData);
+            //console.log('rotta : ', this.$router.push('/apartments' + ':' + this.slug) );
+            //console.log(this.formData);
             axios.post('http://127.0.0.1:8000/api/new-message' ,this.formData).then(res => {
                 console.log(res);
             })
+           /*  .catch((error) => {
+                console.error('Errore durante la registrazione:', error);
+            }) */
         }
+
+        
     }
+    
 }
 </script>
 
@@ -62,17 +66,15 @@ export default {
             <textarea class="form-control" placeholder="Inserisci il tuo mesaggio" id="message" name="message" style="height: 300px" v-model="formData.message"></textarea>
         </div>
 
-        <div class="mb-3 form-check">
-            <label class="form-label" for="send_date">Data di invio</label>
-            <input type="date" class="form-input" id="send_date" v-model="formData.send_date">
-        </div>
-
-        <button type="submit" class="btn btn-primary">Submit</button>
-
+        <router-link :to="{ name: 'loading-message'}" class="btn my-btn px-4 py-2">Invia il messaggio</router-link>
 </form>
 
 </template>
 
 <style>
+.my-btn {
+    background-color: #ff385c;
+    color:white
 
+}
 </style>
