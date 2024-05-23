@@ -373,7 +373,7 @@ export default {
 </template>
 
 
-<style lang="scss" scoped>
+<style lang="scss">
 .my_mini_jumbo {
     height: 60vh;
 }

@@ -169,6 +169,7 @@ export default {
 .my-black-btn {
     background-color: #222;
     color: white;
+    font-size: 16px;
 
     &:hover {
         background-color: black;
