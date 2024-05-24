@@ -205,7 +205,7 @@ export default {
 
                         <div class="fs-5 mb-3 fw-medium">Stanze e letti</div>
                         <div class="number-filtersmb-3">
-                            <label for="rooms" class="form-label">Camere da letto</label>
+                            <p for="rooms" class="form-label mb-2">Camere da letto</p>
                             <div class="mb-3">
                                 <div class="btn-group d-flex gap-3" role="group" aria-label="Numero di camere da letto">
                                     <input type="radio" id="rooms1" class="btn-check" v-model="roomsNumber" :value="1"
@@ -240,7 +240,7 @@ export default {
                                         :class="{ 'checked': roomsNumber === 5 }" for="rooms5">5+</label>
                                 </div>
                             </div>
-                            <label for="bedrooms" class="form-label">Letti</label>
+                            <p for="bedrooms" class="form-label mb-2">Letti</p>
                             <div class="mb-4">
                                 <div class="btn-group d-flex gap-3" role="group" aria-label="Numero di letti">
                                     <input type="radio" id="beds1" class="btn-check" v-model="bedsNumber" :value="1"
@@ -279,7 +279,7 @@ export default {
                         <hr style="color: grey;" class="mb-3">
 
                         <div class="d-flex justify-content-center "></div>
-                        <label class="fs-5 mb-3 fw-medium">Servizi</label>
+                        <p class="fs-5 mb-3 fw-medium">Servizi</p>
                         <div class="d-flex gap-2 row mb-4">
                             <div v-for="service in services" :key="service.id" class="col-4">
                                 <input type="checkbox" :id="service.id" class="my-checkbox checkbox"
