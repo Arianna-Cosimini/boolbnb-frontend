@@ -39,11 +39,17 @@ export default {
             bedsNumber: 1,
             showModal: false,
             range: '10',
+            selectedCategory: null,
         }
     },
     methods: {
         toggleModal() {
             this.showModal = !this.showModal;
+        },
+
+        handleCategorySelected(categoryId) {
+        this.selectedCategory = categoryId;
+        this.getApartments();
         },
 
         getApartments() {
@@ -66,6 +72,10 @@ export default {
             if (this.selectedServices.length > 0) {
                 params.services = this.selectedServices.join(',');
             };
+
+            if (this.selectedCategory !== null) {
+                params.categories = this.selectedCategory;
+            }
 
             console.log('Parametri della richiesta:', params); // Stampa i parametri della richiesta
 
@@ -156,7 +166,8 @@ export default {
         // watcher per l'output del range quando i filtri vengono resettati'
         range(newVal) {
             this.updateRangeOutput();
-        }
+        },
+        
     },
     mounted() {
         this.getApartments();
@@ -179,7 +190,7 @@ export default {
 
         <hr style="color: #c1c1c1;">
 
-        <Categories></Categories>
+        <Categories @category-selected="handleCategorySelected"></Categories>
         <form @submit.prevent="applyFilters()">
             <div class="modal" :class="{ 'is-active': showModal }">
                 <div class="modal-background" @click="toggleModal"></div>

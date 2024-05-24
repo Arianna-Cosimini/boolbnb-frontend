@@ -18,6 +18,6 @@ export const store = reactive({
     user_surname: '',
     user_email: '',
     rooms:'',
-    bathrooms:''
+    bathrooms:'',
 
 });
