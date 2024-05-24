@@ -43,6 +43,13 @@ export default {
             selectedCategory: null,
         }
     },
+
+    computed: {
+        shouldShowPagination() {
+            return this.total_items > this.per_page;
+        }
+    },
+
     methods: {
         toggleModal() {
             this.showModal = !this.showModal;
@@ -347,11 +354,14 @@ export default {
             </div>
         </div>
 
-        <nav v-if="this.filteredApartments.length > 0" class="button-nav d-flex justify-content-center"
-            style="margin-bottom: 200px;">
+        <nav v-if="shouldShowPagination" class="button-nav d-flex justify-content-center" style="margin-bottom: 100px;">
             <vue-awesome-paginate :total-items="total_items" :items-per-page="per_page" :max-pages-shown="last_page"
                 v-model="currentPage" :on-click="changeApiPage" active-page-class="active-page"
                 paginate-buttons-class="paginate-buttons" />
+        </nav>
+
+        <nav v-else class="button-nav d-flex justify-content-center" style="margin-bottom: 100px;">
+
         </nav>
     </div>
 </template>
