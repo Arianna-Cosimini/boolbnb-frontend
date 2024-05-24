@@ -7,7 +7,7 @@ import Categories from '../components/Categories.vue';
 import Map from '../components/Map.vue';
 
 export default {
-    name: 'HomePage',
+    name: 'AppApartments',
     components: {
         ApartmentItem,
         AppHeader,
@@ -137,21 +137,49 @@ export default {
             this.apiPageNumber = this.currentPage;
             this.getApartments();
         },
+
+        handleAddressSelected(data) {
+            this.store.address = data.address;
+            this.store.lat = data.lat;
+            this.store.lon = data.lon;
+            this.getApartments();
+        },
+    },
+
+    computed: {
+        finalFilteredApartments() {
+            if (!this.filteredApartments || this.filteredApartments.length === 0) {
+                console.log('Nessun dato sugli appartamenti disponibile.');
+                return [];
+            }
+
+            let finalFilteredApartments = this.filteredApartments;
+
+            console.log(finalFilteredApartments)
+            return finalFilteredApartments;
+        }
+    },
+
+    // Aggiunto un watcher su store.address per monitorare i cambiamenti all'indirizzo e aggiornare i risultati degli appartamenti 
+    watch: {
+        'store.address': function (newAddress, oldAddress) {
+            if (newAddress !== oldAddress) {
+                this.getApartments();
+            }
+        }
     },
     mounted() {
         this.getApartments();
-        console.log('Tutti gli appartamenti: ', this.apartments);
         console.log('Tutti gli appartamenti: ', this.apartments);
         console.log('Servizi disponibili: ', this.services);
     },
 }
 </script>
 
-
 <template>
     <div>
         <div class="container d-flex align-items-center mt-3 gap-3">
-            <AppHeader class="flex-grow-1"></AppHeader>
+            <AppHeader class="flex-grow-1" @address-selected="handleAddressSelected"></AppHeader>
             <div class="btn-container" v-if="$route.name !== 'home'">
                 <button type="button" class="my-black-btn btn btn-primary border-0 py-2" @click="toggleModal">
                     <i class="fa-solid fa-sliders me-2"></i>Filtri
@@ -163,7 +191,6 @@ export default {
 
         <Categories></Categories>
         <form @submit.prevent="applyFilters()">
-            <!-- Modal -->
             <div class="modal" :class="{ 'is-active': showModal }">
                 <div class="modal-background" @click="toggleModal"></div>
                 <div class="modal-content container rounded-4 p-0" style="max-width: 780px;">
