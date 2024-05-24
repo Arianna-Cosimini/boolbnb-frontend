@@ -39,17 +39,17 @@ export default {
 <template>
     <div class="container-fluid mt-3 px-5 py-2">
         <div class="categories d-flex gap-5 align-items-end px-3 overflow-x-auto">
-            <div class="all-categories text-black-50 d-flex flex-column align-items-center gap-2"
+            <div class="all-categories text-black-50 d-flex flex-column align-items-center gap-1"
                 :class="{ selected: selectedCategory === null }" @click="selectCategory('all')">
-                
+
                 <img class="icons" src="/icons/all.svg" alt="">
                 <span class="category-title">Qualsiasi</span>
 
             </div>
             <div v-for="category in categories" :key="category.id"
-                class="category text-black-50 d-flex flex-column align-items-center gap-2" 
-                :class="{ selected: selectedCategory === category.id }"  @click="selectCategory(category.id)">
-                
+                class="category text-black-50 d-flex flex-column align-items-center gap-1"
+                :class="{ selected: selectedCategory === category.id }" @click="selectCategory(category.id)">
+
                 <img class="icons" :src="category.icon" :alt="category.title">
                 <span class="category-title">{{ category.title }}</span>
 
@@ -72,6 +72,7 @@ export default {
 
 .category-title {
     font-size: 12px;
+    font-weight: 500;
     white-space: nowrap;
 }
 
@@ -102,7 +103,7 @@ export default {
 }
 
 .selected {
-    border: 1px solid black !important;
-    color: black !important; /* Aggiunge il colore nero per il testo selezionato */
+    color: black !important;
+    /* Aggiunge il colore nero per il testo selezionato */
 }
 </style>

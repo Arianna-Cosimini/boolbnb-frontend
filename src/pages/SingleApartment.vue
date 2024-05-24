@@ -41,7 +41,7 @@ export default {
 </script>
 
 <template>
-    <div class="container py-5">
+    <div class="container py-5" style="margin-bottom: 50px;">
 
         <div v-if="apartment">
             <h1 class="fs-3 mb-4">

@@ -49,8 +49,8 @@ export default {
         },
 
         handleCategorySelected(categoryId) {
-        this.selectedCategory = categoryId;
-        this.getApartments();
+            this.selectedCategory = categoryId;
+            this.getApartments();
         },
 
         getApartments() {
@@ -168,7 +168,7 @@ export default {
         range(newVal) {
             this.updateRangeOutput();
         },
-        
+
     },
     mounted() {
         this.getApartments();
@@ -207,8 +207,9 @@ export default {
 
                         <div class="mb-3 w-100">
                             <div class="fs-5 mb-3 fw-medium">Distanza</div>
-                            <input type="range" id="km" class="form-range mb-4" v-model="range" min="0.1"
-                                max="20" step="0.1" oninput="this.nextElementSibling.value = this.value" @input="updateThumbPosition"/>
+                            <input type="range" id="km" class="form-range mb-4" v-model="range" min="0.1" max="20"
+                                step="0.1" oninput="this.nextElementSibling.value = this.value"
+                                @input="updateThumbPosition" />
                             <output>10</output> <label for="km" class="form-label">(km)</label>
 
                             <!-- <Map :apiKey="store.apiKey" :lat="store.latitude" :long="store.longitude"></Map> -->
@@ -326,12 +327,17 @@ export default {
                     <ApartmentItem v-for="apartment in filteredApartments" :key="apartment.id" :apartment="apartment" />
                 </template>
                 <template v-else>
-                    <p>{{ message }}</p>
+                    <div class="container text-start mt-5">
+                        <p class="fs-4 mb-0">{{ message }}</p>
+                        <p style="font-weight: 300;">Prova a modificare o rimuovere alcuni filtri o a cambiare l'area di
+                            ricerca.</p>
+                    </div>
                 </template>
             </div>
         </div>
 
-        <nav class="button-nav d-flex justify-content-center mb-5">
+        <nav v-if="this.filteredApartments.length > 0" class="button-nav d-flex justify-content-center"
+            style="margin-bottom: 200px;">
             <vue-awesome-paginate :total-items="total_items" :items-per-page="per_page" :max-pages-shown="last_page"
                 v-model="currentPage" :on-click="changeApiPage" active-page-class="active-page"
                 paginate-buttons-class="paginate-buttons" />
