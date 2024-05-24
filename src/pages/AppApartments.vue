@@ -146,19 +146,6 @@ export default {
         },
     },
 
-    computed: {
-        finalFilteredApartments() {
-            if (!this.filteredApartments || this.filteredApartments.length === 0) {
-                console.log('Nessun dato sugli appartamenti disponibile.');
-                return [];
-            }
-
-            let finalFilteredApartments = this.filteredApartments;
-
-            console.log(finalFilteredApartments)
-            return finalFilteredApartments;
-        }
-    },
 
     // Aggiunto un watcher su store.address per monitorare i cambiamenti all'indirizzo e aggiornare i risultati degli appartamenti 
     watch: {
