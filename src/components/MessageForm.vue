@@ -30,6 +30,7 @@ export default {
             //console.log(this.formData);
             axios.post('http://127.0.0.1:8000/api/new-message', this.formData).then(res => {
                 console.log(res);
+                this.$router.push('loading-message');
             })
             /*  .catch((error) => {
                  console.error('Errore durante la registrazione:', error);
@@ -84,21 +85,26 @@ export default {
                 style="height: 300px" v-model="formData.message" required></textarea>
         </div>
 
-        <router-link :to="{ name: 'loading-message' }" class="btn my-btn px-4 py-2">Invia
-            messaggio</router-link>
+        <button class="my-btn">Invia messaggio <i class="fa-solid fa-paper-plane"></i> </button>
+
+        <!-- <router-link :to="{ name: 'loading-message' }" class="btn my-btn px-4 py-2">Invia
+            messaggio</router-link> -->
     </form>
 
 </template>
 
 <style>
 .my-btn {
-    background-color: white;
-    color: black;
-    border: 1px solid black;
+    background-color: #ff385c;
+    border: 1px solid #ff385c;
+    border-radius: 10px;
+    color:white;
+    padding: 6px;
 
     &:hover {
-        background-color: #f1f0f0;
-        border: 1px solid black;
+        background-color: white;
+        border: 1px solid #ff385c;
+        color: #ff385c;
     }
 }
 
