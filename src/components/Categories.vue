@@ -9,6 +9,7 @@ export default {
         return {
             store,
             categories: [],
+            selectedCategory: null,
         }
     },
 
@@ -27,6 +28,10 @@ export default {
                     console.error('Error fetching categories:', error);
                 });
         },
+        selectCategory(categoryId) {
+            this.selectedCategory = categoryId === 'all' ? null : categoryId;
+            this.$emit('category-selected', categoryId === 'all' ? null : categoryId);
+        }
     }
 }
 </script>
@@ -34,14 +39,20 @@ export default {
 <template>
     <div class="container-fluid mt-3 px-5 py-2">
         <div class="categories d-flex gap-5 align-items-end px-3 overflow-x-auto">
-            <div class="all-categories text-black-50 d-flex flex-column align-items-center gap-2">
+            <div class="all-categories text-black-50 d-flex flex-column align-items-center gap-2"
+                :class="{ selected: selectedCategory === null }" @click="selectCategory('all')">
+                
                 <img class="icons" src="/icons/all.svg" alt="">
                 <span class="category-title">Qualsiasi</span>
+
             </div>
             <div v-for="category in categories" :key="category.id"
-                class="category text-black-50 d-flex flex-column align-items-center gap-2">
+                class="category text-black-50 d-flex flex-column align-items-center gap-2" 
+                :class="{ selected: selectedCategory === category.id }"  @click="selectCategory(category.id)">
+                
                 <img class="icons" :src="category.icon" :alt="category.title">
                 <span class="category-title">{{ category.title }}</span>
+
             </div>
         </div>
     </div>
@@ -88,5 +99,10 @@ export default {
 
 .categories::-webkit-scrollbar-thumb:hover {
     background: #999;
+}
+
+.selected {
+    border: 1px solid black !important;
+    color: black !important; /* Aggiunge il colore nero per il testo selezionato */
 }
 </style>
