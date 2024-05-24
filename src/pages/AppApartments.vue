@@ -46,15 +46,6 @@ export default {
             this.showModal = !this.showModal;
         },
 
-        updateThumbPosition() {
-            const range = document.getElementById('km');
-            if (range) {
-                const thumbWidth = getComputedStyle(range).getPropertyValue('--thumb-width');
-                const thumbPosition = `${((range.value - range.min) / (range.max - range.min)) * 100}%`;
-                this.thumbPosition = `calc(${thumbPosition} - ${thumbWidth} / 2)`;
-            }
-        },
-
         getApartments() {
             const lat = this.store.lat || 44.4949; // Usare latitudine di default
             const lon = this.store.lon || 11.3426; // Usare longitudine di default
