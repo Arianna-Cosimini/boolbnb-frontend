@@ -39,7 +39,7 @@ export default {
             roomsNumber: 1,
             bedsNumber: 1,
             showModal: false,
-            range: '',
+            range: '10',
         }
     },
     methods: {
@@ -97,15 +97,22 @@ export default {
 
         clearFilters() {
             // Reimposta le variabili dei filtri ai valori predefiniti
-            this.range = 20;
+            this.range = 10;
             this.roomsNumber = 1;
             this.bedsNumber = 1;
             this.selectedServices = [];
 
+            this.updateRangeOutput();
+
             // Richiama il metodo per ottenere gli appartamenti senza applicare i filtri
             this.getApartments();
 
-            // Chiudi il modal dopo aver cancellato i filtri
+        },
+
+        updateRangeOutput() {
+            const rangeInput = document.querySelector('input[type="range"]');
+            const rangeOutput = rangeInput.nextElementSibling;
+            rangeOutput.value = rangeInput.value;
         },
 
 
@@ -139,12 +146,17 @@ export default {
     },
 
 
-    // Aggiunto un watcher su store.address per monitorare i cambiamenti all'indirizzo e aggiornare i risultati degli appartamenti 
     watch: {
+        // Aggiunto un watcher su store.address per monitorare i cambiamenti all'indirizzo e aggiornare i risultati degli appartamenti 
         'store.address': function (newAddress, oldAddress) {
             if (newAddress !== oldAddress) {
                 this.getApartments();
             }
+        },
+
+        // watcher per l'output del range quando i filtri vengono resettati'
+        range(newVal) {
+            this.updateRangeOutput();
         }
     },
     mounted() {
@@ -197,7 +209,7 @@ export default {
 
                         <div class="fs-5 mb-3 fw-medium">Stanze e letti</div>
                         <div class="number-filtersmb-3">
-                            <label for="rooms" class="form-label">Camere da letto</label>
+                            <p for="rooms" class="form-label mb-2">Camere da letto</p>
                             <div class="mb-3">
                                 <div class="btn-group d-flex gap-3" role="group" aria-label="Numero di camere da letto">
                                     <input type="radio" id="rooms1" class="btn-check" v-model="roomsNumber" :value="1"
@@ -232,7 +244,7 @@ export default {
                                         :class="{ 'checked': roomsNumber === 5 }" for="rooms5">5+</label>
                                 </div>
                             </div>
-                            <label for="bedrooms" class="form-label">Letti</label>
+                            <p for="bedrooms" class="form-label mb-2">Letti</p>
                             <div class="mb-4">
                                 <div class="btn-group d-flex gap-3" role="group" aria-label="Numero di letti">
                                     <input type="radio" id="beds1" class="btn-check" v-model="bedsNumber" :value="1"
@@ -271,7 +283,7 @@ export default {
                         <hr style="color: grey;" class="mb-3">
 
                         <div class="d-flex justify-content-center "></div>
-                        <label class="fs-5 mb-3 fw-medium">Servizi</label>
+                        <p class="fs-5 mb-3 fw-medium">Servizi</p>
                         <div class="d-flex gap-2 row mb-4">
                             <div v-for="service in services" :key="service.id" class="col-4">
                                 <input type="checkbox" :id="service.id" class="my-checkbox checkbox"
@@ -355,6 +367,141 @@ export default {
     background: none;
     border: none;
     cursor: pointer;
+}
+
+.distance-range {
+
+    /* Stilizzare l'input range */
+    input[type="range"].form-range {
+        width: 100%;
+        height: 8px;
+        /* Altezza del range slider */
+        background: #ddd;
+        /* Colore dello sfondo */
+        border-radius: 5px;
+        /* Angoli arrotondati */
+        outline: none;
+        transition: background 0.3s;
+    }
+
+    /* Cambiare il colore della barra di riempimento per Webkit browsers */
+    input[type="range"].form-range::-webkit-slider-runnable-track {
+        background: black;
+        /* Colore della barra di riempimento */
+        border-radius: 5px;
+    }
+
+    /* Thumb per Webkit browsers */
+    input[type="range"].form-range::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 32px;
+        /* Larghezza del thumb */
+        height: 32px;
+        /* Altezza del thumb */
+        background: white;
+        /* Colore del thumb */
+        border-radius: 50%;
+        /* Thumb circolare */
+        cursor: pointer;
+        transition: background 0.3s;
+
+        border: 1px solid lightgrey;
+
+        box-shadow: 0 3px 5px rgba(0, 0, 0, 0.202);
+
+        transform: translateY(-8px);
+
+    }
+
+
+    /* Cambiare il colore della barra di riempimento per Firefox */
+    input[type="range"].form-range::-moz-range-track {
+        background: #007bff;
+        /* Colore della barra di riempimento */
+        border-radius: 5px;
+    }
+
+    /* Thumb per Firefox */
+    input[type="range"].form-range::-moz-range-thumb {
+        width: 32px;
+        height: 32px;
+        background: white;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: background 0.3s;
+
+        border: 1px solid lightgrey;
+
+        box-shadow: 0 3px 5px rgba(0, 0, 0, 0.202);
+
+        transform: translateY(-8px);
+
+    }
+
+
+    /* Cambiare il colore della barra di riempimento per Internet Explorer */
+    input[type="range"].form-range::-ms-track {
+        background: transparent;
+        /* Necessario per rimuovere uno sfondo predefinito */
+        border-color: transparent;
+        color: transparent;
+        width: 100%;
+        height: 8px;
+    }
+
+    input[type="range"].form-range::-ms-fill-lower {
+        background: black;
+        /* Colore della barra di riempimento */
+        border-radius: 5px;
+    }
+
+    input[type="range"].form-range::-ms-fill-upper {
+        background: #ddd;
+        /* Colore dello sfondo */
+        border-radius: 5px;
+    }
+
+    /* Thumb per Internet Explorer */
+    input[type="range"].form-range::-ms-thumb {
+        width: 32px;
+        height: 32px;
+        background: white;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: background 0.3s;
+        border: 1px solid lightgrey;
+
+        box-shadow: 0 3px 5px rgba(0, 0, 0, 0.202);
+
+        transform: translateY(-8px);
+    }
+
+    /* Stilizzare l'output */
+    output {
+        display: inline-block;
+        text-align: center;
+        margin-left: 10px;
+        /* Spazio tra il range e l'output */
+        font-size: 1rem;
+        /* Dimensione del font dell'output */
+        font-weight: 500;
+        /* Grassetto per l'output */
+        background-color: black;
+        padding: 4px 8px;
+        color: white;
+        width: 60px;
+        border-radius: 4px;
+        user-select: none;
+    }
+
+    /* Stilizzare il label */
+    .form-label {
+        margin-left: 5px;
+        /* Spazio tra l'output e il label */
+        font-size: 1rem;
+        /* Dimensione del font del label */
+    }
 }
 
 .button-nav {
