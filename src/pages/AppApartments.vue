@@ -205,17 +205,28 @@ export default {
 
                     <div class="modal-body container mt-2 px-4 overflow-y-auto" style="max-height: 70vh;">
 
-                        <div class="mb-3 w-100">
+                        <div class="distance-range mb-3 w-100">
+                            <div class="fs-5 mb-3 fw-medium">Distanza<span class="ms-1 fs-6 fw-normal">(km)</span></div>
+                            <input type="range" id="customRange3" class="form-range mb-4" v-model="range" min="0.1"
+                                max="20" step="0.1" oninput="this.nextElementSibling.value = this.value"
+                                @input="updateThumbPosition" />
+                            <output>{{ range }}</output>
+                            <label for="customRange3" class="form-label"></label>
+
+                            <Map class="my-4" :apiKey="store.apiKey" :lat="store.lat" :long="store.lon"></Map>
+
+                        </div>
+
+                        <!-- <div class="mb-3 w-100">
                             <div class="fs-5 mb-3 fw-medium">Distanza</div>
                             <input type="range" id="km" class="form-range mb-4" v-model="range" min="0.1" max="20"
                                 step="0.1" oninput="this.nextElementSibling.value = this.value"
                                 @input="updateThumbPosition" />
-                            <output>10</output> <label for="km" class="form-label">(km)</label>
+                            <output>10</output> <label for="km" class="form-label">(km)</label> -->
 
-                            <!-- <Map :apiKey="store.apiKey" :lat="store.latitude" :long="store.longitude"></Map> -->
-                            <Map :apiKey="store.apiKey" :lat="store.lat" :long="store.lon"></Map>
-                            <!-- <Map :apikey="store.apikey" :apartments="apartments" :long="long" :lat="lat"></Map> -->
-                        </div>
+                        <!-- <Map :apiKey="store.apiKey" :lat="store.latitude" :long="store.longitude"></Map> -->
+                        <!-- <Map :apikey="store.apikey" :apartments="apartments" :long="long" :lat="lat"></Map> -->
+                        <!-- </div> -->
 
                         <hr style="color: grey;" class="mb-3">
 
