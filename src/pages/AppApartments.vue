@@ -193,7 +193,7 @@ export default {
 
                     <div class="modal-body container mt-2 px-4 overflow-y-auto" style="max-height: 70vh;">
 
-                        <div class="distance-range mb-3 w-100">
+                        <div class="distance-range mb-4 w-100">
                             <div class="fs-5 mb-3 fw-medium">Distanza<span class="ms-1 fs-6 fw-normal">(km)</span></div>
                             <input type="range" id="customRange3" class="form-range mb-4" v-model="range" min="0.1"
                                 max="20" step="0.1" />
@@ -487,15 +487,16 @@ export default {
         text-align: center;
         margin-left: 10px;
         /* Spazio tra il range e l'output */
-        font-size: 1.25rem;
+        font-size: 1rem;
         /* Dimensione del font dell'output */
-        font-weight: bold;
+        font-weight: 500;
         /* Grassetto per l'output */
         background-color: black;
         padding: 4px 8px;
         color: white;
         width: 60px;
         border-radius: 4px;
+        user-select: none;
     }
 
     /* Stilizzare il label */

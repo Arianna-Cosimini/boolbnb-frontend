@@ -34,6 +34,10 @@ export default {
 <template>
     <div class="container-fluid mt-3 px-5 py-2">
         <div class="categories d-flex gap-5 align-items-end px-3 overflow-x-auto">
+            <div class="all-categories text-black-50 d-flex flex-column align-items-center gap-2">
+                <img class="icons" src="/icons/all.svg" alt="">
+                <span class="category-title">Qualsiasi</span>
+            </div>
             <div v-for="category in categories" :key="category.id"
                 class="category text-black-50 d-flex flex-column align-items-center gap-2">
                 <img class="icons" :src="category.icon" :alt="category.title">
@@ -44,7 +48,8 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-.category {
+.category,
+.all-categories {
     color: #6a6a6a;
     text-align: center;
 
