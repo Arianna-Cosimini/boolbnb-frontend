@@ -1,9 +1,14 @@
 <script>
 import axios from 'axios';
 import { store } from '../store.js';
+import Map from '../components/Map.vue';
 
 export default {
     name: 'SingleApartment',
+
+    components: {
+        Map
+    },
 
     data() {
         return {
@@ -99,6 +104,24 @@ export default {
             </div>
 
             <hr class="mb-4">
+
+            <div class="row">
+                <div class="col mb-3">
+                    <hr />
+                    <h5 id="dovetitroverai" class="my-3">Dove ti troverai</h5>
+                    <!-- !! MAPPA !! -->
+                    <div v-if="apartment.latitude != null && apartment.longitude != null">
+                        <Map :apiKey="store.apiKey" :lat="apartment.latitude" :long="apartment.longitude"></Map>
+                    </div>
+                    <div class="mt-2">
+                        <span>
+                            <font-awesome-icon :icon="['fas', 'location-dot']" />
+                        </span>
+                        <span class="fw-semibold mx-2">{{ apartment.address }}</span>
+                    </div>
+                </div>
+            </div>
+
 
             <!-- Contatto dell'Host' -->
             <div class="host-info mb-5">

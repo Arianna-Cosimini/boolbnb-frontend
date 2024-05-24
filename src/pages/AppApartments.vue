@@ -5,6 +5,7 @@ import ApartmentItem from '../components/ApartmentItem.vue';
 import AppHeader from '../components/AppHeader.vue';
 import Categories from '../components/Categories.vue';
 import Map from '../components/Map.vue';
+// import Map from '../components/Map.vue';
 
 export default {
     name: 'AppApartments',
@@ -183,8 +184,13 @@ export default {
 
                         <div class="mb-3 w-100">
                             <div class="fs-5 mb-3 fw-medium">Distanza</div>
-                            <input type="range" id="customRange3" class="form-range mb-4" v-model="range" min="0.1" max="20" step="0.1" oninput="this.nextElementSibling.value = this.value"/>
-                            <output>10</output> <label for="customRange3" class="form-label">(km)</label>
+                            <input type="range" id="km" class="form-range mb-4" v-model="range" min="0.1"
+                                max="20" step="0.1" oninput="this.nextElementSibling.value = this.value" @input="updateThumbPosition"/>
+                            <output>10</output> <label for="km" class="form-label">(km)</label>
+
+                            <!-- <Map :apiKey="store.apiKey" :lat="store.latitude" :long="store.longitude"></Map> -->
+                            <Map :apiKey="store.apiKey" :lat="store.lat" :long="store.lon"></Map>
+                            <!-- <Map :apikey="store.apikey" :apartments="apartments" :long="long" :lat="lat"></Map> -->
                         </div>
 
                         <hr style="color: grey;" class="mb-3">
@@ -270,7 +276,8 @@ export default {
                             <div v-for="service in services" :key="service.id" class="col-4">
                                 <input type="checkbox" :id="service.id" class="my-checkbox checkbox"
                                     v-model="selectedServices" :value="service.id">
-                                <label :for="service.id" class="form-label user-select-none ms-2">{{ service.title}}</label>
+                                <label :for="service.id" class="form-label user-select-none ms-2">{{
+                                    service.title }}</label>
                             </div>
                         </div>
 
@@ -289,14 +296,6 @@ export default {
             </div>
         </form>
 
-        <!-- mappa da inserire
-        <div class="mb-3 px-5">
-
-            <Map v-if="filteredApartments.length > 0" :lat="filteredApartments[0].latitude"
-                :long="filteredApartments[0].longitude" :apartments="filteredApartments" :apiKey="store.apiKey"
-                class="rounded" ref="Map"></Map>
-
-        </div> -->
 
         <div class="container-fluid text-center">
             <div class="row px-5">

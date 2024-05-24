@@ -1,95 +1,148 @@
-<script>
+<!-- <script>
 import { onMounted } from 'vue';
 import tt from '@tomtom-international/web-sdk-maps';
-import { store } from '../store';
 
 export default {
     name: 'Map',
     props: {
         apiKey: String,
-        apartments: Array,
-        long: String,
         lat: String,
+        long: String
     },
-    data() {
-        return {
-            store,
-        }
-    },
-    methods: {
-        getMapIndex() {
-            let map = null;
+    setup(props) {
+        let map = null;
+
+        onMounted(() => {
+            // Convert lat and long to numbers and check if they are valid
+            const latitude = parseFloat(props.lat);
+            const longitude = parseFloat(props.long);
+
+            if (isNaN(latitude) || isNaN(longitude)) {
+                console.error('Invalid latitude or longitude');
+                return;
+            }
 
             map = tt.map({
-                key: this.apiKey,
+                key: props.apiKey,
                 container: 'map',
-                center: center,
-                zoom: 11,
-                radius: 20000
+                center: [longitude, latitude],
+                zoom: 11
             });
 
-            
-        
+            const marker = new tt.Marker().setLngLat([longitude, latitude]).addTo(map);
+            map.addControl(new tt.NavigationControl());
+        });
 
-            // });this.apartments.forEach(apartment => {
-            //     const marker = new tt.Marker({ element: this.createMarkerElement(apartment.title), })
-            //         .setLngLat([apartment.longitude, apartment.latitude])
-            //     marker.addTo(map);
-
-            //     // marker.setPopup(new tt.Popup().setHTML(`<p>${apartment.price}</p>`));
-            //     marker.setPopup(new tt.Popup().setHTML(`<h6>${apartment.title}</h6><p>${apartment.address}</p>`));
-
-map.on('load', () => {
-    new tt.Marker().setLngLat(center).addTo(map)
-})
-            // map.addControl(new tt.NavigationControl());
-
-
-            // return { map };
-        // },
-        // createMarkerElement(text) {
-        //     const markerElement = document.createElement('div');
-        //     markerElement.className = 'custom-marker';
-        //     markerElement.innerText = text;
-        //     return markerElement
-        // }
-
-
-
+        return { map };
     }
 }
-}
+
 </script>
 
 <template>
-    <div id="map" class="map-container my-map"></div>
+    <div id="map" class="map-container"></div>
 </template>
 
-<style lang="scss">
-.my-map {
+<style scoped>
+.map-container {
+    height: 200px;
     width: 100%;
-    // height: 100%;
+}
+</style> -->
 
-    // Mappa per index
-    .custom-marker {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 30px;
-        background-color: grey;
-        color: blue;
-        border-radius: 5px;
-        border: 1px solid blue;
-        font-size: 12px;
-        padding: 0.2rem;
+<template>
+    <div id="map" class="map-container"></div>
+</template>
+
+<script>
+import { onMounted, watch } from 'vue';
+import tt from '@tomtom-international/web-sdk-maps';
+
+export default {
+    name: 'Map',
+    props: {
+        apiKey: String,
+        lat: Number,
+        long: Number,
+        apartments: Array,
+    },
+    setup(props) {
+        let map = null;
+        let markers = []
+
+        const initializeMap = () => {
+            map = tt.map({
+                key: props.apiKey,
+                container: 'map',
+                center: [props.long, props.lat],
+                zoom: 11
+            });
+
+            new tt.Marker().setLngLat([props.long, props.lat]).addTo(map);
+            map.addControl(new tt.NavigationControl());
+        };
+
+
+        const updateMapCenter = () => {
+            if (map) {
+                map.setCenter([props.long, props.lat]);
+
+                let marker = new tt.Marker().setLngLat([props.long, props.lat]).addTo(map);
+            }
+        };
+
+        const updateMarkers = () => {
+            // Rimuovi tutti i marcatori esistenti
+            markers.forEach(marker => marker.remove());
+            markers = [];
+
+            // Aggiungi i marcatori per gli appartamenti
+            props.apartments.forEach(apartment => {
+                // const marker = new tt.Marker().setLngLat([apartment.longitude, apartment.latitude]).addTo(map);
+                markers.push(marker);
+            });
+        };
+
+
+        onMounted(() => {
+            initializeMap();
+        });
+
+        watch(() => [props.lat, props.long], () => {
+            updateMapCenter();
+        });
+
+        watch(() => props.apartments, () => {
+            // Rimuovi tutti i marcatori esistenti
+            map.getSource().clear();
+
+            // Aggiungi i marcatori per tutti gli appartamenti
+            props.apartments.forEach(apartment => {
+                new tt.Marker().setLngLat([apartment.longitude, apartment.latitude]).addTo(map);
+                markers.push(marker);
+            });
+        });
+
+        watch(() => props.apartments, () => {
+            updateMarkers();
+        });
+
+        return { map };
     }
+};
+</script>
+
+<style scoped>
+.map-container {
+    width: 100%;
+    height: 300px;
+    margin: 0 auto;
 }
 
-// MEDIAQUERY
 @media screen and (min-width: 1024px) {
 
-    .my-map {
-        width: 60%;
+    .map-container {
+        width: 100%;
         margin: 0 auto;
         height: 300px;
     }

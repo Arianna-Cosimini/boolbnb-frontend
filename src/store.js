@@ -18,6 +18,8 @@ export const store = reactive({
     user_surname: '',
     user_email: '',
     rooms:'',
-    bathrooms:''
+    bathrooms:'',
+    latitude: '44.4949',
+    longitude:'11.3426',
 
 });
