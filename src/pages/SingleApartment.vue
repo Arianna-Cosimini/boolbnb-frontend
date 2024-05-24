@@ -85,7 +85,7 @@ export default {
             <!-- Descrizione -->
             <p class="service-title mb-5 col-6">{{ apartment.description }}</p>
 
-            <hr class="mb-4">
+            <hr class="mb-3">
 
             <!-- Servizi -->
             <div class="mb-4">
@@ -103,25 +103,26 @@ export default {
                 </div>
             </div>
 
-            <hr class="mb-4">
+            <hr class="mb-3">
 
             <div class="row">
-                <div class="col mb-3">
-                    <hr />
-                    <h5 id="dovetitroverai" class="my-3">Dove ti troverai</h5>
+                <div class="col mb-4">
+                    <h5 id="dovetitroverai" class="mb-3 fw-medium fs-4">Dove sarai</h5>
+
+                    <p class="mb-3" style="font-weight: 300;">{{ apartment.address }}</p>
+
                     <!-- !! MAPPA !! -->
-                    <div v-if="apartment.latitude != null && apartment.longitude != null">
+                    <div class="mb-3" v-if="apartment.latitude != null && apartment.longitude != null">
                         <Map :apiKey="store.apiKey" :lat="apartment.latitude" :long="apartment.longitude"></Map>
                     </div>
-                    <div class="mt-2">
-                        <span>
-                            <font-awesome-icon :icon="['fas', 'location-dot']" />
-                        </span>
-                        <span class="fw-semibold mx-2">{{ apartment.address }}</span>
-                    </div>
+
+                    <p class="mb-0" style="font-weight: 300;">Abbiamo verificato l'accuratezza della posizione di questo
+                        alloggio.</p>
+
                 </div>
             </div>
 
+            <hr class="mb-3">
 
             <!-- Contatto dell'Host' -->
             <div class="host-info mb-5">
