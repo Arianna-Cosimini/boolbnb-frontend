@@ -41,7 +41,23 @@ export default {
             } else {
                 this.$router.push({ name: 'home' })
             }
-        })
+        });
+
+       
+            axios.get("https://api.ipify.org?format=json").then(res => {
+                //console.log(res.data.ip);
+                let ipAddress = res.data.ip;
+                axios.post("http://127.0.0.1:8000/api/views", {
+                    apartment_id: this.apartment.id,
+                    ip_address: ipAddress,
+                }).then(res=> {
+                    console.log(res.data);
+                })
+
+            })
+        
+
+
     },
 
     methods: {
