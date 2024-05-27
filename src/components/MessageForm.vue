@@ -26,15 +26,17 @@ export default {
         //funzione per mandare il messaggio
 
         sendMessage() {
-            //console.log('rotta : ', this.$router.push('/apartments' + ':' + this.slug) );
-            //console.log(this.formData);
-            axios.post('http://127.0.0.1:8000/api/new-message', this.formData).then(res => {
+            // Include l'ID dell'appartamento nel payload del messaggio
+            const messageData = {
+                ...this.formData,
+                apartment_id: this.apartment?.id || null,
+            };
+            axios.post(this.baseApiMessage + 'new-message', messageData).then(res => {
                 console.log(res);
                 this.$router.push('loading-message');
-            })
-            /*  .catch((error) => {
-                 console.error('Errore durante la registrazione:', error);
-             }) */
+            }).catch((error) => {
+                console.error('Errore durante la registrazione:', error);
+            });
         },
 
         goBack() {
@@ -49,7 +51,6 @@ export default {
 </script>
 
 <template>
-
     <button class="btn p-0 mt-4 mb-3 rounded-5 ratio-1x1" @click="goBack"><i
             class="fa-solid fa-chevron-left p-3"></i></button>
 
@@ -58,9 +59,7 @@ export default {
 
     <hr style="color: grey;" class="mb-4">
 
-
     <form @submit.prevent="sendMessage()">
-
         <div class="mb-4">
             <label for="name" class="form-label">Nome</label>
             <input type="text" class="form-control" id="name" name="name" v-model="formData.name" required>
@@ -75,7 +74,6 @@ export default {
             <label for="address" class="form-label">Indirizzo Email</label>
             <input type="email" class="form-control" id="address" name="address" aria-describedby="emailHelp"
                 v-model="formData.address" required>
-            <div id="emailHelp" class="form-text">La tua mail non sarà condivisa</div>
         </div>
         <div class="mb-4">
             <label for="message">Messaggio</label>
@@ -85,12 +83,8 @@ export default {
                 style="height: 300px" v-model="formData.message" required></textarea>
         </div>
 
-        <button class="btn btn-danger my-btn px-3">Invia messaggio <i class="fa-solid fa-paper-plane"></i> </button>
-
-        <!-- <router-link :to="{ name: 'loading-message' }" class="btn my-btn px-4 py-2">Invia
-            messaggio</router-link> -->
+        <button class="btn btn-danger my-btn px-3">Invia messaggio <i class="fa-solid fa-paper-plane"></i></button>
     </form>
-
 </template>
 
 <style>
