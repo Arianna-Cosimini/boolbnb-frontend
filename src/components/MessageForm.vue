@@ -85,7 +85,7 @@ export default {
                 style="height: 300px" v-model="formData.message" required></textarea>
         </div>
 
-        <button class="my-btn">Invia messaggio <i class="fa-solid fa-paper-plane"></i> </button>
+        <button class="btn btn-danger my-btn px-3">Invia messaggio <i class="fa-solid fa-paper-plane"></i> </button>
 
         <!-- <router-link :to="{ name: 'loading-message' }" class="btn my-btn px-4 py-2">Invia
             messaggio</router-link> -->
@@ -95,16 +95,16 @@ export default {
 
 <style>
 .my-btn {
-    background-color: #ff385c;
-    border: 1px solid #ff385c;
+    background-color: #222;
+    border: 1px solid #222;
     border-radius: 10px;
-    color:white;
+    color: white;
     padding: 6px;
 
     &:hover {
-        background-color: white;
-        border: 1px solid #ff385c;
-        color: #ff385c;
+        background-color: black;
+        border: 1px solid black;
+        color: white;
     }
 }
 
