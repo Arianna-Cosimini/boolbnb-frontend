@@ -142,7 +142,7 @@ export default {
 @media screen and (min-width: 1024px) {
 
     .map-container {
-        width: 100%;
+        width: 60%;
         margin: 0 auto;
         height: 300px;
     }
