@@ -6,7 +6,7 @@ export default {
 </script>
 
 <template>
-    <footer class="bg-white w-100 position-fixed border-top" style="bottom: 0; z-index: 100;">
+    <footer class="d-none d-md-block bg-white w-100 position-fixed border-top" style="bottom: 0; z-index: 100;">
         <div class="container-fluid py-3 px-5 fw-light" style="font-size: 14px;">
             <ul class="list-unstyled d-flex gap-2 mb-0">
                 <li>

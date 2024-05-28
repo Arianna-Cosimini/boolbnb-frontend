@@ -95,13 +95,14 @@ export default {
 
   <div v-if="filteredApartments.length > 0">
     <div class="mb-5 pb-5">
-      <div class="sponsored-apartments container-fluid px-5 mt-5">
+      <div class="sponsored-apartments container-fluid px-2 px-sm-3 px-md-4 mt-3">
         <h2 class="fs-2 p-3 mb-0">In evidenza</h2>
       </div>
 
       <div class="container-fluid text-center">
-        <div class="row px-5">
-          <ApartmentItem v-for="apartment in filteredApartments" :key="apartment.id" :apartment="apartment" />
+        <div class="row px-2 px-sm-3 px-md-4">
+          <ApartmentItem v-for="apartment in filteredApartments" :key="apartment.id" :apartment="apartment"
+            class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-4" />
         </div>
       </div>
 
