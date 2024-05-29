@@ -119,8 +119,8 @@ export default {
 .sponsored .sponsored-label {
     display: block !important;
     position: absolute;
-    top: 18px;
-    right: 18px;
+    top: 12px;
+    left: 12px;
     padding: 4px 12px 4px 8px;
     border-radius: 50px;
     color: white;
