@@ -225,9 +225,9 @@ export default {
 
 <template>
     <div>
-        <div class="container d-flex px-0 flex-column flex-md-row align-items-center gap-3">
+        <div class="container d-flex px-0 flex-column flex-md-row align-items-md-center gap-3">
             <AppHeader class="flex-grow-1" @address-selected="handleAddressSelected"></AppHeader>
-            <div class="btn-container" v-if="$route.name !== 'home'">
+            <div class="btn-container align-self-center" v-if="$route.name !== 'home'">
                 <button type="button" class="my-black-btn btn btn-primary border-0 py-2" @click="toggleModal">
                     <i class="fa-solid fa-sliders me-2"></i>Filtri
                 </button>
