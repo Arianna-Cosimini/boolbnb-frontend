@@ -89,13 +89,13 @@ export default {
     <AppHeader></AppHeader>
     <div class="container mt-5">
       <h1 class="text-white display-1 py-5">Dove inizia la tua<br> prossima avventura</h1>
-      <router-link :to="{ name: 'app-apartments' }" class="my-white-btn btn btn-lg px-">
+      <a href="#scrollspy1" class="my-white-btn btn btn-lg">
         Parti ora
-      </router-link>
+      </a>
     </div>
   </div>
 
-  <div v-if="filteredApartments.length > 0">
+  <div v-if="filteredApartments.length > 0" id="scrollspy1">
     <div class="mb-5 pb-5">
       <div class="sponsored-apartments container-fluid px-2 px-sm-3 px-md-4 mt-3">
         <h2 class="fs-2 p-3 mb-0">In evidenza</h2>
