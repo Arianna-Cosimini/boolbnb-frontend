@@ -220,7 +220,9 @@ export default {
                             <output>{{ range }}</output>
                             <label for="customRange3" class="form-label"></label>
 
-                            <Map class="my-4" :apiKey="store.apiKey" :lat="store.lat" :long="store.lon"></Map>
+                            <Map ref="mapComponent" class="my-4" :apiKey="store.apiKey" :lat="store.lat"
+                                :long="store.lon"></Map>
+
 
                         </div>
 
