@@ -367,16 +367,17 @@ export default {
             </div>
         </form>
 
-        <div class="container-fluid text-center">
+        <div class="container-fluid text-center px-2 px-sm-3 px-md-4 mt-3">
             <!-- Mostra i filtri applicati solo dopo aver applicato i filtri -->
-            <div class="row px-5" v-if="filtersApplied && getAppliedFiltersDescription()">
+            <div class="row px-2 px-sm-3 px-md-4" v-if="filtersApplied && getAppliedFiltersDescription()">
                 <div class="col-12 text-start mt-3 mb-3">
                     <strong>Filtri applicati:</strong> {{ getAppliedFiltersDescription() }}
                 </div>
             </div>
-            <div class="row px-5">
+            <div class="row px-2 px-sm-3 px-md-4">
                 <template v-if="filteredApartments.length > 0">
-                    <ApartmentItem v-for="apartment in filteredApartments" :key="apartment.id" :apartment="apartment" />
+                    <ApartmentItem v-for="apartment in filteredApartments" :key="apartment.id" :apartment="apartment"
+                        class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-4" />
                 </template>
                 <template v-else>
                     <div class="container text-start mt-5">
