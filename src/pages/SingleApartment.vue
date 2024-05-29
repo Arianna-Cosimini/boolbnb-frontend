@@ -1,9 +1,15 @@
 <script>
 import axios from 'axios';
 import { store } from '../store.js';
+import Map from '../components/Map.vue';
+
 
 export default {
     name: 'MessageForm',
+    components: {
+        Map,
+    },
+
     data() {
         return {
             store,
@@ -136,6 +142,7 @@ export default {
                     <p class="mb-3" style="font-weight: 300;">{{ apartment.address }}</p>
                     <!-- !! MAPPA !! -->
                     <div class="mb-3" v-if="apartment.latitude != null && apartment.longitude != null">
+
                         <Map :apiKey="store.apiKey" :lat="apartment.latitude" :long="apartment.longitude"></Map>
                     </div>
                     <p class="mb-0" style="font-weight: 300;">Abbiamo verificato l'accuratezza della posizione di questo

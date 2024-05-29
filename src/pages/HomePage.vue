@@ -104,7 +104,7 @@ export default {
       <div class="container-fluid text-center">
         <div class="row px-2 px-sm-3 px-md-4">
           <ApartmentItem v-for="apartment in filteredApartments" :key="apartment.id" :apartment="apartment"
-            class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-4" />
+            class="sponsored col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-4" />
         </div>
       </div>
 
@@ -118,7 +118,7 @@ export default {
   <div v-else></div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .jumbotron {
   height: 600px;
   background-image: url('/background.png');
@@ -137,6 +137,21 @@ export default {
       background-color: black !important;
     }
   }
+}
+
+.sponsored {
+  position: relative;
+}
+
+.sponsored::after {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  content: "sponsorizzato";
+  padding: 4px 12px;
+  border-radius: 16px;
+  color: white;
+  background-color: #FF385C;
 }
 
 .button-nav {

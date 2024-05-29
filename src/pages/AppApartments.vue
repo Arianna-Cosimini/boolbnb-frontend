@@ -54,6 +54,12 @@ export default {
     methods: {
         toggleModal() {
             this.showModal = !this.showModal;
+            if (this.showModal) {
+                this.$nextTick(() => {
+                    console.log('Modal aperto, ridimensionamento mappa...');
+                    this.$refs.mapComponent.resizeMap();
+                });
+            }
         },
 
         handleCategorySelected(categoryId) {
@@ -191,7 +197,7 @@ export default {
 
             return filters.join(' | ');
         },
-        
+
     },
 
 
@@ -360,11 +366,11 @@ export default {
                 <button class="modal-close is-large" @click="toggleModal" aria-label="close"></button>
             </div>
         </form>
-        
+
         <div class="container-fluid text-center">
             <!-- Mostra i filtri applicati solo dopo aver applicato i filtri -->
             <div class="row px-5" v-if="filtersApplied && getAppliedFiltersDescription()">
-                <div class="col-12 text-start mb-3">
+                <div class="col-12 text-start mt-3 mb-3">
                     <strong>Filtri applicati:</strong> {{ getAppliedFiltersDescription() }}
                 </div>
             </div>
@@ -396,10 +402,10 @@ export default {
 
 
 <style lang="scss">
-
 .hidden {
     display: none;
 }
+
 .my_mini_jumbo {
     height: 60vh;
 }
