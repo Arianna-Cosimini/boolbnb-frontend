@@ -41,7 +41,7 @@ export default {
             showModal: false,
             range: '10',
             selectedCategory: null,
-            filtersApplied: true
+            filtersApplied: false
         }
     },
 
