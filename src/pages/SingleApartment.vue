@@ -1,15 +1,9 @@
 <script>
 import axios from 'axios';
 import { store } from '../store.js';
-import Map from '../components/Map.vue';
 
 export default {
-    name: 'SingleApartment',
-
-    components: {
-        Map
-    },
-
+    name: 'MessageForm',
     data() {
         return {
             store,
@@ -24,28 +18,21 @@ export default {
                 address: '',
                 message: '',
             },
+            loading: false, // Variabile di stato per il loader
         }
     },
 
     mounted() {
-        // serach the id from the url
-        // console.log(this.$route.params.slug)
-        // save the id in a variable
-        this.apartmentSlug = this.$route.params.slug
+        this.apartmentSlug = this.$route.params.slug;
         axios.get(this.baseApiHome + '/apartments/' + this.apartmentSlug).then(res => {
-            //console.log(res);
-
             if (res.data.apartment) {
-
                 this.apartment = res.data.apartment;
             } else {
-                this.$router.push({ name: 'home' })
+                this.$router.push({ name: 'home' });
             }
         });
 
-
         axios.get("https://api.ipify.org?format=json").then(res => {
-            //console.log(res.data.ip);
             let ipAddress = res.data.ip;
             axios.post("http://127.0.0.1:8000/api/views", {
                 apartment_id: this.apartment.id,
@@ -53,11 +40,7 @@ export default {
             }).then(res => {
                 console.log(res.data);
             })
-
-        })
-
-
-
+        });
     },
 
     methods: {
@@ -69,7 +52,8 @@ export default {
         },
 
         sendMessage() {
-            // Include l'ID dell'appartamento nel payload del messaggio
+            this.loading = true; // Attiva il loader prima di inviare il messaggio
+
             const messageData = {
                 ...this.formData,
                 apartment_id: this.apartment?.id || null,
@@ -77,16 +61,19 @@ export default {
             axios.post(this.baseApiMessage + 'new-message', messageData)
                 .then(res => {
                     console.log(res);
-                    // Reindirizzamento
                     this.$router.push({ name: 'loading-message' });
                 })
                 .catch((error) => {
                     console.error('Errore durante l\'invio del messaggio:', error);
+                })
+                .finally(() => {
+                    this.loading = false; // Disattiva il loader dopo aver ricevuto la risposta o l'errore
                 });
         }
     }
 }
 </script>
+
 
 <template>
     <div class="container py-5" style="margin-bottom: 50px;">
@@ -96,7 +83,7 @@ export default {
             </h1>
             <div class="img-container w-100 mb-4 position-relative">
                 <img :src="'http://localhost:8000/storage/' + apartment.cover_image"
-                    class=" card-img-top object-fit-cover w-100 rounded-3 overflow-hidden" alt="...">
+                    class="card-img-top object-fit-cover w-100 rounded-3 overflow-hidden" alt="...">
             </div>
             <h2 class="mb-0 fs-4">Appartamento in {{ apartment.address }}</h2>
             <p class="mb-1 d-flex">
@@ -220,13 +207,16 @@ export default {
             </div>
         </div>
 
-        <div v-else>
-            <div class="spinner-border" role="status">
-                <span class="visually-hidden">Loading...</span>
+        <!-- Loader Overlay -->
+        <div v-show="loading" id="loader-overlay"
+            style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(255, 255, 255, 0.5); z-index: 9999;">
+            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
+                <div class="spinner"></div>
             </div>
         </div>
     </div>
 </template>
+
 
 
 <style lang="scss" scoped>
@@ -293,5 +283,44 @@ export default {
     border-radius: 5px;
     top: 50%;
     transform: translateY(-50%);
+}
+
+.spinner {
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid black;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 2s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.my-btn {
+    background-color: #222;
+    border: 1px solid #222;
+    border-radius: 10px;
+    color: white;
+    padding: 6px;
+
+    &:hover {
+        background-color: black;
+        border: 1px solid black;
+        color: white;
+    }
+}
+
+.thin-text {
+    font-weight: 300;
+    color: #6a6a6a;
 }
 </style>

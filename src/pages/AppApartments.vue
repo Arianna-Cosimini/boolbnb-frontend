@@ -41,6 +41,7 @@ export default {
             showModal: false,
             range: '10',
             selectedCategory: null,
+            filtersApplied: true
         }
     },
 
@@ -141,6 +142,7 @@ export default {
             console.log('Applicazione dei filtri completata.');
             // Chiudi il modal dopo aver applicato i filtri
             this.showModal = false;
+            this.filtersApplied = true;
         },
 
         changeApiPage(pageNumber) {
@@ -160,6 +162,36 @@ export default {
             this.store.lon = data.lon;
             this.getApartments();
         },
+
+        getAppliedFiltersDescription() {
+            const filters = [];
+
+            if (this.range) {
+                filters.push(`${this.range} km dalla posizione scelta`);
+            }
+
+            if (this.roomsNumber) {
+                filters.push(`${this.roomsNumber} camere da letto`);
+            }
+
+            if (this.bedsNumber) {
+                filters.push(`${this.bedsNumber} letti`);
+            }
+
+            if (this.selectedServices.length > 0) {
+                const serviceTitles = this.services
+                    .filter(service => this.selectedServices.includes(service.id))
+                    .map(service => service.title);
+                filters.push(`Servizi: ${serviceTitles.join(', ')}`);
+            }
+
+            if (this.selectedCategory) {
+                filters.push(`Categoria: ${this.selectedCategory}`);
+            }
+
+            return filters.join(' | ');
+        },
+        
     },
 
 
@@ -225,17 +257,6 @@ export default {
 
 
                         </div>
-
-                        <!-- <div class="mb-3 w-100">
-                            <div class="fs-5 mb-3 fw-medium">Distanza</div>
-                            <input type="range" id="km" class="form-range mb-4" v-model="range" min="0.1" max="20"
-                                step="0.1" oninput="this.nextElementSibling.value = this.value"
-                                @input="updateThumbPosition" />
-                            <output>10</output> <label for="km" class="form-label">(km)</label> -->
-
-                        <!-- <Map :apiKey="store.apiKey" :lat="store.latitude" :long="store.longitude"></Map> -->
-                        <!-- <Map :apikey="store.apikey" :apartments="apartments" :long="long" :lat="lat"></Map> -->
-                        <!-- </div> -->
 
                         <hr style="color: grey;" class="mb-3">
 
@@ -339,13 +360,17 @@ export default {
                 <button class="modal-close is-large" @click="toggleModal" aria-label="close"></button>
             </div>
         </form>
-
-
+        
         <div class="container-fluid text-center">
-            <div class="row px-2 px-sm-3 px-md-4 px-lg-5">
-                <template v-if="this.filteredApartments.length > 0">
-                    <ApartmentItem v-for="apartment in filteredApartments" :key="apartment.id" :apartment="apartment"
-                        class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2" />
+            <!-- Mostra i filtri applicati solo dopo aver applicato i filtri -->
+            <div class="row px-5" v-if="filtersApplied && getAppliedFiltersDescription()">
+                <div class="col-12 text-start mb-3">
+                    <strong>Filtri applicati:</strong> {{ getAppliedFiltersDescription() }}
+                </div>
+            </div>
+            <div class="row px-5">
+                <template v-if="filteredApartments.length > 0">
+                    <ApartmentItem v-for="apartment in filteredApartments" :key="apartment.id" :apartment="apartment" />
                 </template>
                 <template v-else>
                     <div class="container text-start mt-5">
@@ -371,6 +396,10 @@ export default {
 
 
 <style lang="scss">
+
+.hidden {
+    display: none;
+}
 .my_mini_jumbo {
     height: 60vh;
 }
