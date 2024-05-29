@@ -89,7 +89,9 @@ export default {
     <AppHeader></AppHeader>
     <div class="container mt-5">
       <h1 class="text-white display-1 py-5">Dove inizia la tua<br> prossima avventura</h1>
-      <a href="" class="my-white-btn btn btn-lg px-4">Parti ora</a>
+      <router-link :to="{ name: 'app-apartments' }" class="my-white-btn btn btn-lg px-">
+        Parti ora
+      </router-link>
     </div>
   </div>
 

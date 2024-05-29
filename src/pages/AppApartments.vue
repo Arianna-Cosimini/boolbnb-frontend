@@ -187,7 +187,7 @@ export default {
 
 <template>
     <div>
-        <div class="container d-flex align-items-center mt-3 gap-3">
+        <div class="container d-flex px-0 flex-column flex-md-row align-items-center gap-3">
             <AppHeader class="flex-grow-1" @address-selected="handleAddressSelected"></AppHeader>
             <div class="btn-container" v-if="$route.name !== 'home'">
                 <button type="button" class="my-black-btn btn btn-primary border-0 py-2" @click="toggleModal">
@@ -314,8 +314,8 @@ export default {
 
                         <div class="d-flex justify-content-center "></div>
                         <p class="fs-5 mb-3 fw-medium">Servizi</p>
-                        <div class="d-flex gap-2 row mb-4">
-                            <div v-for="service in services" :key="service.id" class="col-4">
+                        <div class="row d-flex mb-4">
+                            <div v-for="service in services" :key="service.id" class="col-12 col-sm-6">
                                 <input type="checkbox" :id="service.id" class="my-checkbox checkbox"
                                     v-model="selectedServices" :value="service.id">
                                 <label :for="service.id" class="form-label user-select-none ms-2">{{
@@ -340,9 +340,10 @@ export default {
 
 
         <div class="container-fluid text-center">
-            <div class="row px-5">
+            <div class="row px-2 px-sm-3 px-md-4 px-lg-5">
                 <template v-if="this.filteredApartments.length > 0">
-                    <ApartmentItem v-for="apartment in filteredApartments" :key="apartment.id" :apartment="apartment" />
+                    <ApartmentItem v-for="apartment in filteredApartments" :key="apartment.id" :apartment="apartment"
+                        class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2" />
                 </template>
                 <template v-else>
                     <div class="container text-start mt-5">

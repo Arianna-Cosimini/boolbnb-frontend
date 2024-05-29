@@ -43,19 +43,19 @@ export default {
             }
         });
 
-       
-            axios.get("https://api.ipify.org?format=json").then(res => {
-                //console.log(res.data.ip);
-                let ipAddress = res.data.ip;
-                axios.post("http://127.0.0.1:8000/api/views", {
-                    apartment_id: this.apartment.id,
-                    ip_address: ipAddress,
-                }).then(res=> {
-                    console.log(res.data);
-                })
 
+        axios.get("https://api.ipify.org?format=json").then(res => {
+            //console.log(res.data.ip);
+            let ipAddress = res.data.ip;
+            axios.post("http://127.0.0.1:8000/api/views", {
+                apartment_id: this.apartment.id,
+                ip_address: ipAddress,
+            }).then(res => {
+                console.log(res.data);
             })
-        
+
+        })
+
 
 
     },
@@ -125,7 +125,7 @@ export default {
             <hr class="mb-5">
 
             <!-- Descrizione -->
-            <p class="service-title mb-5 col-6">{{ apartment.description }}</p>
+            <p class="service-title mb-5 col-12 col-md-6">{{ apartment.description }}</p>
 
             <hr class="mb-3">
 
@@ -134,7 +134,7 @@ export default {
                 <p class="mb-3 fw-medium fs-4">Cosa troverai</p>
                 <div class="row d-flex gap-3">
                     <div v-for="(service, key) in apartment.services" :key="key"
-                        class="col-3 d-flex flex-wrap gap-3 align-items-center">
+                        class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex gap-3 flex-wrap align-items-center">
                         <img :src="service.icon" class="service-icon fs-5"></img>
                         <span class="service-title">{{ service.title }} </span>
                     </div>
@@ -159,16 +159,16 @@ export default {
             <hr class="mb-3">
 
             <!-- Contatto dell'Host -->
-            <div class="host-info mb-5">
+            <div class="container host-info mb-5">
                 <p class="mb-3 fw-medium fs-4">Informazioni sull'Host</p>
                 <div class="row info-container rounded-4 p-4">
                     <h3 class="host-details fs-5">Dettagli dell'host</h3>
-                    <div class="col-6">
+                    <div class="col-12 col-md-6">
                         <p class="service-title">Lingue: olandese, inglese, francese, tedesco e italiano</p>
-                        <button @click="openModal" class="my-black-btn btn px-4 py-2">Invia un messaggio
+                        <button @click="openModal" class="my-black-btn btn mb-4 mb-md-0 px-4 py-2">Invia un messaggio
                             all'host</button>
                     </div>
-                    <div class="col-6">
+                    <div class="col-12 col-md-6">
                         <p class="service-title mb-0">Tasso di risposta: 93%</p>
                         <p class="service-title mb-3">Risponde entro un giorno</p>
                     </div>

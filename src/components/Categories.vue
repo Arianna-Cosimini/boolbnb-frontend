@@ -37,7 +37,7 @@ export default {
 </script>
 
 <template>
-    <div class="container-fluid mt-3 px-5 py-2">
+    <div class="container-fluid mt-3 px-2 px-sm-3 px-md-4 px-lg-5 py-2">
         <div class="categories d-flex gap-5 align-items-end px-3 overflow-x-auto">
             <div class="all-categories text-black-50 d-flex flex-column align-items-center gap-1"
                 :class="{ selected: selectedCategory === null }" @click="selectCategory('all')">

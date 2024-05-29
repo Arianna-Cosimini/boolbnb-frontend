@@ -15,7 +15,7 @@ export default {
 </script>
 
 <template>
-    <nav class="navbar px-2 px-sm-3 px-md-4 px-lg-5 navbar-expand-md navbar-light bg-white shadow-sm">
+    <nav class="navbar d-none d-md-block px-2 px-sm-3 px-md-4 px-lg-5 navbar-expand-md navbar-light bg-white shadow-sm">
         <div class="container-fluid">
 
             <router-link :to="{ name: 'home' }" class="navbar-brand">
@@ -23,9 +23,8 @@ export default {
             </router-link>
 
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
@@ -42,19 +41,25 @@ export default {
                 <ul class="navbar-nav ml-auto">
                     <!-- Authentication Links -->
                     <li class="nav-item">
-                        <a class="nav-link" href="http://127.0.0.1:8000/login">Login</a>
-
-                    </li>
-
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="http://127.0.0.1:8000/register">Registrati</a>
+                        <a class="nav-link" href="http://127.0.0.1:8000/login"><i
+                                class="fa-regular fa-circle-user me-1"></i>Profilo</a>
                     </li>
 
                 </ul>
             </div>
         </div>
     </nav>
+
+    <!-- bottom bar -->
+    <div
+        class="container-fluid bottom-bar d-md-none py-2 px-3 px-sm-3 px-md-4 px-lg-5 navbar-expand-md navbar-light bg-white shadow-sm d-flex justify-content-between align-items-center">
+        <router-link :to="{ name: 'home' }" class="navbar-brand">
+            <img src="/favicon.svg" alt="boolbnb logo" height="40px">
+        </router-link>
+
+        <a class="nav-link" href="http://127.0.0.1:8000/login"><i class="fa-regular fa-circle-user me-1"></i>Profilo</a>
+    </div>
 </template>
+
 
 <style lang="scss" scoped></style>

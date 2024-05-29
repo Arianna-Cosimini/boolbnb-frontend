@@ -74,7 +74,7 @@ export default {
                 <div id="first-section" class="position-relative mb-3 mt-3">
                     <form @submit.prevent="sendAddress" class="d-flex align-items-center gap-3 mt-0">
                         <div
-                            class="my-research bg-white rounded-5 ps-5 pe-2 py-2 shadow-lg d-flex flex-grow-1 justify-content-between align-items-center gap-3 gap-md-5">
+                            class="my-research bg-white rounded-5 ps-3 ps-sm-5 pe-2 py-2 shadow-lg d-flex flex-grow-1 justify-content-between align-items-center gap-3 gap-md-5">
                             <div class="position-relative flex-grow-1" @click.stop>
                                 <input type="search" class="form-control custom-focus border-0 radius"
                                     v-model="store.address" name="address" @click="store.addressListVisible = true"
