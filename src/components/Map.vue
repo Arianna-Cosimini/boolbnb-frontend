@@ -1,55 +1,3 @@
-<!-- <script>
-import { onMounted } from 'vue';
-import tt from '@tomtom-international/web-sdk-maps';
-
-export default {
-    name: 'Map',
-    props: {
-        apiKey: String,
-        lat: String,
-        long: String
-    },
-    setup(props) {
-        let map = null;
-
-        onMounted(() => {
-            // Convert lat and long to numbers and check if they are valid
-            const latitude = parseFloat(props.lat);
-            const longitude = parseFloat(props.long);
-
-            if (isNaN(latitude) || isNaN(longitude)) {
-                console.error('Invalid latitude or longitude');
-                return;
-            }
-
-            map = tt.map({
-                key: props.apiKey,
-                container: 'map',
-                center: [longitude, latitude],
-                zoom: 11
-            });
-
-            const marker = new tt.Marker().setLngLat([longitude, latitude]).addTo(map);
-            map.addControl(new tt.NavigationControl());
-        });
-
-        return { map };
-    }
-}
-
-</script>
-
-<template>
-    <div id="map" class="map-container"></div>
-</template>
-
-<style scoped>
-.map-container {
-    height: 200px;
-    width: 100%;
-}
-</style> -->
-
 <template>
     <div id="map" class="map-container"></div>
 </template>
@@ -68,7 +16,7 @@ export default {
     },
     setup(props) {
         let map = null;
-        let markers = []
+        let markers = [];
 
         const initializeMap = () => {
             map = tt.map({
@@ -82,27 +30,38 @@ export default {
             map.addControl(new tt.NavigationControl());
         };
 
-
         const updateMapCenter = () => {
             if (map) {
                 map.setCenter([props.long, props.lat]);
-
-                let marker = new tt.Marker().setLngLat([props.long, props.lat]).addTo(map);
+                // Clear existing center marker if any
+                markers = markers.filter(marker => {
+                    if (marker.getLngLat().lat === props.lat && marker.getLngLat().lng === props.long) {
+                        marker.remove();
+                        return false;
+                    }
+                    return true;
+                });
+                // Add new center marker
+                const centerMarker = new tt.Marker().setLngLat([props.long, props.lat]).addTo(map);
+                markers.push(centerMarker);
             }
         };
 
         const updateMarkers = () => {
-            // Rimuovi tutti i marcatori esistenti
+            // Remove all existing markers
             markers.forEach(marker => marker.remove());
             markers = [];
 
-            // Aggiungi i marcatori per gli appartamenti
+            // Add markers for the apartments
             props.apartments.forEach(apartment => {
-                // const marker = new tt.Marker().setLngLat([apartment.longitude, apartment.latitude]).addTo(map);
+                const marker = new tt.Marker().setLngLat([apartment.longitude, apartment.latitude]).addTo(map);
                 markers.push(marker);
             });
-        };
 
+            // Add the center marker again
+            const centerMarker = new tt.Marker().setLngLat([props.long, props.lat]).addTo(map);
+            markers.push(centerMarker);
+        };
 
         onMounted(() => {
             initializeMap();
@@ -110,17 +69,6 @@ export default {
 
         watch(() => [props.lat, props.long], () => {
             updateMapCenter();
-        });
-
-        watch(() => props.apartments, () => {
-            // Rimuovi tutti i marcatori esistenti
-            map.getSource().clear();
-
-            // Aggiungi i marcatori per tutti gli appartamenti
-            props.apartments.forEach(apartment => {
-                new tt.Marker().setLngLat([apartment.longitude, apartment.latitude]).addTo(map);
-                markers.push(marker);
-            });
         });
 
         watch(() => props.apartments, () => {
@@ -140,10 +88,8 @@ export default {
 }
 
 @media screen and (min-width: 1024px) {
-
     .map-container {
-        width: 60%;
-        margin: 0 auto;
+        width: 100%;
         height: 300px;
     }
 }
