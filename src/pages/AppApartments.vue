@@ -94,13 +94,16 @@ export default {
 
             console.log('Parametri della richiesta:', params); // Stampa i parametri della richiesta
 
-
             const url = `http://127.0.0.1:8000/api/filter`;
-
 
             axios.get(url, { params })
                 .then(res => {
-                    this.apartments = res.data.results.data;
+                    // Mappa gli appartamenti per aggiungere la proprietà `sponsored`
+                    this.apartments = res.data.results.data.map(apartment => {
+                        apartment.sponsorships = apartment.sponsorships && apartment.sponsorships.length > 0;
+                        return apartment;
+                    });
+
                     this.services = res.data.services;
                     this.apiLinks = res.data.results.links;
                     this.total_items = res.data.results.total;
@@ -673,7 +676,6 @@ export default {
         text-overflow: ellipsis;
     }
 }
-
 
 
 .my-checkbox {

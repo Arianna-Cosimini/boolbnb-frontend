@@ -139,20 +139,18 @@ export default {
   }
 }
 
-.sponsored {
-  position: relative;
-}
 
-.sponsored::after {
-  position: absolute;
-  top: 24px;
-  right: 24px;
-  content: "sponsorizzato";
-  padding: 4px 12px;
-  border-radius: 16px;
-  color: white;
-  background-color: #FF385C;
-}
+
+// .sponsored::after {
+//   position: absolute;
+//   top: 24px;
+//   right: 24px;
+//   content: "sponsorizzato";
+//   padding: 4px 12px;
+//   border-radius: 16px;
+//   color: white;
+//   background-color: #FF385C;
+// }
 
 .button-nav {
   margin-top: 20px;
