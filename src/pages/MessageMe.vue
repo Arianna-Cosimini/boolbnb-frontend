@@ -1,6 +1,6 @@
 <script>
 
-import MessageForm from '../components/MessageForm.vue';
+// import MessageForm from '../components/MessageForm.vue';
 
 
 export default {
@@ -10,14 +10,14 @@ export default {
         }
     },
     components: {
-        MessageForm
+        // MessageForm
     }
 }
 </script>
 
 <template>
     <div class="container">
-        <MessageForm></MessageForm>
+        <!-- <MessageForm></MessageForm> -->
     </div>
 
 </template>
