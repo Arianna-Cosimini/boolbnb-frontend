@@ -63,6 +63,13 @@ export default {
             markers.push(centerMarker);
         };
 
+        const resizeMap = () => {
+            if (map) {
+                map.resize();
+                map.setCenter([props.long, props.lat]);
+            }
+        };
+
         onMounted(() => {
             initializeMap();
         });
@@ -75,21 +82,21 @@ export default {
             updateMarkers();
         });
 
-        return { map };
+        return { map, resizeMap };
     }
 };
 </script>
 
 <style scoped>
 .map-container {
-    width: 100%;
+    width: 100% !important;
     height: 300px;
     margin: 0 auto;
 }
 
 @media screen and (min-width: 1024px) {
     .map-container {
-        width: 100%;
+        width: 100% !important;
         height: 300px;
     }
 }

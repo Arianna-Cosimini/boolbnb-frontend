@@ -56,8 +56,9 @@ export default {
             this.showModal = !this.showModal;
             if (this.showModal) {
                 this.$nextTick(() => {
-                    console.log('Modal aperto, ridimensionamento mappa...');
-                    this.$refs.mapComponent.resizeMap();
+                    if (this.$refs.mapComponent) {
+                        this.$refs.mapComponent.resizeMap();
+                    }
                 });
             }
         },
