@@ -37,7 +37,7 @@ export default {
 
                 <li>
                     <a href="https://github.com/GianMarcoPimentel" target="_blank"
-                        class="text-decoration-none text-black">Gianmarco</a>
+                        class="text-decoration-none text-black">Gian Marco</a>
                 </li>
 
                 <li>
