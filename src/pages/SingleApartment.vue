@@ -99,6 +99,10 @@ export default {
             <div class="img-container w-100 mb-4 position-relative">
                 <img :src="'http://localhost:8000/storage/' + apartment.cover_image"
                     class="card-img-top object-fit-cover w-100 rounded-3 overflow-hidden" alt="...">
+                <p class="p-2 px-3 rounded-3 mb-0 position-absolute bg-white"
+                    style="left: 20px; bottom: 20px; opacity: 70%;">
+                    {{ roundedDistance }} Km dal centro
+                </p>
             </div>
             <h2 class="mb-0 fs-4">Appartamento in {{ apartment.address }}</h2>
             <p class="mb-1 d-flex">
@@ -107,16 +111,12 @@ export default {
                 {{ apartment.bathroom_number }} {{ apartment.bathroom_number == 1 ? 'bagno' : 'bagni' }}
             </p>
             <div class="d-flex justify-content-between">
-                <div class="reviews mb-4 d-flex align-items-baseline">
+                <div class="reviews mb-3 d-flex align-items-baseline">
                     <i class="fa-solid fa-star me-1"></i>
                     <span class="text-reviews mb-0">Ancora nessuna recensione</span>
                 </div>
-                <div>
-                    <p>
-                        {{ roundedDistance }} Km dal centro
-                    </p>
-                </div>
             </div>
+
 
             <hr class="mb-4">
 
