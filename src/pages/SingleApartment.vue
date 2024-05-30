@@ -76,6 +76,15 @@ export default {
                     this.loading = false; // Disattiva il loader dopo aver ricevuto la risposta o l'errore
                 });
         }
+    },
+
+    computed: {
+        distance() {
+            return parseFloat(this.apartment.distance) || 0;
+        },
+        roundedDistance() {
+            return this.distance.toFixed(1);
+        }
     }
 }
 </script>
@@ -97,9 +106,16 @@ export default {
                 {{ apartment.bed_number }} {{ apartment.bed_number == 1 ? 'letto' : 'letti' }} &middot;
                 {{ apartment.bathroom_number }} {{ apartment.bathroom_number == 1 ? 'bagno' : 'bagni' }}
             </p>
-            <div class="reviews mb-4 d-flex align-items-baseline">
-                <i class="fa-solid fa-star me-1"></i>
-                <span class="text-reviews mb-0">Ancora nessuna recensione</span>
+            <div class="d-flex justify-content-between">
+                <div class="reviews mb-4 d-flex align-items-baseline">
+                    <i class="fa-solid fa-star me-1"></i>
+                    <span class="text-reviews mb-0">Ancora nessuna recensione</span>
+                </div>
+                <div>
+                    <p>
+                        {{ roundedDistance }} Km dal centro
+                    </p>
+                </div>
             </div>
 
             <hr class="mb-4">
