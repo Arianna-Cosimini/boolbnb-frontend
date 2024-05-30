@@ -38,6 +38,12 @@ export default {
 
     },
 
+    computed: {
+        roundedDistance() {
+        return this.apartment.distance.toFixed(1);
+        }
+    }
+
 }
 </script>
 
@@ -65,13 +71,22 @@ export default {
                     <div class="card-body p-0 pt-3 text-start">
                         <h6 class="card-title fw-medium mb-0">{{ apartment.name }}</h6>
                         <p class="text-black-50 mb-0">{{ apartment.address }}</p>
-                        <span class="me-1" style="font-size: 14px;">
-                            {{ apartment.room_number }} {{ apartment.room_number === 1 ? 'stanza' : 'stanze' }}
-                        </span>
-                        <span class="m-0 ">&middot;</span>
-                        <span class="ms-1" style="font-size: 14px;">
-                            {{ apartment.bed_number }} {{ apartment.bed_number === 1 ? 'letto' : 'letti' }}
-                        </span>
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <span class="me-1" style="font-size: 14px;">
+                                    {{ apartment.room_number }} {{ apartment.room_number === 1 ? 'stanza' : 'stanze' }}
+                                </span>
+                                <span class="m-0 ">&middot;</span>
+                                <span class="ms-1" style="font-size: 14px;">
+                                    {{ apartment.bed_number }} {{ apartment.bed_number === 1 ? 'letto' : 'letti' }}
+                                </span>
+                            </div>
+                            <div>
+                                <span class="ms-1 text-black-50" style="font-size: 14px;">
+                                    {{ roundedDistance }} Km
+                                </span>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
