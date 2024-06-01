@@ -15,7 +15,7 @@ export default {
 </script>
 
 <template>
-    <nav class="navbar d-none d-md-block px-2 px-sm-3 px-md-4 px-lg-5 navbar-expand-md navbar-light bg-white shadow-sm">
+    <nav class="navbar d-none d-md-block px-2 px-sm-3 px-md-4 px-lg-5 navbar-expand-md navbar-light bg-white">
         <div class="container-fluid">
 
             <router-link :to="{ name: 'home' }" class="navbar-brand">
