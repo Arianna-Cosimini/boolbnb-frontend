@@ -11,7 +11,7 @@ export default {
     mounted() {
         setTimeout(() => {
             this.$router.push('/apartments');
-        }, 3500);
+        }, 5000);
     }
 
 }
