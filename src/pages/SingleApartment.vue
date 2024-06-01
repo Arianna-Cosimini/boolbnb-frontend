@@ -123,7 +123,8 @@ export default {
             <!-- Dati Host -->
             <div class="host mb-4 d-flex align-items-center gap-3" v-if="apartment.user">
                 <div class="host-img-container">
-                    <img src="https://placehold.co/40x40" alt="">
+                    <img :src="'http://localhost:8000/storage/' + apartment.user.photo" alt=""
+                        style="width: 40px; height: 40px;">
                 </div>
                 <div class="host-text">
                     <p class="host-name mb-0">Nome dell'host: {{ apartment.user.name }} {{ apartment.user.surname }}</p>
