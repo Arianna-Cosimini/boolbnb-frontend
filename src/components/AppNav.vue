@@ -52,7 +52,7 @@ export default {
 
     <!-- bottom bar -->
     <div
-        class="container-fluid bottom-bar d-md-none py-2 px-3 px-sm-3 px-md-4 px-lg-5 navbar-expand-md navbar-light bg-white shadow-sm d-flex justify-content-between align-items-center">
+        class="container-fluid bottom-bar d-md-none py-2 px-3 px-sm-3 px-md-4 px-lg-5 navbar-expand-md navbar-light bg-white d-flex justify-content-between align-items-center">
         <router-link :to="{ name: 'home' }" class="navbar-brand">
             <img src="/favicon.svg" alt="boolbnb logo" height="40px">
         </router-link>
